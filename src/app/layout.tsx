@@ -4,6 +4,7 @@ import type {Metadata} from 'next'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css'
 import './icons.css'
+import ClientSideLayout from "@/components/ClientSideLayout";
 
 const inter = Inter({subsets: ['latin']});
 
@@ -23,9 +24,13 @@ export const metadata: Metadata = {
 export default async function RootLayout({children}: {
     children: React.ReactNode,
 }) {
+
     return (
         <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+        <ClientSideLayout/>
+        {children}
+        </body>
         </html>
     );
 }

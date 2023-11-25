@@ -9,7 +9,7 @@ export default function SideBar() {
             <div className="side-menu flex-lg-column me-lg-1 ms-lg-0">
                 <div className="navbar-brand-box">
                     <Link
-                        href="/dashboard"
+                        href={"/dashboard"}
                         className="logo logo-dark"
                     >
                         <span className="logo-sm">
@@ -23,7 +23,7 @@ export default function SideBar() {
                     </Link>
 
                     <Link
-                        href="/dashboard"
+                        href={"/dashboard"}
                         className="logo logo-light"
                     >
                             <span className="logo-sm">
