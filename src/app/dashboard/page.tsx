@@ -1,4 +1,5 @@
 import {Metadata} from "next";
+import SideBar from "@/components/sidebar/SideBar";
 
 export const metadata: Metadata = {
     title: 'Dashboard',
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
 export default function Dashboard() {
     return (
         <>
-            <p>Dashboards</p>
+            <div className="layout-wrapper d-lg-flex">
+                <SideBar/>
+            </div>
         </>
     )
 }

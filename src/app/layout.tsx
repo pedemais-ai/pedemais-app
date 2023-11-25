@@ -3,6 +3,7 @@ import {Inter} from 'next/font/google'
 import type {Metadata} from 'next'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css'
+import './icons.css'
 
 const inter = Inter({subsets: ['latin']});
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
         default: 'BisgoBot'
     },
     icons: {
-        icon: '/favicon.ico'
+        icon: '/assets/images/favicon.ico'
     },
     description: "Multi-agent ChatBot for WhatsApp",
     keywords: 'whatsapp, chat bot, support bot',
