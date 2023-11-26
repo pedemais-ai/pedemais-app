@@ -5,13 +5,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css'
 import './icons.css'
 import ClientSideLayout from "@/components/ClientSideLayout";
+import SideBar from "@/components/sidebar/SideBar";
 
 const inter = Inter({subsets: ['latin']});
 
 export const metadata: Metadata = {
     title: {
-        template: '%s | Multi-agent chatbot for WhatsApp',
-        default: 'BisgoBot'
+        template: '%s | BisgoBot',
+        default: 'Home'
     },
     icons: {
         icon: '/assets/images/favicon.ico'
@@ -29,7 +30,10 @@ export default async function RootLayout({children}: {
         <html lang="en">
         <body className={inter.className}>
         <ClientSideLayout/>
-        {children}
+        <div className="layout-wrapper d-lg-flex">
+            <SideBar/>
+            {children}
+        </div>
         </body>
         </html>
     );

@@ -1,5 +1,6 @@
 import {Metadata} from "next";
-import SideBar from "@/components/sidebar/SideBar";
+import React from "react";
+import {Container} from "react-bootstrap";
 
 export const metadata: Metadata = {
     title: 'Dashboard',
@@ -8,9 +9,11 @@ export const metadata: Metadata = {
 export default function Dashboard() {
     return (
         <>
-            <div className="layout-wrapper d-lg-flex">
-                <SideBar/>
-            </div>
+            <Container className={"m-3"}>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Adipisci architecto aspernatur cumque cupiditate nostrum odit saepe.
+                Accusantium architecto commodi cumque et eum ex iste iusto, magni, minus quia rem ullam?
+            </Container>
         </>
     )
 }
