@@ -6,7 +6,9 @@ import UserDropdown from "@/components/sidebar/parts/UserDropdown";
 
 export default function LargerScreen() {
 
-    const [storedTheme, setStoredTheme] = useState(localStorage.getItem('data-bs-theme'));
+    const [storedTheme, setStoredTheme] = useState(
+        typeof window !== "undefined" ? localStorage.getItem("data-bs-theme") : null
+    );
 
     const toggleTheme = () => {
         const newTheme = storedTheme === 'dark' ? 'light' : 'dark';
@@ -16,6 +18,7 @@ export default function LargerScreen() {
 
         // Save the new theme to localStorage
         localStorage.setItem('data-bs-theme', newTheme);
+
         setStoredTheme(newTheme);
     };
 
