@@ -1,3 +1,5 @@
-export async function GET(request: Request, response: Response) {
-    return Response.json({"ping": "pong"})
+import {NextRequest, NextResponse} from "next/server";
+
+export async function GET(request: NextRequest, context: {}) {
+    return NextResponse.json({"ping": "pong"})
 }

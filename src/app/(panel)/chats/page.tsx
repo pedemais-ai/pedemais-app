@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     title: 'Chats',
 };
 
-export default function Dashboard() {
+export default function Chats() {
     return (
         <>
             <div className="chat-leftsidebar me-lg-1 ms-lg-0">

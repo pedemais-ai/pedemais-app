@@ -1,8 +1,8 @@
-import {options} from "./api/auth/[...nextauth]/options"
+import {authOptions} from "./api/auth/[...nextauth]/authOptions"
 import {getServerSession} from "next-auth/next"
 
 export default async function Home() {
-    const session = await getServerSession(options)
+    const session = await getServerSession(authOptions)
 
     return (
         <>

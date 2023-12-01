@@ -5,8 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css'
 import './icons.css'
 import ClientSideLayout from "@/components/ClientSideLayout";
-import SideBar from "@/components/sidebar/SideBar";
-import AuthProvider from "@/app/context/AuthProvider";
 
 const inter = Inter({subsets: ['latin']});
 
@@ -31,12 +29,7 @@ export default async function RootLayout({children}: {
         <html lang="en">
         <body className={inter.className}>
         <ClientSideLayout/>
-        <AuthProvider>
-            <div className="layout-wrapper d-lg-flex">
-                <SideBar/>
-                {children}
-            </div>
-        </AuthProvider>
+        {children}
         </body>
         </html>
     );
