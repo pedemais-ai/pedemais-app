@@ -10,7 +10,9 @@ export const config = {
          * - _next/static (static files)
          * - _next/image (image optimization files)
          * - favicon.ico (favicon file)
+         * - assets (assets and static files)
+         * - register (user registration)
          */
-        '/((?!api|_next/static|_next/image|favicon.ico|register).*)',
+        '/((?!api|_next/static|_next/image|favicon.ico|assets|register).*)',
     ],
 }
