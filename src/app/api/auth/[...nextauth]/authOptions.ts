@@ -14,4 +14,5 @@ export const authOptions: NextAuthOptions = {
             clientSecret: GOOGLE_SECRET,
         }),
     ],
+    debug: false
 }
