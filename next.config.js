@@ -8,6 +8,11 @@ const nextConfig = {
                 port: '',
                 pathname: '/u/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'googleusercontent.com',
+                port: '',
+            },
         ],
     },
 }
