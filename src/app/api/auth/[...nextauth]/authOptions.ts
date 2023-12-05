@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
                 });
             }
 
-            return '/dashboard';
+            return true;
         },
     },
     debug: false
