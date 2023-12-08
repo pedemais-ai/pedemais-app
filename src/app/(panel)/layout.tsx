@@ -1,7 +1,4 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../globals.css'
-import '../icons.css'
 import SideBar from "@/components/sidebar/SideBar";
 
 export default async function RootLayout({children}: {

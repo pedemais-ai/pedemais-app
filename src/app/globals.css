@@ -1,12 +1,5 @@
 @charset "UTF-8";
-/*
-Template Name: Chatvia - Responsive Bootstrap 5 Chat App
-Author: Themesbrand
-Version: 2.4.0
-Website: https://themesbrand.com/
-Contact: themesbrand@gmail.com
-File: Main Css File
-*/
+
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&display=swap");
 
 :root,
@@ -565,8 +558,8 @@ File: Main Css File
     direction: inherit;
     position: absolute;
     overflow: hidden;
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
     right: 0;
     top: 0;
     bottom: 0;
@@ -772,54 +765,6 @@ File: Main Css File
     height: 100%;
 }
 
-.side-menu {
-    min-width: 75px;
-    max-width: 75px;
-    height: 100vh;
-    min-height: 570px;
-    background-color: var(--bs-sidebar-bg);
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    z-index: 9;
-    -webkit-box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
-    box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
-}
-
-@media (max-width: 991.98px) {
-    .side-menu {
-        position: fixed;
-        bottom: 0;
-        height: 60px;
-        min-width: 100%;
-        min-height: auto;
-        display: block;
-        border-top: 1px solid var(--bs-border-color);
-    }
-}
-
-.side-menu .navbar-brand-box {
-    text-align: center;
-}
-
-@media (max-width: 991.98px) {
-    .side-menu .navbar-brand-box {
-        display: none;
-    }
-}
-
-.side-menu .navbar-brand-box .logo {
-    line-height: 70px;
-}
-
-.side-menu .navbar-brand-box .logo-dark {
-    display: block;
-}
-
-.side-menu .navbar-brand-box .logo-light {
-    display: none;
-}
-
 .side-menu .theme-mode-icon:before {
     content: var(--bs-theme-mode-icon);
 }
@@ -846,7 +791,7 @@ File: Main Css File
     width: 56px;
     height: 56px;
     line-height: 56px;
-    margin: 0px auto;
+    margin: 0 auto;
     border-radius: 8px;
     padding: 0;
 }
@@ -1400,7 +1345,7 @@ File: Main Css File
 }
 
 .auth-logo .logo {
-    margin: 0px auto;
+    margin: 0 auto;
 }
 
 .auth-logo .logo-dark {
