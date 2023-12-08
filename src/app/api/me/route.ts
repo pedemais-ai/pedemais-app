@@ -15,6 +15,9 @@ export async function GET(request: NextRequest) {
             where: {
                 email: session.user.email,
             },
+            include: {
+                clients: true
+            }
         });
 
         if (!user) {

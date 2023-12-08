@@ -6,7 +6,8 @@ export const metadata: Metadata = {
     title: 'Chats',
 };
 
-export default function Chats() {
+export default async function Chats() {
+
     return (
         <>
             <ChatComponent/>
