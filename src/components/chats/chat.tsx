@@ -1,17 +1,17 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import ChatList from "@/components/chats/chat-list";
-import ChatHistory from "@/components/chats/chat-history";
-import {Client, User} from ".prisma/client";
+import ContactList from "@/components/chats/contact-list";
+import ContactMessages from "@/components/chats/contact-messages";
+import {Client, Contact, User} from ".prisma/client";
 import Image from "next/image";
 import {Col, Container, Row} from "react-bootstrap";
 
-export default function ChatComponent() {
+export default function Chat() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState<User & { clients: Client[] }>();
-    const [selectedChat, setSelectedChat] = useState<number>();
+    const [selectedContact, setSelectedContact] = useState<Contact>();
 
     useEffect(() => {
         fetch('/api/me')
@@ -27,8 +27,8 @@ export default function ChatComponent() {
     if (user?.clients[0].is_authenticated) {
         return (
             <>
-                <ChatList selectedChat={selectedChat} setSelectedChat={setSelectedChat}/>
-                <ChatHistory selectedChat={selectedChat}/>
+                <ContactList selectedContact={selectedContact} setSelectedContact={setSelectedContact}/>
+                <ContactMessages selectedContact={selectedContact}/>
             </>
         );
     }

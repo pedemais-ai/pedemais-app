@@ -1,13 +1,36 @@
-import React, {SetStateAction} from "react";
+import React, {SetStateAction, useEffect, useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
+import {Contact} from ".prisma/client";
 
 type Props = {
-    selectedChat?: number;
-    setSelectedChat: React.Dispatch<SetStateAction<number | undefined>>;
+    selectedContact?: Contact;
+    setSelectedContact: React.Dispatch<SetStateAction<Contact | undefined>>;
 };
 
-export default function ChatList({selectedChat, setSelectedChat}: Props) {
+async function fetchContacts(): Promise<Contact[]> {
+    const response = await fetch('/api/contacts');
+
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+
+    return await response.json();
+}
+
+export default function ContactList({selectedContact, setSelectedContact}: Props) {
+
+    const [contacts, setContacts] = useState<Contact[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        fetchContacts()
+            .then(setContacts)
+            .catch(error => console.error(error))
+            .finally(() => setIsLoading(false));
+    }, []);
+
+    if (isLoading) {
+        return <>Loading chats</>
+    }
 
     return (
         <>
@@ -39,9 +62,9 @@ export default function ChatList({selectedChat, setSelectedChat}: Props) {
                                 <div className="chat-message-list px-2" data-simplebar="init">
                                     <div className="simplebar-content" style={{padding: '0px 8px'}}>
                                         <ul className="list-unstyled chat-list chat-user-list">
-                                            {[1, 2, 3, 4, 5].map((id: number) => <>
-                                                <li className={selectedChat === id ? "active" : ""}>
-                                                    <Link href={"#"} onClick={() => setSelectedChat(id)}>
+                                            {contacts.map((contact: Contact) => <>
+                                                <li className={selectedContact?.id === contact.id ? "active" : ""} key={contact.id}>
+                                                    <Link href={"#"} onClick={() => setSelectedContact(contact)}>
                                                         <div className="d-flex">
                                                             <div className="chat-user-img online align-self-center me-3 ms-0">
                                                                 <Image
@@ -54,10 +77,10 @@ export default function ChatList({selectedChat, setSelectedChat}: Props) {
                                                                 <span className="user-status"></span>
                                                             </div>
                                                             <div className="flex-grow-1 overflow-hidden">
-                                                                <h5 className="text-truncate font-size-15 mb-1">Patrick Hendricks</h5>
-                                                                <p className="chat-user-message text-truncate mb-0">Hey! there Im available</p>
+                                                                <h5 className="text-truncate font-size-15 mb-1">{contact.name}</h5>
+                                                                <p className="chat-user-message text-truncate mb-0">asd asd asd</p>
                                                             </div>
-                                                            <div className="font-size-11">05 min</div>
+                                                            <div className="font-size-11">now</div>
                                                         </div>
                                                     </Link>
                                                 </li>
