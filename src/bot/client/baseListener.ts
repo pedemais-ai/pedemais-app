@@ -1,4 +1,5 @@
 import {PrismaClient} from "@prisma/client";
+import {prisma} from "../../prisma";
 
 abstract class BaseMessageListener<Client, Message> {
     protected client: Client;
@@ -6,7 +7,7 @@ abstract class BaseMessageListener<Client, Message> {
 
     protected constructor(client: Client) {
         this.client = client;
-        this.prisma = new PrismaClient();
+        this.prisma = prisma;
     }
 
     public async listen(message: Message): Promise<void> {

@@ -46,7 +46,7 @@ model Contact {
   updated_at    DateTime @updatedAt
 
   client   Client?   @relation(fields: [client_id], references: [id])
-  sessions Session[]
+  messages    Message[]
 }
 
 model Flow {
@@ -59,15 +59,12 @@ model Flow {
   client Client?
 }
 
-model Session {
-  id              Int      @id @default(autoincrement())
-  date            DateTime
-  contact_id      Int
-  chat_id         String
-  current_stage   Int?     @default(0)
-  expiration_time DateTime
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
+model Message {
+  id          Int      @id @default(autoincrement())
+  contact_id  Int
+  message     String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  contact Contact @relation(fields: [contact_id], references: [id])
+  contact     Contact  @relation(fields: [contact_id], references: [id])
 }

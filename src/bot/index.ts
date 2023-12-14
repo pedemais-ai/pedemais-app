@@ -1,11 +1,10 @@
 import ClientFactory from "./client/venom";
 
-const venom = new ClientFactory();
+const client = new ClientFactory();
 
-// Create and configure clients
 (async () => {
     try {
-        await venom.start();
+        await client.start();
     } catch (err) {
         console.error("Error:", err);
     }

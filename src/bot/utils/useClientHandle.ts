@@ -9,4 +9,4 @@ let args = arg({
 
 if (!args['--client']) throw new Error('Missing required argument: --client');
 
-export default args['--client'];
+export default String(args['--client']);
