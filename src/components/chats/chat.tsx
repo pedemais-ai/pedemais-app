@@ -33,7 +33,7 @@ export default function Chat() {
         );
     }
 
-    if (user?.clients[0].qr_code) {
+    if (user?.clients[0]?.qr_code) {
         return (
             <>
                 <Container>
