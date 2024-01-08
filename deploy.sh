@@ -24,6 +24,10 @@ npm install
 echo "Cleaning up previous builds..."
 rm -rf .next
 
+# Generate prisma client
+echo "Generating prisma client..."
+prisma migrate deploy
+
 # Run database migrations
 echo "Running database migrations..."
 prisma migrate deploy

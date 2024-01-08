@@ -24,7 +24,7 @@ export default function Chat() {
         return <>Loading chats</>
     }
 
-    if (user?.clients[0].is_authenticated) {
+    if (user?.clients[0]?.is_authenticated) {
         return (
             <>
                 <ContactList selectedContact={selectedContact} setSelectedContact={setSelectedContact}/>
