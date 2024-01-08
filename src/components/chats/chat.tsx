@@ -61,6 +61,6 @@ export default function Chat() {
         );
     }
 
-    return (<>Ops</>);
+    return (<>{JSON.stringify(user?.clients)}</>);
 
 }
