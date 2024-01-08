@@ -61,6 +61,5 @@ export default function Chat() {
         );
     }
 
-    return (<>{JSON.stringify(user?.clients)}</>);
-
+    return (<>Instalação do seu robô em andamento. Por favor aguarde</>);
 }
