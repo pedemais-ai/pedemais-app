@@ -1,5 +1,6 @@
 import React from "react";
 import {Contact} from ".prisma/client";
+import Image from "next/image";
 
 type Props = {
     contact: Contact;
@@ -16,7 +17,7 @@ export default function TopBar({contact}: Props) {
                             <a href="javascript: void(0);" className="user-chat-remove text-muted font-size-16 p-2"><i className="ri-arrow-left-s-line"></i></a>
                         </div>
                         <div className="me-3 ms-0">
-                            <img src="/assets/images/users/avatar-4.jpg" className="rounded-circle avatar-xs" alt=""/>
+                            <Image width={100} height={100} src="/assets/images/users/avatar-4.jpg" className="rounded-circle avatar-xs" alt=""/>
                         </div>
                         <div className="flex-grow-1 overflow-hidden">
                             <h5 className="font-size-16 mb-0 text-truncate"><a href="#" className="text-reset user-profile-show">{contact.name}</a> <i className="ri-record-circle-fill font-size-10 text-success d-inline-block ms-1"></i>

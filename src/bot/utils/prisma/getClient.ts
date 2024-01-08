@@ -1,7 +1,7 @@
 import {prisma} from "../../../prisma";
 import useClientHandle from "../../../bot/utils/useClientHandle";
 import {Client} from ".prisma/client";
-import create from 'zustand';
+import {create} from 'zustand';
 
 interface ClientState {
     client: Client | null;

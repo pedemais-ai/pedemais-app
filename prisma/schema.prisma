@@ -45,7 +45,7 @@ model Contact {
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
 
-  client   Client?   @relation(fields: [client_id], references: [id])
+  client      Client?   @relation(fields: [client_id], references: [id])
   messages    Message[]
 }
 

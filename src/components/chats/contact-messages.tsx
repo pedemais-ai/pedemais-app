@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {Contact} from ".prisma/client";
 import Conversation from "@/components/chats/messages/conversation";
 import MessageInput from "@/components/chats/messages/input";
 import TopBar from "@/components/chats/messages/topbar";
+import Image from "next/image";
+import {Prisma} from "@/types/prisma";
 
 type Props = {
-    selectedContact?: Contact;
+    selectedContact?: Prisma.ContactWithMessages;
 };
 
-async function fetchContact(id: number): Promise<Contact> {
+async function fetchContact(id: number): Promise<Prisma.ContactWithMessages> {
     const response = await fetch(`/api/contacts/${id}`);
 
     if (!response.ok) throw new Error(`Error: ${response.status}`);
@@ -18,7 +19,7 @@ async function fetchContact(id: number): Promise<Contact> {
 
 export default function ContactMessages({selectedContact}: Props) {
 
-    const [contact, setContact] = useState<Contact>();
+    const [contact, setContact] = useState<Prisma.ContactWithMessages>();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -73,7 +74,7 @@ export default function ContactMessages({selectedContact}: Props) {
 
                         <div className="text-center p-4 border-bottom">
                             <div className="mb-4">
-                                <img src="/assets/images/users/avatar-4.jpg" className="rounded-circle avatar-lg img-thumbnail" alt=""/>
+                                <Image width={100} height={100} src="/assets/images/users/avatar-4.jpg" className="rounded-circle avatar-lg img-thumbnail" alt=""/>
                             </div>
 
                             <h5 className="font-size-16 mb-1 text-truncate">Doris Brown</h5>

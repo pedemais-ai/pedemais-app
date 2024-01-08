@@ -1,9 +1,11 @@
 import React from "react";
-import {Contact, Message} from ".prisma/client";
+import {Prisma} from "@/types/prisma";
+import {Message} from ".prisma/client";
 import SentMessage from "@/components/chats/messages/sent-message";
+import Image from "next/image";
 
 type Props = {
-    contact: Contact & { messages: Message[] };
+    contact: Prisma.ContactWithMessages;
 };
 
 export default function Conversation({contact}: Props) {
@@ -21,7 +23,7 @@ export default function Conversation({contact}: Props) {
                 <li className="right">
                     <div className="conversation-list">
                         <div className="chat-avatar">
-                            <img src="/assets/images/users/avatar-1.jpg" alt=""/>
+                            <Image width={100} height={100} src="/assets/images/users/avatar-1.jpg" alt=""/>
                         </div>
 
                         <div className="user-chat-content">
@@ -52,11 +54,11 @@ export default function Conversation({contact}: Props) {
                 <li>
                     <div className="conversation-list">
                         <div className="chat-avatar">
-                            <img src="/assets/images/users/avatar-4.jpg" alt=""/>
+                            <Image width={100} height={100} src="/assets/images/users/avatar-4.jpg" alt=""/>
                         </div>
 
                         <div className="user-chat-content">
-                            {contact.messages.map((message: Message) => (<>
+                            {contact.messages && contact.messages.map((message: Message) => (<>
                                 <SentMessage message={message}/>
                             </>))}
                         </div>
