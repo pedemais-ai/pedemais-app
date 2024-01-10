@@ -23,7 +23,7 @@ model User {
 model Client {
   id               Int      @id @default(autoincrement())
   user_id          Int
-  flow_id          Int?     @unique
+  flow_id          Int?
   name             String
   handle           String   @unique
   is_authenticated Boolean @default(false)
