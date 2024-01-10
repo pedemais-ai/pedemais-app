@@ -7,11 +7,11 @@ const statusFinderHandler = async (status: string) => {
     try {
         const client = await getClient();
 
-        if (status === 'successChat') {
+        if (status === 'successChat' || status === 'isLogged') {
             await prisma.client.update({
                 where: {id: client.id},
                 data: {
-                    is_authenticated: false
+                    is_authenticated: true
                 },
             });
         }

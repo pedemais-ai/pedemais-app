@@ -4,8 +4,6 @@ import qrCodeHandler from "./handlers/qrCode";
 import useClientHandle from "../../../bot/utils/useClientHandle";
 import BaseFactory from "../../../bot/client";
 import statusFinderHandler from "../../../bot/client/venom/handlers/statusFinder";
-import {prisma} from "../../../prisma";
-import getClient from "../../../bot/utils/prisma/getClient";
 
 class ClientFactory extends BaseFactory {
 
@@ -15,18 +13,6 @@ class ClientFactory extends BaseFactory {
             statusFind: statusFinderHandler,
             catchQR: qrCodeHandler,
         }).then(async (client: Whatsapp) => {
-
-            if (await client.isLoggedIn()) {
-                const dbClient = await getClient();
-
-                await prisma.client.update({
-                    where: {id: dbClient.id},
-                    data: {
-                        is_authenticated: true
-                    },
-                });
-            }
-
             await client.onMessage(async (message: Message) => {
                 await (new MessageListener(client)).listen(message);
             });
@@ -37,4 +23,3 @@ class ClientFactory extends BaseFactory {
 }
 
 export default ClientFactory;
-
