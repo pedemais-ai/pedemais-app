@@ -9,7 +9,7 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "baseUrl": "./",
-    "outDir": "../build",
+    "outDir": "./build",
     "paths": {
       "*": [
         "*"
