@@ -18,6 +18,7 @@ model User {
   updated_at DateTime @updatedAt
 
   clients Client[]
+  Store   Store[]
 }
 
 model Client {
@@ -26,7 +27,7 @@ model Client {
   flow_id          Int?
   name             String
   handle           String   @unique
-  is_authenticated Boolean @default(false)
+  is_authenticated Boolean  @default(false)
   qr_code          String?
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
@@ -45,8 +46,8 @@ model Contact {
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
 
-  client      Client?   @relation(fields: [client_id], references: [id])
-  messages    Message[]
+  client   Client?   @relation(fields: [client_id], references: [id])
+  messages Message[]
 }
 
 model Flow {
@@ -56,15 +57,37 @@ model Flow {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  client Client?
+  clients Client[]
 }
 
 model Message {
-  id          Int      @id @default(autoincrement())
-  contact_id  Int
-  message     String
+  id         Int      @id @default(autoincrement())
+  contact_id Int
+  message    String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  contact     Contact  @relation(fields: [contact_id], references: [id])
+  contact Contact @relation(fields: [contact_id], references: [id])
 }
+
+model StoreType {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Store      Store[]
+}
+
+model Store {
+  id         Int      @id @default(autoincrement())
+  type_id    Int
+  user_id    Int
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  type StoreType @relation(fields: [type_id], references: [id])
+  user User      @relation(fields: [user_id], references: [id])
+}
+

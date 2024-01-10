@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:bot": "ts-node src/bot/index.ts --client=social",
+    "bot:build": "tsc --project bot/tsconfig.json",
+    "bot:dev": "ts-node bot/index.ts --client=social",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -33,10 +34,11 @@
     "@types/qrcode-terminal": "^0.12.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/spinnies": "^0.5.3",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "prisma": "^5.4.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5"
+    "typescript": "^5.3.3"
   }
 }

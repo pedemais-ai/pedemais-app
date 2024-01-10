@@ -1,5 +1,5 @@
-import {prisma} from "../../../../prisma";
 import getClient from "../../../../bot/utils/prisma/getClient";
+import {prisma} from "../../../prisma";
 
 const qrCodeHandler = async (qrCode: string) => {
     try {
