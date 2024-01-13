@@ -17,8 +17,10 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  clients Client[]
-  Store   Store[]
+  clients   Client[]
+  stores    Store[]
+  reviews   Review[]
+  addresses Address[]
 }
 
 model Client {
@@ -35,6 +37,7 @@ model Client {
   user     User      @relation(fields: [user_id], references: [id])
   flow     Flow?     @relation(fields: [flow_id], references: [id])
   contacts Contact[]
+  Order    Order[]
 }
 
 model Contact {
@@ -76,7 +79,7 @@ model StoreType {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  Store      Store[]
+  stores Store[]
 }
 
 model Store {
@@ -87,7 +90,104 @@ model Store {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  type StoreType @relation(fields: [type_id], references: [id])
-  user User      @relation(fields: [user_id], references: [id])
+  type       StoreType   @relation(fields: [type_id], references: [id])
+  user       User        @relation(fields: [user_id], references: [id])
+  products   Product[]
+  reviews    Review[]
+  promotions Promotion[]
 }
 
+model Category {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  products Product[]
+}
+
+model ProductPrice {
+  id             Int      @id @default(autoincrement())
+  product_id     Int
+  price          Float
+  effective_date DateTime
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  product Product @relation(fields: [product_id], references: [id])
+}
+
+model Product {
+  id                  Int      @id @default(autoincrement())
+  store_id            Int
+  product_category_id Int
+  name                String
+  description         String
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  store      Store           @relation(fields: [store_id], references: [id])
+  category   Category @relation(fields: [product_category_id], references: [id])
+  prices     ProductPrice[]
+  orderItems OrderItem[]
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  client_id  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  client Client      @relation(fields: [client_id], references: [id])
+  items  OrderItem[]
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  order_id   Int
+  product_id Int
+  quantity   Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  order   Order   @relation(fields: [order_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
+}
+
+model Address {
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  street      String
+  city        String
+  postal_code String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id])
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  store_id   Int
+  user_id    Int
+  rating     Float
+  comment    String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  store Store @relation(fields: [store_id], references: [id])
+  user  User  @relation(fields: [user_id], references: [id])
+}
+
+model Promotion {
+  id         Int      @id @default(autoincrement())
+  store_id   Int
+  code       String   @unique
+  discount   Float
+  valid_from DateTime
+  valid_to   DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  store Store @relation(fields: [store_id], references: [id])
+}
