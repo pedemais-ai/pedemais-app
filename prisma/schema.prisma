@@ -92,17 +92,19 @@ model Store {
 
   type       StoreType   @relation(fields: [type_id], references: [id])
   user       User        @relation(fields: [user_id], references: [id])
-  products   Product[]
   reviews    Review[]
   promotions Promotion[]
+  Category   Category[]
 }
 
 model Category {
   id         Int      @id @default(autoincrement())
+  store_id   Int
   name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  store    Store     @relation(fields: [store_id], references: [id])
   products Product[]
 }
 
@@ -119,15 +121,13 @@ model ProductPrice {
 
 model Product {
   id                  Int      @id @default(autoincrement())
-  store_id            Int
-  product_category_id Int
+  category_id Int
   name                String
   description         String
   created_at          DateTime @default(now())
   updated_at          DateTime @updatedAt
 
-  store      Store           @relation(fields: [store_id], references: [id])
-  category   Category @relation(fields: [product_category_id], references: [id])
+  category   Category       @relation(fields: [category_id], references: [id])
   prices     ProductPrice[]
   orderItems OrderItem[]
 }
