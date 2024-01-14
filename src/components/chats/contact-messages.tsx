@@ -3,13 +3,13 @@ import Conversation from "@/components/chats/messages/conversation";
 import MessageInput from "@/components/chats/messages/input";
 import TopBar from "@/components/chats/messages/topbar";
 import Image from "next/image";
-import {Prisma} from "@/types/prisma";
+import {Prisma} from "@/core/types/prisma";
 
 type Props = {
-    selectedContact?: Prisma.ContactWithMessages;
+    selectedContact?: Prisma.Contact;
 };
 
-async function fetchContact(id: number): Promise<Prisma.ContactWithMessages> {
+async function fetchContact(id: number): Promise<Prisma.Contact> {
     const response = await fetch(`/api/contacts/${id}`);
 
     if (!response.ok) throw new Error(`Error: ${response.status}`);
@@ -19,7 +19,7 @@ async function fetchContact(id: number): Promise<Prisma.ContactWithMessages> {
 
 export default function ContactMessages({selectedContact}: Props) {
 
-    const [contact, setContact] = useState<Prisma.ContactWithMessages>();
+    const [contact, setContact] = useState<Prisma.Contact>();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

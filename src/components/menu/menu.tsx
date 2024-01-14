@@ -6,7 +6,7 @@ import MenuFoodList from "@/components/menu/food-list";
 import MenuHeader from "@/components/menu/header";
 import {Container, Row} from "react-bootstrap";
 import {useStore} from "@/core/hooks/menu/useStore";
-import {StoreType} from "@/core/types";
+import {Prisma} from "@/core/types/prisma";
 
 export default function Menu({id}: { id: number }) {
 
@@ -20,8 +20,8 @@ export default function Menu({id}: { id: number }) {
     return (<>
         <Container className={"mt-3"}>
             <Row>
-                <MenuHeader store={store as StoreType}/>
-                <MenuFoodList store={store as StoreType}/>
+                <MenuHeader store={store as Prisma.Store}/>
+                <MenuFoodList store={store as Prisma.Store}/>
             </Row>
         </Container>
     </>)

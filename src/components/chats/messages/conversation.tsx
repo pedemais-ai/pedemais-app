@@ -1,11 +1,11 @@
 import React from "react";
-import {Prisma} from "@/types/prisma";
 import {Message} from ".prisma/client";
 import SentMessage from "@/components/chats/messages/sent-message";
 import Image from "next/image";
+import {Prisma} from "@/core/types/prisma";
 
 type Props = {
-    contact: Prisma.ContactWithMessages;
+    contact: Prisma.Contact;
 };
 
 export default function Conversation({contact}: Props) {

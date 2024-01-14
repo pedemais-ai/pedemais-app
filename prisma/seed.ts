@@ -1,9 +1,9 @@
 import {PrismaClient} from '@prisma/client'
-import {UserType} from "@/core/types";
+import {Prisma} from "@/core/types/prisma";
 
 const prisma = new PrismaClient()
 
-async function createBurger(user: UserType) {
+async function createBurger(user: Prisma.User) {
 
     const storeType = await prisma.storeType.create({
         data: {
@@ -107,7 +107,7 @@ async function createBurger(user: UserType) {
     }
 }
 
-async function createSushi(user: UserType) {
+async function createSushi(user: Prisma.User) {
 
     const storeType = await prisma.storeType.create({
         data: {
