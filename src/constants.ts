@@ -1,3 +1,5 @@
+export const API_URL: string = String(process.env.NEXT_PUBLIC_API_URL);
+
 export const GITHUB_ID: string = String(process.env.GITHUB_ID);
 export const GITHUB_SECRET: string = String(process.env.GITHUB_SECRET);
 

@@ -94,7 +94,7 @@ model Store {
   user       User        @relation(fields: [user_id], references: [id])
   reviews    Review[]
   promotions Promotion[]
-  Category   Category[]
+  categories Category[]
 }
 
 model Category {
@@ -120,12 +120,12 @@ model ProductPrice {
 }
 
 model Product {
-  id                  Int      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   category_id Int
-  name                String
-  description         String
-  created_at          DateTime @default(now())
-  updated_at          DateTime @updatedAt
+  name        String
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   category   Category       @relation(fields: [category_id], references: [id])
   prices     ProductPrice[]
