@@ -25,13 +25,12 @@ CREATE TABLE "ProductPrice"
 -- CreateTable
 CREATE TABLE "Product"
 (
-    "id"                  SERIAL       NOT NULL,
-    "store_id"            INTEGER      NOT NULL,
-    "product_category_id" INTEGER      NOT NULL,
-    "name"                TEXT         NOT NULL,
-    "description"         TEXT         NOT NULL,
-    "created_at"          TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at"          TIMESTAMP(3) NOT NULL,
+    "id"          SERIAL       NOT NULL,
+    "category_id" INTEGER      NOT NULL,
+    "name"        TEXT         NOT NULL,
+    "description" TEXT         NOT NULL,
+    "created_at"  TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at"  TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
@@ -112,11 +111,7 @@ ALTER TABLE "ProductPrice"
 
 -- AddForeignKey
 ALTER TABLE "Product"
-    ADD CONSTRAINT "Product_store_id_fkey" FOREIGN KEY ("store_id") REFERENCES "Store" ("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Product"
-    ADD CONSTRAINT "Product_product_category_id_fkey" FOREIGN KEY ("product_category_id") REFERENCES "Category" ("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+    ADD CONSTRAINT "Product_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "Category" ("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order"
