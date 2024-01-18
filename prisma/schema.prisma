@@ -37,7 +37,7 @@ model Client {
   user     User      @relation(fields: [user_id], references: [id])
   flow     Flow?     @relation(fields: [flow_id], references: [id])
   contacts Contact[]
-  Order    Order[]
+  order    Order[]
 }
 
 model Contact {
@@ -49,8 +49,9 @@ model Contact {
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
 
-  client   Client?   @relation(fields: [client_id], references: [id])
+  client   Client?            @relation(fields: [client_id], references: [id])
   messages Message[]
+  links    ContactStoreLink[]
 }
 
 model Flow {
@@ -90,11 +91,12 @@ model Store {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  type       StoreType   @relation(fields: [type_id], references: [id])
-  user       User        @relation(fields: [user_id], references: [id])
+  type       StoreType          @relation(fields: [type_id], references: [id])
+  user       User               @relation(fields: [user_id], references: [id])
   reviews    Review[]
   promotions Promotion[]
   categories Category[]
+  links      ContactStoreLink[]
 }
 
 model Category {
@@ -190,4 +192,16 @@ model Promotion {
   updated_at DateTime @updatedAt
 
   store Store @relation(fields: [store_id], references: [id])
+}
+
+model ContactStoreLink {
+  id         Int      @id @default(autoincrement())
+  contact_id Int
+  store_id   Int
+  unique_id  String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  contact Contact @relation(fields: [contact_id], references: [id])
+  store   Store   @relation(fields: [store_id], references: [id])
 }

@@ -1,6 +1,7 @@
 import {Message, Whatsapp} from 'venom-bot';
 import BaseListener from "../../baseListener";
 import getClient from "../../../../bot/utils/prisma/getClient";
+import {generateUniqueId} from "../../../../src/core/utils";
 
 class MessageListener extends BaseListener<Whatsapp, Message> {
 
@@ -9,7 +10,7 @@ class MessageListener extends BaseListener<Whatsapp, Message> {
     }
 
     public async handle(message: Message) {
-        console.log('Message received', message);
+        console.log(message);
 
         const client = await getClient();
         const contactNumber = message.from.replace(/[^\d.-]+/g, '').replace('.', '');
@@ -37,6 +38,30 @@ class MessageListener extends BaseListener<Whatsapp, Message> {
                 message: message.body,
             },
         });
+
+        let existingLink = await this.prisma.contactStoreLink.findFirst({
+            where: {
+                contact_id: contact.id,
+                store_id: contact.id,
+            },
+        });
+
+        if (!existingLink) {
+            const store = client.user.stores[0];
+
+            existingLink = await this.prisma.contactStoreLink.create({
+                data: {
+                    contact_id: contact.id,
+                    store_id: store.id,
+                    unique_id: generateUniqueId(),
+                },
+            });
+
+            await this.client.sendText(
+                message.from,
+                `Realize seu pedido entrando no link abaixo. 👇 \nhttps://bot.socialuplabs.com.br/menu/${store.id}?id=${existingLink.unique_id}`
+            );
+        }
     }
 }
 

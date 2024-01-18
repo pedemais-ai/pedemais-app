@@ -1,11 +1,11 @@
 import useClientHandle from "../../../bot/utils/useClientHandle";
-import {Client} from ".prisma/client";
 import {create} from 'zustand';
 import {prisma} from "../../prisma";
+import {Prisma} from "../../../src/core/types/prisma";
 
 interface ClientState {
-    client: Client | null;
-    setClient: (client: Client) => void;
+    client?: Prisma.Client;
+    setClient: (client: Prisma.Client) => void;
 }
 
 const useClientStore = create<ClientState>((set) => ({
@@ -13,7 +13,7 @@ const useClientStore = create<ClientState>((set) => ({
     setClient: (client) => set({client}),
 }));
 
-export default async function getClient(): Promise<Client> {
+export default async function getClient(): Promise<Prisma.Client> {
     const {client, setClient} = useClientStore.getState();
 
     // Check if the client is already in the store
@@ -27,6 +27,11 @@ export default async function getClient(): Promise<Client> {
         },
         include: {
             flow: true,
+            user: {
+                include: {
+                    stores: true,
+                },
+            },
         },
     });
 
@@ -36,5 +41,5 @@ export default async function getClient(): Promise<Client> {
 
     setClient(messageClient);
 
-    return messageClient;
+    return messageClient as unknown as Prisma.Client;
 }

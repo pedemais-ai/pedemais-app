@@ -27,3 +27,15 @@ export const statesOfBrazil = [
     {value: "SE", label: "Sergipe"},
     {value: "TO", label: "Tocantins"}
 ];
+
+export function generateUniqueId(size: number = 8): string {
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let uniqueId = '';
+
+    for (let i = 0; i < size; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        uniqueId += characters.charAt(randomIndex);
+    }
+
+    return uniqueId;
+}
