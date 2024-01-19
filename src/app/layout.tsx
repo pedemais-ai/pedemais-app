@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import type {Metadata} from 'next'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css'
@@ -25,8 +25,10 @@ export default async function RootLayout({children}: {
     return (
         <html lang="en">
         <body>
-        <ClientSideLayout/>
-        {children}
+        <Suspense fallback={<>Loading...</>}>
+            <ClientSideLayout/>
+            {children}
+        </Suspense>
         </body>
         </html>
     );
