@@ -22,7 +22,7 @@ declare namespace Prisma {
         stores?: Store[]
     };
 
-    export type Flow = PrismaFlow;
-    export type Product = PrismaProduct;
-    export type Message = PrismaMessage;
+    export type Flow = PrismaFlow & {};
+    export type Product = PrismaProduct & {};
+    export type Message = PrismaMessage & {};
 }

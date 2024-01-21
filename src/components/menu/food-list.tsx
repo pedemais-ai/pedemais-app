@@ -5,18 +5,23 @@ import Image from "next/image";
 import {Badge, ListGroup} from "react-bootstrap";
 import slugify from 'slugify';
 import {Prisma} from "@/core/types/prisma";
+import Link from "next/link";
 
 export default function MenuFoodList({store}: { store: Prisma.Store }) {
 
     if (!store) return (<>Loading...</>);
 
-    return (store.categories.map((category: Prisma.Category) => <>
+    return (store.categories?.map((category: Prisma.Category) => <>
         <div key={category.id}>
             <h2 id={`${slugify(category.name).toLowerCase()}`}>{category.name}</h2>
 
             <ListGroup className="mb-3">
-                {category.products.map((product: Prisma.Product) => <>
-                    <ListGroup.Item key={product.id}>
+                {category.products?.map((product: Prisma.Product) => <>
+                    <ListGroup.Item
+                        key={product.id}
+                        as={Link}
+                        href={`/menu/product/${product.id}`}
+                    >
                         <div className="d-flex">
                             <div className="flex-shrink-0">
                                 <Image
