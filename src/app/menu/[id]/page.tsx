@@ -1,10 +1,14 @@
 import React from "react";
 import Menu from "@/components/menu/menu";
-import {Metadata} from "next";
+import {fetchStore} from "@/core/hooks/useStore";
 
-export const metadata: Metadata = {
-    title: 'Cardápio',
-};
+export async function generateMetadata({params}: { params: { id: number } }) {
+    const store = await fetchStore(params.id);
+
+    return {
+        title: `Cardápio ${store?.name}`,
+    }
+}
 
 export default async function MenuPage({params}: { params: { id: number } }) {
     return (

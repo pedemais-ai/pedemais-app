@@ -1,10 +1,14 @@
 import React from "react";
 import Product from "@/components/menu/product";
-import {Metadata} from "next";
+import {fetchProduct} from "@/core/hooks/useProduct";
 
-export const metadata: Metadata = {
-    title: 'Produto',
-};
+export async function generateMetadata({params}: { params: { id: number } }) {
+    const product = await fetchProduct(params.id);
+
+    return {
+        title: product?.name,
+    }
+}
 
 export default async function MenuPage({params}: { params: { id: number } }) {
     return (
