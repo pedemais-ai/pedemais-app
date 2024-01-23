@@ -10,7 +10,7 @@ export default function SideBar() {
             <div className={styles.sideMenu + ' flex-lg-column me-lg-1 ms-lg-0'}>
                 <div className={styles.brandBox}>
                     <Link
-                        href={"/bot/dashboard"}
+                        href={"/bot"}
                         className={styles.logo + ' ' + styles.logoDark}
                     >
                         <Image
@@ -22,7 +22,7 @@ export default function SideBar() {
                     </Link>
 
                     <Link
-                        href={"/bot/dashboard"}
+                        href={"/bot"}
                         className={styles.logo + ' ' + styles.logoLight}
                     >
                         <Image
