@@ -1,5 +1,5 @@
 import React from 'react';
-import SideBar from "@/components/sidebar/SideBar";
+import SideBar from "@/components/bot/sidebar/SideBar";
 
 export default async function RootLayout({children}: {
     children: React.ReactNode,

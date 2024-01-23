@@ -20,8 +20,8 @@ export default function UserDropdown() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item href="/profile">Profile <i className="ri-profile-line float-end text-muted"></i></Dropdown.Item>
-                    <Dropdown.Item href="/settings">Setting <i className="ri-settings-3-line float-end text-muted"></i></Dropdown.Item>
+                    <Dropdown.Item href="/bot/profile">Profile <i className="ri-profile-line float-end text-muted"></i></Dropdown.Item>
+                    <Dropdown.Item href="/bot/settings">Setting <i className="ri-settings-3-line float-end text-muted"></i></Dropdown.Item>
                     <Dropdown.Divider/>
                     <Dropdown.Item href="/api/auth/signout">Sign out <i className="ri-logout-circle-r-line float-end text-muted"></i></Dropdown.Item>
                 </Dropdown.Menu>

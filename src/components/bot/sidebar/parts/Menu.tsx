@@ -1,6 +1,6 @@
-import NavItem from "@/components/sidebar/parts/NavItem";
-import MobileScreen from "@/components/sidebar/parts/MobileScreen";
-import LargerScreen from "@/components/sidebar/parts/LargerScreen";
+import NavItem from "@/components/bot/sidebar/parts/NavItem";
+import MobileScreen from "@/components/bot/sidebar/parts/MobileScreen";
+import LargerScreen from "@/components/bot/sidebar/parts/LargerScreen";
 
 export default function Menu() {
     return (
@@ -8,31 +8,31 @@ export default function Menu() {
             <div className="flex-lg-column my-auto">
                 <ul className="nav nav-pills side-menu-nav justify-content-center" role="tablist">
                     <NavItem
-                        href={"/profile"}
+                        href={"/bot/profile"}
                         title={"Profile"}
                         icon={"ri-user-2-line"}
                     />
 
                     <NavItem
-                        href={"/chats"}
+                        href={"/bot/chats"}
                         title={"Chats"}
                         icon={"ri-message-3-line"}
                     />
 
                     <NavItem
-                        href={"/groups"}
+                        href={"/bot/groups"}
                         title={"Groups"}
                         icon={"ri-group-line"}
                     />
 
                     <NavItem
-                        href={"/contacts"}
+                        href={"/bot/contacts"}
                         title={"Contacts"}
                         icon={"ri-contacts-line"}
                     />
 
                     <NavItem
-                        href={"/settings"}
+                        href={"/bot/settings"}
                         title={"Settings"}
                         icon={"ri-settings-2-line"}
                     />
