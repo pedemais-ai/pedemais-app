@@ -9,7 +9,7 @@ interface ClientState {
 }
 
 const useClientStore = create<ClientState>((set) => ({
-    client: null,
+    client: undefined,
     setClient: (client) => set({client}),
 }));
 
@@ -41,5 +41,5 @@ export default async function getClient(): Promise<Prisma.Client> {
 
     setClient(messageClient);
 
-    return messageClient as unknown as Prisma.Client;
+    return messageClient;
 }

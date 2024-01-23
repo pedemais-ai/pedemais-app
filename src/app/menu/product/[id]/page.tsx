@@ -1,19 +1,19 @@
 import React from "react";
-import Menu from "@/components/menu/menu";
-import {fetchStore} from "@/core/hooks/useStore";
+import Product from "@/components/menu/product";
+import {fetchProduct} from "@/core/hooks/useProduct";
 
 export async function generateMetadata({params}: { params: { id: number } }) {
-    const store = await fetchStore(params.id);
+    const product = await fetchProduct(params.id);
 
     return {
-        title: `Cardápio ${store?.name}`,
+        title: product?.name,
     }
 }
 
 export default async function MenuPage({params}: { params: { id: number } }) {
     return (
         <>
-            <Menu id={params.id}/>
+            <Product id={params.id}/>
         </>
     )
 }

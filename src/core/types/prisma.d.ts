@@ -1,16 +1,19 @@
-import {Category as PrismaCategory, Client as PrismaClient, Contact as PrismaContact, Flow as PrismaFlow, Message as PrismaMessage, Product as PrismaProduct, Store as PrismaStore, User as PrismaUser,} from ".prisma/client";
+import {Cart as PrismaCart, Category as PrismaCategory, Client as PrismaClient, Contact as PrismaContact, Flow as PrismaFlow, Message as PrismaMessage, Product as PrismaProduct, Store as PrismaStore, User as PrismaUser,} from ".prisma/client";
 
 declare namespace Prisma {
+    export type Flow = PrismaFlow & {};
+    export type Message = PrismaMessage & {};
+
     export type Category = PrismaCategory & {
         products?: Product[]
     };
 
-    export type Store = PrismaStore & {
-        categories?: Category[]
+    export type Cart = PrismaCart & {
+        items?: CartItem[]
     };
 
-    export type Contact = PrismaContact & {
-        messages?: Message[]
+    export type CartItem = PrismaCart & {
+        product?: Product
     };
 
     export type Client = PrismaClient & {
@@ -18,11 +21,21 @@ declare namespace Prisma {
         user?: User
     };
 
+    export type Contact = PrismaContact & {
+        messages?: Message[]
+    };
+
+    export type Product = PrismaProduct & {
+        store?: Store,
+    };
+
+    export type Store = PrismaStore & {
+        categories?: Category[]
+    };
+
     export type User = PrismaUser & {
         stores?: Store[]
     };
 
-    export type Flow = PrismaFlow;
-    export type Product = PrismaProduct;
-    export type Message = PrismaMessage;
+
 }

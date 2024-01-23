@@ -47,7 +47,12 @@ class MessageListener extends BaseListener<Whatsapp, Message> {
         });
 
         if (!existingLink) {
-            const store = client.user.stores[0];
+            const store = client.user?.stores?.[0];
+
+            if (!store) {
+                await this.client.sendReactions(message.id, '🚫');
+                return;
+            }
 
             existingLink = await this.prisma.contactStoreLink.create({
                 data: {
