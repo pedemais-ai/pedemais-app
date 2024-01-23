@@ -1,8 +1,8 @@
 "use client";
 
 import React, {useState} from "react";
-import NavItem from "@/components/sidebar/parts/NavItem";
-import UserDropdown from "@/components/sidebar/parts/UserDropdown";
+import NavItem from "@/components/bot/sidebar/parts/NavItem";
+import UserDropdown from "@/components/bot/sidebar/parts/UserDropdown";
 
 export default function LargerScreen() {
 

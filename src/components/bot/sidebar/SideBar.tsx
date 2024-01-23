@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Menu from "@/components/sidebar/parts/Menu";
+import Menu from "@/components/bot/sidebar/parts/Menu";
 import styles from './sidebar.module.css';
 
 export default function SideBar() {
@@ -10,7 +10,7 @@ export default function SideBar() {
             <div className={styles.sideMenu + ' flex-lg-column me-lg-1 ms-lg-0'}>
                 <div className={styles.brandBox}>
                     <Link
-                        href={"/dashboard"}
+                        href={"/bot"}
                         className={styles.logo + ' ' + styles.logoDark}
                     >
                         <Image
@@ -22,7 +22,7 @@ export default function SideBar() {
                     </Link>
 
                     <Link
-                        href={"/dashboard"}
+                        href={"/bot"}
                         className={styles.logo + ' ' + styles.logoLight}
                     >
                         <Image

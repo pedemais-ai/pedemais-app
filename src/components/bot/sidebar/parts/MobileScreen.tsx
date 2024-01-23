@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import UserDropdown from "@/components/sidebar/parts/UserDropdown";
+import UserDropdown from "@/components/bot/sidebar/parts/UserDropdown";
 
 export default function MobileScreen() {
     return (
