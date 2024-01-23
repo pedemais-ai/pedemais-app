@@ -1,59 +1,94 @@
 "use client";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import React from "react";
-import {Container} from "react-bootstrap";
-import {faBox, faChartBar, faHome, faShoppingCart, faTruck, faUsers} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
+import { faBox, faChartBar, faHome, faShoppingCart, faTruck, faUsers } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 export default function Header() {
+    const [expanded, setExpanded] = useState(false);
+  
+    // Function to get the current time and date
+    const getCurrentDateTime = () => {
+      const currentTime = new Date();
+  
+      // Format the date with the day of the week, day of the month, and month
+      const dayOfWeek = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' }).format(currentTime);
+      const dayOfMonth = new Intl.DateTimeFormat('pt-BR', { day: 'numeric' }).format(currentTime);
+      const month = new Intl.DateTimeFormat('pt-BR', { month: 'short' }).format(currentTime);
+  
+      // Format the time
+      const formattedTime = currentTime.toLocaleTimeString('pt-BR', {
+        hour: 'numeric',
+        minute: 'numeric',
+      });
+  
+      return {
+        dayOfWeek,
+        dayOfMonth,
+        month,
+        formattedTime,
+      };
+    };
+  
+    const { dayOfWeek, dayOfMonth, month, formattedTime } = getCurrentDateTime();
+  
     return (
-        <>
-            <header>
-                <div className="px-3 py-2 text-bg-dark border-bottom">
-                    <Container>
-                        <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                            <Link href={"/admin"} className="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                                <FontAwesomeIcon icon={faTruck}/>
-                                <h4 className={"ms-2"}>Admin</h4>
-                            </Link>
-
-                            <ul className="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                                <li>
-                                    <Link href={"/admin"} className="nav-link text-secondary">
-                                        <FontAwesomeIcon icon={faHome} className={"d-block mx-auto mb-1"}/>
-                                        Home
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/admin"} className="nav-link text-white">
-                                        <FontAwesomeIcon icon={faChartBar} className={"d-block mx-auto mb-1"}/>
-                                        Dashboard
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/admin"} className="nav-link text-white">
-                                        <FontAwesomeIcon icon={faShoppingCart} className={"d-block mx-auto mb-1"}/>
-                                        Orders
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/admin/products"} className="nav-link text-white">
-                                        <FontAwesomeIcon icon={faBox} className={"d-block mx-auto mb-1"}/>
-                                        Products
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href={"/admin"} className="nav-link text-white">
-                                        <FontAwesomeIcon icon={faUsers} className={"d-block mx-auto mb-1"}/>
-                                        Customers
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </Container>
-                </div>
-            </header>
-        </>
+      <>
+        <header>
+          <Navbar expand="lg" bg="dark" variant="dark">
+            <Container fluid>
+              <Link href="/admin" passHref>
+                <Navbar.Brand className="text-white">
+                  <FontAwesomeIcon icon={faTruck} />
+                </Navbar.Brand>
+              </Link>
+  
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(!expanded)} />
+  
+              <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="mr-auto">
+                  <Link href="/admin" passHref>
+                    <Nav.Link className="text-secondary">
+                      Home
+                    </Nav.Link>
+                  </Link>
+                  <Link href="/admin" passHref>
+                    <Nav.Link className="text-white">
+                      Dashboard
+                    </Nav.Link>
+                  </Link>
+                  <Link href="/admin" passHref>
+                    <Nav.Link className="text-white">
+                      Orders
+                    </Nav.Link>
+                  </Link>
+                  <Link href="/admin/products" passHref>
+                    <Nav.Link className="text-white">
+                      Products
+                    </Nav.Link>
+                  </Link>
+                  <Link href="/admin" passHref>
+                    <Nav.Link className="text-white">
+                      Customers
+                    </Nav.Link>
+                  </Link>
+                </Nav>
+                <Nav className="ml-auto">
+                  <div className="text-white d-flex">
+                    <div className="col-auto">
+                      <p className="mb-0">{dayOfWeek.toUpperCase()}<br />{dayOfMonth} {month.toUpperCase()}</p>
+                    </div>
+                    <div className="col-auto">
+                      <p className="mb-0 fs-2">{formattedTime}</p>
+                    </div>
+                  </div>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </header>
+      </>
     );
-}
+  }

@@ -5,6 +5,8 @@ import Header from "@/components/admin/header";
 import Breadcrumbs from "@/components/admin/breadcrumb";
 import {Container} from "react-bootstrap";
 
+import './styles.css'; 
+
 export const metadata: Metadata = {
     title: {
         template: '%s | BisgoBot - Admin',
@@ -23,7 +25,7 @@ export default async function AdminLayout({children}: {
         <Suspense fallback={<>Loading...</>}>
             <main>
                 <Header/>
-                <Container>
+                <Container fluid>
                     <Breadcrumbs/>
                     {children}
                 </Container>

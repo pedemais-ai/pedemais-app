@@ -4,7 +4,7 @@ export default async function AdminHome() {
 
     return (
         <>
-            <Container>
+            <Container fluid>
                 <Row>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dicta exercitationem
                     minus perspiciatis quo! Cumque earum officia quo tenetur veritatis. Dolores fuga

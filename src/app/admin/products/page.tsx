@@ -4,7 +4,7 @@ export default async function AdminProducts() {
 
     return (
         <>
-            <Container>
+            <Container fluid>
                 <Row>
                     <Table responsive>
                         <thead>
