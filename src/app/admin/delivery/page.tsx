@@ -1,14 +1,12 @@
+/* AdminDelivery.tsx */
+
 "use client";
 
-// AdminProducts.tsx
-
-import { Container, Row, Col, Card, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faMoneyBill, faMapMarker, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import OrderModal from './order-components/OrderModal'; // Ajuste do caminho de importação
-
-import './styles.css';
+import React, { useState } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import OrderCard from '@/components/admin/order/OrderCard'; // Verifique o caminho de importação
+import OrderModal from '@/components/admin/order/OrderModal'; // Verifique o caminho de importação
+import styles from './styles.module.css';
 
 interface Order {
   orderNumber: number;
@@ -21,80 +19,7 @@ interface Order {
   paid: boolean;
 }
 
-const OrderCard: React.FC<{ order: Order; onMoveOrder: (orderNumber: number) => void; onCardClick: () => void }> = ({ order, onMoveOrder, onCardClick }) => {
-  const {
-    orderNumber,
-    time,
-    paymentType,
-    amount,
-    customerName,
-    deliveryType,
-    column,
-    paid,
-  } = order;
-
-  const handleMoveOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation(); // Impede que o evento de clique se propague para o card
-    onMoveOrder(orderNumber);
-  };
-
-  const getNextColumnLabel = (): string => {
-    switch (column) {
-      case 'Em Análise':
-        return 'Em Produção';
-      case 'Em Produção':
-        return 'Prontos para Entrega';
-      default:
-        return '';
-    }
-  };
-
-  const tooltipText = `Mover para ${getNextColumnLabel()}`;
-
-  return (
-    <Card className="custom-order-card" onClick={onCardClick}>
-      <Card.Body>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div>
-            <Card.Title>{`#${orderNumber}`} <small>{customerName}</small></Card.Title>
-          </div>
-          <div className="" style={{ backgroundColor: '#add8e6', padding: '5px', borderRadius: '5px', display: 'flex', alignItems: 'center' }}>
-            <small><FontAwesomeIcon icon={faClock} style={{ marginRight: '5px' }} /> {time}</small>
-          </div>
-        </div>
-        <Card.Text style={{ marginTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
-          <div>
-            <strong><FontAwesomeIcon icon={faMoneyBill} style={{ marginRight: '5px' }} /></strong>
-            <span style={{ marginLeft: '5px' }}>{paymentType}</span>
-            {paid ? <span style={{ marginLeft: '5px', color: 'green' }}><small>Pago</small></span> : <span style={{ marginLeft: '5px', color: 'red' }}><small>Não identificado</small></span>}
-          </div>
-          <div>
-            <strong>{amount}</strong>
-          </div>
-        </Card.Text>
-        <Card.Text>
-          <strong><FontAwesomeIcon icon={faMapMarker} style={{ marginRight: '5px' }} /> </strong> {deliveryType}
-        </Card.Text>
-        {column !== 'Prontos para Entrega' && (
-          <OverlayTrigger
-            placement="bottom"
-            delay={1250}
-            overlay={<Tooltip id={`tooltip-${orderNumber}`}>{tooltipText}</Tooltip>}
-          >
-<div className="custom-move-button-container">
-  <Button variant="primary" className="custom-move-button" style={{ width: '100%' }} onClick={handleMoveOrder}>
-    Mover <FontAwesomeIcon icon={faArrowRight} />
-  </Button>
-</div>
-
-          </OverlayTrigger>
-        )}
-      </Card.Body>
-    </Card>
-  );
-};
-
-const AdminProducts: React.FC = () => {
+const AdminDelivery: React.FC = () => {
   const columns = ['Em Análise', 'Em Produção', 'Prontos para Entrega'];
 
   const [modalShow, setModalShow] = useState<boolean>(false);
@@ -132,37 +57,29 @@ const AdminProducts: React.FC = () => {
   };
 
   return (
-<Container fluid>
-  <Row>
-    {columns.map((column, columnIndex) => (
-      <Col
-        className="m-2 p-0"
-        key={columnIndex}
-      >
-        <div
-          className={`custom-card-title ${columnIndex === 1 ? 'h2-producao' : (columnIndex === 2 ? 'h2-entrega' : 'h2-analise')}`}
-        >
-          {column}
-        </div>
-        <div className={`custom-order-card-details ${columnIndex === 1 ? 'h2-producao' : (columnIndex === 2 ? 'h2-entrega' : 'h2-analise')}`}>
-          {ordersData.map((order) => order.column === column && (
-            <div key={order.orderNumber} onClick={() => openModal(order)} className={`custom-order-card-container ${columnIndex === 1 ? 'h2-producao' : (columnIndex === 2 ? 'h2-entrega' : 'h2-analise')}`}>
-              <OrderCard order={order} onMoveOrder={handleMoveOrder} onCardClick={() => {}} />
+    <Container fluid>
+      <Row>
+        {columns.map((column, columnIndex) => (
+          <Col className={`m-2 p-0 ${styles['custom-col']}`} key={columnIndex}>
+            <div className={`${styles['custom-card-title']} ${styles[column.toLowerCase()]}`}>
+              {column}
             </div>
-          ))}
-        </div>
-      </Col>
-    ))}
-  </Row>
+            <div className={`${styles['custom-order-card-details']} ${styles[column.toLowerCase()]}`}>
+              {ordersData.map((order) => order.column === column && (
+                <div key={order.orderNumber} onClick={() => openModal(order)} className={`${styles['custom-order-card-container']} ${styles[column.toLowerCase()]}`}>
+                  <OrderCard order={order} onMoveOrder={handleMoveOrder} onCardClick={() => {}} />
+                </div>
+              ))}
+            </div>
+          </Col>
+        ))}
+      </Row>
 
-  {selectedOrder && (
-    <OrderModal order={selectedOrder} onClose={closeModal} />
-  )}
-</Container>
-
-
-
+      {selectedOrder && (
+        <OrderModal order={selectedOrder} onClose={closeModal} />
+      )}
+    </Container>
   );
 };
 
-export default AdminProducts;
+export default AdminDelivery;
