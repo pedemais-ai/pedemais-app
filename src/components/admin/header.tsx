@@ -1,10 +1,10 @@
 "use client";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
-import { faBox, faChartBar, faHome, faShoppingCart, faTruck, faUsers } from "@fortawesome/free-solid-svg-icons";
+import React, {useState} from "react";
+import {Container, Nav, Navbar} from "react-bootstrap";
+import {faTruck} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import AppIcon from "@/components/app/AppIcon";
 
 export default function Header() {
   const [expanded, setExpanded] = useState(false);
