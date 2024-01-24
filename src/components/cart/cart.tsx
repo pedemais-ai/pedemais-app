@@ -1,7 +1,7 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Badge, Button, Container, ListGroup, Navbar} from "react-bootstrap";
+import {Badge, Button, Container, Form, InputGroup, ListGroup, Navbar} from "react-bootstrap";
 import {Prisma} from "@/core/types/prisma";
 import Loading from "@/components/Loading";
 import {useRouter} from "next/navigation";
@@ -61,9 +61,34 @@ export default function Cart() {
                                         <h4 className="mb-1">{item.product?.name}</h4>
                                         <p className="mb-1">{item.product?.description}</p>
                                     </div>
-                                    <div>
-                                        <Badge bg="secondary" pill>{formatCurrency(item.product?.prices?.[0].price!)}</Badge>
+                                    <div className="flex-shrink-0">
+                                        <div>
+                                            <Badge bg="secondary" pill>{formatCurrency(item.product?.prices?.[0].price!)}</Badge>
+                                        </div>
+                                        <div className="mt-2">
+                                            <InputGroup>
+                                                <Button
+                                                    variant="outline-secondary"
+                                                    // onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                                >
+                                                    -
+                                                </Button>
+                                                <Form.Control
+                                                    type="number"
+                                                    value={item.quantity}
+                                                    readOnly
+                                                    className="text-center"
+                                                />
+                                                <Button
+                                                    variant="outline-secondary"
+                                                    // onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                                >
+                                                    +
+                                                </Button>
+                                            </InputGroup>
+                                        </div>
                                     </div>
+
                                 </div>
                             </ListGroup.Item>
                         ))
@@ -74,7 +99,7 @@ export default function Cart() {
                 <Container>
                     <Navbar.Collapse className="justify-content-end">
                         <Button variant="primary" id="button-addon1">
-                            Finalizar compra
+                            Avançar ({formatCurrency(cart?.totalPrice || 0)})
                         </Button>
                     </Navbar.Collapse>
                 </Container>

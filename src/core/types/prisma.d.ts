@@ -1,5 +1,6 @@
 import {
     Cart as PrismaCart,
+    CartItem as PrismaCartItem,
     Category as PrismaCategory,
     Client as PrismaClient,
     Contact as PrismaContact,
@@ -21,9 +22,10 @@ declare namespace Prisma {
 
     export type Cart = PrismaCart & {
         items?: CartItem[]
+        totalPrice?: number,
     };
 
-    export type CartItem = PrismaCart & {
+    export type CartItem = PrismaCartItem & {
         product?: Product
     };
 

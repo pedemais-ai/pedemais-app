@@ -46,5 +46,4 @@ const createEntityHook = <T>(
     },
 }));
 
-
 export const useCart = createEntityHook<Prisma.Cart>('cart');

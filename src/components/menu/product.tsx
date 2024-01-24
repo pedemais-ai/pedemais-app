@@ -13,10 +13,46 @@ export default function Product({id}: { id: number }) {
 
     const router = useRouter();
     const productState = useProduct();
+
     const [product, setProduct] = useState<Prisma.Product | null>();
+    const [quantity, setQuantity] = useState(1);
 
     const handleBackButtonClick = () => {
         router.back();
+    };
+
+    const handleQuantityDecrease = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+        }
+    };
+
+    const handleQuantityIncrease = () => {
+        setQuantity(quantity + 1);
+    };
+
+    const handleAddToCart = async () => {
+        try {
+            const response = await fetch(`/api/cart`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    productId: id,
+                    quantity: quantity,
+                }),
+            });
+
+            if (response.ok) {
+                console.log("Product added to cart successfully!");
+            } else {
+                console.error("Error adding product to cart:", response.statusText);
+            }
+
+        } catch (error) {
+            console.error("Error adding product to cart:", error);
+        }
     };
 
     useEffect(() => {
@@ -61,22 +97,31 @@ export default function Product({id}: { id: number }) {
                     <Container>
                         <Navbar.Brand>
                             <InputGroup className="mb-3">
-                                <Button variant="outline-secondary" id="button-addon1">
+                                <Button
+                                    variant="outline-secondary"
+                                    onClick={handleQuantityDecrease}
+                                >
                                     -
                                 </Button>
                                 <Form.Control
                                     aria-label="Example text with button addon"
                                     aria-describedby="basic-addon1"
-                                    value={1}
+                                    value={quantity}
                                 />
-                                <Button variant="outline-secondary" id="button-addon1">
+                                <Button
+                                    variant="outline-secondary"
+                                    onClick={handleQuantityIncrease}
+                                >
                                     +
                                 </Button>
                             </InputGroup>
                         </Navbar.Brand>
                         <Navbar.Toggle/>
                         <Navbar.Collapse className="justify-content-end">
-                            <Button variant="primary" id="button-addon1">
+                            <Button
+                                variant="primary"
+                                onClick={handleAddToCart}
+                            >
                                 Adicionar
                             </Button>
                         </Navbar.Collapse>
