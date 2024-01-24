@@ -2,8 +2,8 @@
 
 "use client";
 
-import React, { useState } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Col, Container, Row, Tab, Tabs} from 'react-bootstrap';
 import OrderCard from '@/components/admin/order/OrderCard'; // Verifique o caminho de importação
 import OrderModal from '@/components/admin/order/OrderModal'; // Verifique o caminho de importação
 import styles from './styles.module.css';
@@ -58,22 +58,33 @@ const AdminDelivery: React.FC = () => {
 
   return (
     <Container fluid>
-      <Row>
-        {columns.map((column, columnIndex) => (
-          <Col className={`m-2 p-0 ${styles['custom-col']}`} key={columnIndex}>
-            <div className={`${styles['custom-card-title']} ${styles[column.toLowerCase()]}`}>
-              {column}
-            </div>
-            <div className={`${styles['custom-order-card-details']} ${styles[column.toLowerCase()]}`}>
-              {ordersData.map((order) => order.column === column && (
-                <div key={order.orderNumber} onClick={() => openModal(order)} className={`${styles['custom-order-card-container']} ${styles[column.toLowerCase()]}`}>
-                  <OrderCard order={order} onMoveOrder={handleMoveOrder} onCardClick={() => {}} />
-                </div>
-              ))}
-            </div>
-          </Col>
-        ))}
-      </Row>
+      <Tabs
+          defaultActiveKey="tables"
+          className="mb-3"
+      >
+        <Tab eventKey="tables" title="Mesas">
+          <Row>
+            {columns.map((column, columnIndex) => (
+                <Col className={`m-2 p-0 ${styles['custom-col']}`} key={columnIndex}>
+                  <div className={`${styles['custom-card-title']} ${styles[column.toLowerCase()]}`}>
+                    {column}
+                  </div>
+                  <div className={`${styles['custom-order-card-details']} ${styles[column.toLowerCase()]}`}>
+                    {ordersData.map((order) => order.column === column && (
+                        <div key={order.orderNumber} onClick={() => openModal(order)} className={`${styles['custom-order-card-container']} ${styles[column.toLowerCase()]}`}>
+                          <OrderCard order={order} onMoveOrder={handleMoveOrder} onCardClick={() => {
+                          }}/>
+                        </div>
+                    ))}
+                  </div>
+                </Col>
+            ))}
+          </Row>
+        </Tab>
+        <Tab eventKey="delivery" title="Delivery">
+          Tab content for Profile
+        </Tab>
+      </Tabs>
 
       {selectedOrder && (
         <OrderModal order={selectedOrder} onClose={closeModal} />
