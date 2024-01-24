@@ -62,7 +62,7 @@ const AdminDelivery: React.FC = () => {
           defaultActiveKey="tables"
           className="mb-3"
       >
-        <Tab eventKey="tables" title="Mesas">
+        <Tab eventKey="tables" title="Delivery">
           <Row>
             {columns.map((column, columnIndex) => (
                 <Col className={`m-2 p-0 ${styles['custom-col']}`} key={columnIndex}>
@@ -81,7 +81,7 @@ const AdminDelivery: React.FC = () => {
             ))}
           </Row>
         </Tab>
-        <Tab eventKey="delivery" title="Delivery">
+        <Tab eventKey="delivery" title="Mesas">
           Tab content for Profile
         </Tab>
       </Tabs>

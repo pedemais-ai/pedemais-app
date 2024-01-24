@@ -26,7 +26,6 @@ export default async function AdminLayout({children}: {
             <main>
                 <Header/>
                 <Container fluid>
-                    <Breadcrumbs/>
                     {children}
                 </Container>
             </main>
