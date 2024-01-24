@@ -9,6 +9,9 @@ import {useRouter} from "next/navigation";
 import {Prisma} from "@/core/types/prisma";
 import Loading from "@/components/Loading";
 import {formatCurrency} from "@/core/functions";
+import AppButton from "@/components/app/AppButton";
+import AppIcon from "@/components/app/AppIcon";
+import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 
 export default function Product({id}: { id: number }) {
 
@@ -17,6 +20,7 @@ export default function Product({id}: { id: number }) {
 
     const [product, setProduct] = useState<Prisma.Product | null>();
     const [quantity, setQuantity] = useState(1);
+    const [isAddingProduct, setIsAddingProduct] = useState(false);
 
     const handleBackButtonClick = () => {
         router.back();
@@ -47,6 +51,9 @@ export default function Product({id}: { id: number }) {
     };
 
     const handleAddToCart = async () => {
+
+        setIsAddingProduct(true);
+
         try {
             const response = await fetch(`/api/cart`, {
                 method: "POST",
@@ -60,13 +67,14 @@ export default function Product({id}: { id: number }) {
             });
 
             if (response.ok) {
-                console.log("Product added to cart successfully!");
+                alert("Product added to cart successfully!");
             } else {
                 console.error("Error adding product to cart:", response.statusText);
             }
-
         } catch (error) {
             console.error("Error adding product to cart:", error);
+        } finally {
+            setIsAddingProduct(false);
         }
     };
 
@@ -84,6 +92,7 @@ export default function Product({id}: { id: number }) {
                         </Navbar.Brand>
                         <Navbar.Collapse className="justify-content-end">
                             <Button variant="outline-secondary" onClick={handleBackButtonClick}>
+                                <AppIcon icon={faChevronLeft} className={"me-2"}/>
                                 Voltar
                             </Button>
                         </Navbar.Collapse>
@@ -133,12 +142,13 @@ export default function Product({id}: { id: number }) {
                                 </Button>
                             </InputGroup>
                         </div>
-                        <Button
+                        <AppButton
                             variant="primary"
                             onClick={handleAddToCart}
+                            isLoading={isAddingProduct}
                         >
                             Adicionar
-                        </Button>
+                        </AppButton>
                     </Container>
                 </Navbar>
             </Container>

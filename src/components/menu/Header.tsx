@@ -1,12 +1,15 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Button, Col, Container, Nav, Navbar, Row} from "react-bootstrap";
+import {Col, Container, Nav, Navbar, Row} from "react-bootstrap";
 import slugify from "slugify";
 import {Prisma} from "@/core/types/prisma";
 import styles from "./header.module.css";
 import Loading from "@/components/Loading";
 import {useCart} from "@/core/hooks/useCart";
+import AppButton from "@/components/app/AppButton";
+import AppIcon from "@/components/app/AppIcon";
+import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
 
 export default function MenuHeader({store}: { store: Prisma.Store }) {
     const category = store?.categories?.[0];
@@ -27,9 +30,10 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                         <h3>{store?.name}</h3>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
-                        <Button variant="outline-secondary" as={"a"} href={"/cart"}>
+                        <AppButton variant="outline-secondary" href={"/cart"}>
+                            <AppIcon icon={faCartShopping} className={"me-2"}/>
                             Carrinho ({cart?.items?.length || 0})
-                        </Button>
+                        </AppButton>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
