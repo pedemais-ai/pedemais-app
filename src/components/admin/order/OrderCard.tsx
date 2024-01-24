@@ -1,9 +1,16 @@
 // OrderCard.tsx
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Card, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock, faMoneyBill, faMapMarker, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import styles from './order-card.module.css';
+
+// Import the icon styles
+import '@fortawesome/fontawesome-svg-core/styles.css';
+
+// Use the library method to explicitly initialize
+import { config } from '@fortawesome/fontawesome-svg-core';
+config.autoAddCss = false;
 
 export interface Order {
   orderNumber: number;
@@ -46,38 +53,38 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, onMoveOrder, onCardClick }
   return (
     <Card className={`${styles.customOrderCard} ${styles[column.toLowerCase()]}`} onClick={onCardClick}>
       <Card.Body>
-        <div>
-          <Card.Title>{`#${orderNumber}`} <small>{customerName}</small></Card.Title>
-        </div>
-        <div className={styles.highlightedTime}>
-          <small><FontAwesomeIcon icon={faClock} className="mr-1" /> {time}</small>
-        </div>
-        <Card.Text className="mt-3 d-flex justify-content-between">
           <div>
-            <strong><FontAwesomeIcon icon={faMoneyBill} /></strong>
-            <span>&nbsp;{paymentType}&nbsp;</span>
-            {paid ? <span className={styles.paidText}>Pago</span> : <span className={styles.unpaidText}>Não identificado</span>}
+            <Card.Title>{`#${orderNumber}`} <small>{customerName}</small></Card.Title>
           </div>
-          <div>
-            <strong>{amount}</strong>
+          <div className={styles.highlightedTime}>
+            <small><FontAwesomeIcon icon={faClock} className="mr-1" /> {time}</small>
           </div>
-        </Card.Text>
-        <Card.Text>
-          <strong><FontAwesomeIcon icon={faMapMarker} className="mr-1" /> </strong> {deliveryType}
-        </Card.Text>
-        {column !== 'Prontos para Entrega' && (
-          <OverlayTrigger
-            placement="bottom"
-            delay={1250}
-            overlay={<Tooltip id={`tooltip-${orderNumber}`}>{tooltipText}</Tooltip>}
-          >
-            <div className={styles.customMoveButtonContainer}>
-              <Button variant="primary" className={styles.customMoveButton} style={{ width: '100%' }} onClick={handleMoveOrder}>
-                Mover <FontAwesomeIcon icon={faArrowRight} />
-              </Button>
+          <Card.Text className="mt-3 d-flex justify-content-between">
+            <div>
+              <strong><FontAwesomeIcon icon={faMoneyBill} /></strong>
+              <span>&nbsp;{paymentType}&nbsp;</span>
+              {paid ? <span className={styles.paidText}>Pago</span> : <span className={styles.unpaidText}>Não identificado</span>}
             </div>
-          </OverlayTrigger>
-        )}
+            <div>
+              <strong>{amount}</strong>
+            </div>
+          </Card.Text>
+          <Card.Text>
+            <strong><FontAwesomeIcon icon={faMapMarker} className="mr-1" /> </strong> {deliveryType}
+          </Card.Text>
+          {column !== 'Prontos para Entrega' && (
+            <OverlayTrigger
+              placement="bottom"
+              delay={1250}
+              overlay={<Tooltip id={`tooltip-${orderNumber}`}>{tooltipText}</Tooltip>}
+            >
+              <div className={styles.customMoveButtonContainer}>
+                <Button variant="primary" className={styles.customMoveButton} style={{ width: '100%' }} onClick={handleMoveOrder}>
+                  Mover <FontAwesomeIcon icon={faArrowRight} />
+                </Button>
+              </div>
+            </OverlayTrigger>
+          )}
       </Card.Body>
     </Card>
   );
