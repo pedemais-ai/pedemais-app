@@ -8,6 +8,7 @@ import slugify from "slugify";
 import {useRouter} from "next/navigation";
 import {Prisma} from "@/core/types/prisma";
 import Loading from "@/components/Loading";
+import {formatCurrency} from "@/core/functions";
 
 export default function Product({id}: { id: number }) {
 
@@ -19,6 +20,20 @@ export default function Product({id}: { id: number }) {
 
     const handleBackButtonClick = () => {
         router.back();
+    };
+
+    const handleQuantityChange = (e: {
+        target: {
+            value: string;
+        };
+    }) => {
+        let value: number | undefined = Number(e.target.value);
+
+        if (value < 1 || isNaN(value)) {
+            value = 1;
+        }
+
+        setQuantity(value)
     };
 
     const handleQuantityDecrease = () => {
@@ -57,7 +72,7 @@ export default function Product({id}: { id: number }) {
 
     useEffect(() => {
         productState.find(id).then((p: Prisma.Product | null) => setProduct(p))
-    }, [id]);
+    }, [id, productState]);
 
     return (<>
         <Suspense fallback={<Loading/>}>
@@ -89,16 +104,17 @@ export default function Product({id}: { id: number }) {
                             <p className="mb-1">{product?.description}</p>
                         </div>
                         <div>
-                            <Badge bg="secondary" pill>R$9.99</Badge>
+                            <Badge bg="secondary" pill>{formatCurrency(product?.prices?.[0].price || 0)}</Badge>
                         </div>
                     </div>
                 </Row>
                 <Navbar className="bg-body-tertiary" fixed={"bottom"}>
                     <Container>
-                        <Navbar.Brand>
+                        <div className="flex-shrink-0">
                             <InputGroup className="mb-3">
                                 <Button
                                     variant="outline-secondary"
+                                    disabled={quantity <= 1}
                                     onClick={handleQuantityDecrease}
                                 >
                                     -
@@ -107,6 +123,7 @@ export default function Product({id}: { id: number }) {
                                     aria-label="Example text with button addon"
                                     aria-describedby="basic-addon1"
                                     value={quantity}
+                                    onChange={handleQuantityChange}
                                 />
                                 <Button
                                     variant="outline-secondary"
@@ -115,16 +132,13 @@ export default function Product({id}: { id: number }) {
                                     +
                                 </Button>
                             </InputGroup>
-                        </Navbar.Brand>
-                        <Navbar.Toggle/>
-                        <Navbar.Collapse className="justify-content-end">
-                            <Button
-                                variant="primary"
-                                onClick={handleAddToCart}
-                            >
-                                Adicionar
-                            </Button>
-                        </Navbar.Collapse>
+                        </div>
+                        <Button
+                            variant="primary"
+                            onClick={handleAddToCart}
+                        >
+                            Adicionar
+                        </Button>
                     </Container>
                 </Navbar>
             </Container>

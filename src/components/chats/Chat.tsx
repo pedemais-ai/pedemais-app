@@ -1,8 +1,8 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import ContactList from "@/components/chats/contact-list";
-import ContactMessages from "@/components/chats/contact-messages";
+import ContactList from "@/components/chats/ContactList";
+import ContactMessages from "@/components/chats/ContactMessages";
 import {Client, Contact, User} from ".prisma/client";
 import Image from "next/image";
 import {Col, Container, Row} from "react-bootstrap";

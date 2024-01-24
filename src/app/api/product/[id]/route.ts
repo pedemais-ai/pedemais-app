@@ -10,7 +10,19 @@ export async function GET(
             where: {
                 id: Number(params.id),
             },
-            include: {}
+            include: {
+                prices: {
+                    where: {
+                        effective_date: {
+                            lte: new Date(),
+                        },
+                    },
+                    orderBy: {
+                        effective_date: 'desc',
+                    },
+                    take: 1,
+                },
+            },
         });
 
         if (!product) {

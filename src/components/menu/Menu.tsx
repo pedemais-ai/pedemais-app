@@ -2,11 +2,11 @@
 
 import {Store} from ".prisma/client";
 import React, {useEffect, useState} from "react";
-import MenuHeader from "@/components/menu/header";
+import MenuHeader from "@/components/menu/Header";
 import {Container, Row} from "react-bootstrap";
 import {useStore} from "@/core/hooks/useStore";
 import {Prisma} from "@/core/types/prisma";
-import MenuItemList from "@/components/menu/item-list";
+import MenuItemList from "@/components/menu/ItemList";
 
 export default function Menu({id}: { id: number }) {
 
@@ -15,7 +15,7 @@ export default function Menu({id}: { id: number }) {
 
     useEffect(() => {
         storeState.find(id).then((p: Store | null | undefined) => setStore(p))
-    }, [id]);
+    }, [id, storeState]);
 
     return (<>
         <Container className={"mt-3"}>

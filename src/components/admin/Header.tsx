@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Col, Container, Nav, NavDropdown, Navbar, Row } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUtensils, faClipboardList, faUser } from "@fortawesome/free-solid-svg-icons";
+import React, {useEffect, useState} from "react";
+import {Col, Container, Nav, Navbar, NavDropdown, Row} from "react-bootstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faClipboardList, faUser, faUtensils} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 export default function Header() {

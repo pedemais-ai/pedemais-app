@@ -1,11 +1,11 @@
 import React, {Suspense} from 'react';
 import type {Metadata} from 'next'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Header from "@/components/admin/header";
-import Breadcrumbs from "@/components/admin/breadcrumb";
+import Header from "@/components/admin/Header";
+import Breadcrumbs from "@/components/admin/Breadcrumb";
 import {Container} from "react-bootstrap";
 
-import './styles.css'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles.css';
 
 export const metadata: Metadata = {
     title: {

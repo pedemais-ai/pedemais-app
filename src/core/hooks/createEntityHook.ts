@@ -36,7 +36,7 @@ export const createEntityHook = <T>(
 ) => create<EntityState<T>>((set, get) => ({
     entities: [],
     find: async function (id: number) {
-        let entity = get().entities.find((e: T) => (e as any).id === id);
+        let entity = get().entities.find((e: T) => (e as any).id === Number(id));
 
         if (!entity) {
             try {
