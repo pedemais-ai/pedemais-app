@@ -28,7 +28,21 @@ export async function GET(request: NextRequest) {
             include: {
                 items: {
                     include: {
-                        product: true,
+                        product: {
+                            include: {
+                                prices: {
+                                    where: {
+                                        effective_date: {
+                                            lte: new Date(),
+                                        },
+                                    },
+                                    orderBy: {
+                                        effective_date: 'desc',
+                                    },
+                                    take: 1,
+                                },
+                            },
+                        },
                     },
                 },
             },
@@ -46,36 +60,36 @@ export async function GET(request: NextRequest) {
                 include: {
                     items: {
                         include: {
-                            product: true,
+                            product: {
+                                include: {
+                                    prices: {
+                                        where: {
+                                            effective_date: {
+                                                lte: new Date(),
+                                            },
+                                        },
+                                        orderBy: {
+                                            effective_date: 'desc',
+                                        },
+                                        take: 1,
+                                    },
+                                },
+                            },
                         },
                     },
                 },
             });
         }
 
-        const totalPrice = await Promise.all(
-            cart.items.map(async (item) => {
-                const currentDate = new Date();
+        const totalPrice = cart.items.reduce((sum, item) => {
+            const productPrice = item.product?.prices[0];
 
-                const productPrice = await prisma.productPrice.findFirst({
-                    where: {
-                        product_id: item.product.id,
-                        effective_date: {
-                            lte: currentDate,
-                        },
-                    },
-                    orderBy: {
-                        effective_date: 'desc',
-                    },
-                });
+            if (!productPrice) {
+                throw new Error(`Price not found for product ${item.product.id}.`);
+            }
 
-                if (!productPrice) {
-                    throw new Error('Price not found');
-                }
-
-                return productPrice.price * item.quantity;
-            })
-        ).then((prices) => prices.reduce((sum, price) => sum + price, 0));
+            return sum + productPrice.price * item.quantity;
+        }, 0);
 
         return NextResponse.json(
             {

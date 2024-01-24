@@ -1,11 +1,14 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Button, Container, ListGroup, Navbar} from "react-bootstrap";
+import {Badge, Button, Container, ListGroup, Navbar} from "react-bootstrap";
 import {Prisma} from "@/core/types/prisma";
 import Loading from "@/components/Loading";
 import {useRouter} from "next/navigation";
 import {useCart} from "@/core/hooks/useCart";
+import {formatCurrency} from "@/core/functions";
+import Image from "next/image";
+import slugify from "slugify";
 
 export default function Cart() {
 
@@ -42,14 +45,24 @@ export default function Cart() {
                         <ListGroup.Item variant="info">Seu carrinho está vazio</ListGroup.Item>
                     ) : (
                         cart?.items.map((item: Prisma.CartItem) => (
-                            <ListGroup.Item key={item.id}>
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <strong>{item.product?.name}</strong>
-                                        <p>{item.product?.description}</p>
+                            <ListGroup.Item
+                                key={item.id}
+                            >
+                                <div className="d-flex">
+                                    <div className="flex-shrink-0">
+                                        <Image
+                                            src="https://via.placeholder.com/100" alt={slugify(item.product?.name!).toLowerCase()}
+                                            className="img-thumbnail mr-3"
+                                            width={100}
+                                            height={100}
+                                        />
+                                    </div>
+                                    <div className="flex-grow-1 ms-3">
+                                        <h4 className="mb-1">{item.product?.name}</h4>
+                                        <p className="mb-1">{item.product?.description}</p>
                                     </div>
                                     <div>
-                                        <span className="fw-bold">R$9.99</span>
+                                        <Badge bg="secondary" pill>{formatCurrency(item.product?.prices?.[0].price!)}</Badge>
                                     </div>
                                 </div>
                             </ListGroup.Item>
@@ -57,6 +70,15 @@ export default function Cart() {
                     )}
                 </Suspense>
             </ListGroup>
+            <Navbar className="bg-body-tertiary" fixed={"bottom"}>
+                <Container>
+                    <Navbar.Collapse className="justify-content-end">
+                        <Button variant="primary" id="button-addon1">
+                            Finalizar compra
+                        </Button>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
         </Container>
     </>)
 };

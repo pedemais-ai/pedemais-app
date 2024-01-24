@@ -1,9 +1,11 @@
 .nav {
-    white-space: nowrap;
-    overflow-x: auto;
+
 }
 
 .navLi {
-    display: inline-block;
-    float: none;
+
+}
+
+.container {
+    margin-top: 5rem;
 }
