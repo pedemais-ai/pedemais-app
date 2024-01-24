@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useState} from "react";
-import {Container, Nav, Navbar} from "react-bootstrap";
+import {Col, Container, Nav, Navbar, Row} from "react-bootstrap";
 import {faTruck} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import AppIcon from "@/components/app/AppIcon";
