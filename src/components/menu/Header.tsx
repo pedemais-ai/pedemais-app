@@ -17,7 +17,7 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
 
     useEffect(() => {
         cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p))
-    }, []);
+    }, [cartState]);
 
     return (
         <Suspense fallback={<Loading/>}>

@@ -8,7 +8,7 @@ import {Prisma} from "@/core/types/prisma";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 
-export default function MenuFoodList({store}: { store: Prisma.Store }) {
+export default function MenuItemList({store}: { store: Prisma.Store }) {
 
     return (
         <Suspense fallback={<Loading/>}>

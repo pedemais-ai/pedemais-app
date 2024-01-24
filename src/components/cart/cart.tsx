@@ -23,7 +23,7 @@ export default function Cart() {
 
     useEffect(() => {
         cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p))
-    }, []);
+    }, [cartState]);
 
     return (<>
         <Container>
