@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Container, Nav, NavDropdown, Navbar, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUtensils, faClipboardList, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -8,8 +8,9 @@ import Link from "next/link";
 
 export default function Header() {
     const [expanded, setExpanded] = useState(false);
+    const [currentTime, setCurrentTime] = useState(getCurrentDateTime());
 
-    const getCurrentDateTime = () => {
+    function getCurrentDateTime() {
         const currentTime = new Date();
 
         const dayOfWeek = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' }).format(currentTime);
@@ -27,9 +28,15 @@ export default function Header() {
             month,
             formattedTime,
         };
-    };
+    }
 
-    const { dayOfWeek, dayOfMonth, month, formattedTime } = getCurrentDateTime();
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentTime(getCurrentDateTime());
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     return (
         <>
@@ -59,14 +66,14 @@ export default function Header() {
                             <div className="text-right">
                                 <Row className="mb-0">
                                     <Col className="text-end mb-0" style={{ lineHeight: '1', fontSize: '0.75rem' }}>
-                                        <small>{dayOfWeek.toUpperCase()}</small>
+                                        <small>{currentTime.dayOfWeek.toUpperCase()}</small>
                                         <br />
-                                        <small>{dayOfMonth} {month.toUpperCase()}</small>
+                                        <small>{currentTime.dayOfMonth} {currentTime.month.toUpperCase()}</small>
                                     </Col>
                                 </Row>
                             </div>
                             <div className="text-right ms-1 me-4">
-                                <p className="mb-0 fs-3">{formattedTime}</p>
+                                <p className="mb-0 fs-3">{currentTime.formattedTime}</p>
                             </div>
                             <div className="position-static me-2">
                                 {/* Menu Dropdown "Admin" */}
