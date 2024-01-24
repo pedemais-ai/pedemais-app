@@ -11,6 +11,11 @@ export async function GET(
                 id: Number(params.id),
             },
             include: {
+                category: {
+                    include: {
+                        store: true
+                    }
+                },
                 prices: {
                     where: {
                         effective_date: {

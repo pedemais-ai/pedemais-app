@@ -80,7 +80,7 @@ export default function Product({id}: { id: number }) {
                 <Navbar className="bg-body-tertiary" fixed={"top"}>
                     <Container>
                         <Navbar.Brand>
-                            {product?.store?.name}
+                            <h3>{product?.category?.store?.name}</h3>
                         </Navbar.Brand>
                         <Navbar.Collapse className="justify-content-end">
                             <Button variant="outline-secondary" onClick={handleBackButtonClick}>
@@ -89,7 +89,7 @@ export default function Product({id}: { id: number }) {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <Row style={{marginTop: '4rem'}}>
+                <Row style={{marginTop: '5rem'}}>
                     <div className="d-flex">
                         <div className="flex-shrink-0">
                             <Image

@@ -1,12 +1,13 @@
 "use client";
 
 import {Store} from ".prisma/client";
-import React, {useEffect, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import MenuHeader from "@/components/menu/Header";
-import {Container, Row} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import {useStore} from "@/core/hooks/useStore";
 import {Prisma} from "@/core/types/prisma";
 import MenuItemList from "@/components/menu/ItemList";
+import Loading from "@/components/Loading";
 
 export default function Menu({id}: { id: number }) {
 
@@ -18,11 +19,11 @@ export default function Menu({id}: { id: number }) {
     }, [id, storeState]);
 
     return (<>
-        <Container className={"mt-3"}>
-            <Row>
+        <Suspense fallback={<Loading/>}>
+            <Container>
                 <MenuHeader store={store as Prisma.Store}/>
                 <MenuItemList store={store as Prisma.Store}/>
-            </Row>
-        </Container>
+            </Container>
+        </Suspense>
     </>)
 };

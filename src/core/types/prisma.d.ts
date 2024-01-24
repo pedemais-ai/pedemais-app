@@ -17,6 +17,7 @@ declare namespace Prisma {
     export type Message = PrismaMessage & {};
 
     export type Category = PrismaCategory & {
+        store?: Store
         products?: Product[]
     };
 
@@ -39,7 +40,7 @@ declare namespace Prisma {
     };
 
     export type Product = PrismaProduct & {
-        store?: Store,
+        category?: Category,
         prices?: ProductPrice[]
     };
 

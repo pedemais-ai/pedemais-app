@@ -1,6 +1,6 @@
 import React from "react";
-import Cart from "@/components/cart/cart";
 import type {Metadata} from "next";
+import Cart from "@/components/cart/Cart";
 
 export const metadata: Metadata = {
     title: 'Carrinho de compras',

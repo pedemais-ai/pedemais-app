@@ -1,5 +1,5 @@
 import React from "react";
-import Menu from "@/components/menu/menu";
+import Menu from "@/components/menu/Menu";
 import {fetchStore} from "@/core/hooks/useStore";
 
 export async function generateMetadata({params}: { params: { id: number } }) {

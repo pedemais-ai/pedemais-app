@@ -1,7 +1,7 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Button, Col, Container, Nav, Navbar} from "react-bootstrap";
+import {Button, Col, Container, Nav, Navbar, Row} from "react-bootstrap";
 import slugify from "slugify";
 import {Prisma} from "@/core/types/prisma";
 import styles from "./header.module.css";
@@ -24,7 +24,7 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
             <Navbar className="bg-body-tertiary" fixed={"top"}>
                 <Container>
                     <Navbar.Brand>
-                        <h3 className="mb-4">{store?.name}</h3>
+                        <h3>{store?.name}</h3>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Button variant="outline-secondary" as={"a"} href={"/cart"}>
@@ -33,22 +33,23 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <Col md={12} className={styles.container}>
-                <Nav
-                    variant="tabs"
-                    defaultActiveKey={category?.id}
-                    className={styles.nav}
-                >
-                    {store?.categories?.map((category: Prisma.Category) => <>
-                        <Nav.Item
-                            key={category.id}
-                            className={styles.navLi}
-                        >
-                            <Nav.Link href={`#${slugify(category.name).toLowerCase()}`}>{category.name}</Nav.Link>
-                        </Nav.Item>
-                    </>)}
-                </Nav>
-            </Col>
+            <Row style={{marginTop: '5rem'}}>
+                <Col md={12}>
+                    <Nav
+                        variant="tabs"
+                        defaultActiveKey={category?.id}
+                        className={styles.nav}
+                    >
+                        {store?.categories?.map((category: Prisma.Category) => <>
+                            <Nav.Item
+                                key={category.id}
+                            >
+                                <Nav.Link href={`#${slugify(category.name).toLowerCase()}`}>{category.name}</Nav.Link>
+                            </Nav.Item>
+                        </>)}
+                    </Nav>
+                </Col>
+            </Row>
         </Suspense>
     )
 };
