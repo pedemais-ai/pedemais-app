@@ -43,20 +43,11 @@ export default function Header() {
 
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link as={Link} href={"/admin"}>
-                                Home
-                            </Nav.Link>
-                            <Nav.Link as={Link} href={"/admin/dashboard"}>
-                                Dashboard
-                            </Nav.Link>
                             <Nav.Link as={Link} href={"/admin/delivery"}>
-                                Delivery
+                                Restaurante
                             </Nav.Link>
                             <Nav.Link as={Link} href={"/admin/products"}>
-                                Produtos
-                            </Nav.Link>
-                            <Nav.Link as={Link} href={"/admin/customers"}>
-                                Clientes
+                                Gestor de Cardápio
                             </Nav.Link>
                         </Nav>
                         <div className="ml-auto text-white d-flex align-items-center">
