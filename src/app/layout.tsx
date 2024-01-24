@@ -1,9 +1,13 @@
 import React, {Suspense} from 'react';
 import type {Metadata} from 'next'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './globals.css'
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import './icons.css'
+import './globals.css'
 import ClientSideLayout from "@/components/ClientSideLayout";
+import {config} from '@fortawesome/fontawesome-svg-core';
+
+config.autoAddCss = false;
 
 export const metadata: Metadata = {
     title: {
