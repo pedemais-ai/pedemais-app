@@ -1,7 +1,9 @@
 "use client";
 
 import React, {useState} from "react";
-import {Col, Container, Nav, Navbar, Row} from "react-bootstrap";
+import {Col, Container, Nav, NavDropdown, Navbar, Row} from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUtensils, faClipboardList } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 export default function Header() {
@@ -42,28 +44,35 @@ export default function Header() {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(!expanded)}/>
 
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Nav.Link as={Link} href={"/admin/delivery"}>
-                                Restaurante
-                            </Nav.Link>
-                            <Nav.Link as={Link} href={"/admin/products"}>
-                                Gestor de Cardápio
-                            </Nav.Link>
-                        </Nav>
-                        <div className="ml-auto text-white d-flex align-items-center">
-                            <div className="text-right">
-                                <Row className="mb-0">
-                                    <Col className="text-end mb-0" style={{lineHeight: '1', fontSize: '0.75rem'}}>
-                                        <small>{dayOfWeek.toUpperCase()}</small>
-                                        <br/>
-                                        <small>{dayOfMonth} {month.toUpperCase()}</small>
-                                    </Col>
-                                </Row>
-                            </div>
-                            <div className="text-right">
-                                <p className="mb-0 fs-3 ms-1">{formattedTime}</p>
-                            </div>
+                    <Nav className="mr-auto">
+                    <Nav.Link as={Link} href={"/admin/delivery"}>
+                        <FontAwesomeIcon icon={faUtensils} className="me-2" />
+                        Restaurante
+                    </Nav.Link>
+                    <Nav.Link as={Link} href={"/admin/products"}>
+                        <FontAwesomeIcon icon={faClipboardList} className="me-2" />
+                        Gestor de Cardápio
+                    </Nav.Link>
+                    </Nav>
+                    <div className="position-absolute end-0 text-white d-flex align-items-center me-2">
+                        <NavDropdown title="Admin" id="basic-nav-dropdown" className="me-2">
+                            <NavDropdown.Item href="#minha-conta">Minha Conta</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="#sair">Sair</NavDropdown.Item>
+                        </NavDropdown>
+                        <div className="text-right">
+                            <Row className="mb-0">
+                                <Col className="text-end mb-0" style={{ lineHeight: '1', fontSize: '0.75rem' }}>
+                                    <small>{dayOfWeek.toUpperCase()}</small>
+                                    <br />
+                                    <small>{dayOfMonth} {month.toUpperCase()}</small>
+                                </Col>
+                            </Row>
                         </div>
+                        <div className="text-right">
+                            <p className="mb-0 fs-3 ms-1">{formattedTime}</p>
+                        </div>
+                    </div>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
