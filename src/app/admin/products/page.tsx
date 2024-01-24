@@ -62,13 +62,16 @@ export default function Admin() {
     event.dataTransfer.setData("text/html", "");
   };
 
-  const handleDragEnter = (event: React.DragEvent<HTMLDivElement>, index: number) => {
-    event.preventDefault();
+  const handleDragEnter = (index: number) => {
     setDragOverIndex(index);
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+  };
+
+  const handleDragLeave = () => {
+    // Se desejar adicionar lógica específica ao sair do card, pode ser feito aqui
   };
 
   const handleDragEnd = () => {
@@ -87,13 +90,35 @@ export default function Admin() {
     setSearchTerm(event.target.value);
   };
 
-  const filteredCategorias = categorias.filter((categoria) =>
-    categoria.nome.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const handleToggleCategoria = (categoriaId: string) => {
     setExpandedCategoria((prev) => (prev === categoriaId ? null : categoriaId));
   };
+
+  const handleMoveUp = (index: number) => {
+    if (index > 0) {
+      const updatedCategorias = [...categorias];
+      const temp = updatedCategorias[index];
+      updatedCategorias[index] = updatedCategorias[index - 1];
+      updatedCategorias[index - 1] = temp;
+  
+      setCategorias(updatedCategorias);
+    }
+  };
+  
+  const handleMoveDown = (index: number) => {
+    if (index < categorias.length - 1) {
+      const updatedCategorias = [...categorias];
+      const temp = updatedCategorias[index];
+      updatedCategorias[index] = updatedCategorias[index + 1];
+      updatedCategorias[index + 1] = temp;
+  
+      setCategorias(updatedCategorias);
+    }
+  };
+
+  const filteredCategorias = categorias.filter((categoria) =>
+    categoria.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -130,20 +155,23 @@ export default function Admin() {
                 </div>
               </div>
               <div>
-                {filteredCategorias.map((categoria, index) => (
-                  <CategoriaCard
-                    key={categoria.id}
-                    categoria={categoria}
-                    index={index}
-                    onDragStart={handleDragStart}
-                    onDragEnter={handleDragEnter}
-                    onDragOver={handleDragOver}
-                    onDragEnd={handleDragEnd}
-                    onToggleCategoria={handleToggleCategoria}
-                    expandedCategoria={expandedCategoria}
-                  />
-                ))}
-              </div>
+  {filteredCategorias.map((categoria, index) => (
+    <CategoriaCard
+      key={categoria.id}
+      categoria={categoria}
+      index={index}
+      onDragStart={handleDragStart}
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDragEnd={handleDragEnd}
+      onToggleCategoria={handleToggleCategoria}
+      onMoveUp={() => handleMoveUp(index)}
+      onMoveDown={() => handleMoveDown(index)}
+      expandedCategoria={expandedCategoria}
+    />
+  ))}
+</div>
             </Container>
           </Tab>
           <Tab eventKey="images" title="Imagens do cardápio">

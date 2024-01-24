@@ -1,4 +1,4 @@
-// components/admin/CategoriaCard.tsx
+// components/admin/manage/CategoriaCard.tsx
 import React, { useState } from "react";
 import { Card, Button, Collapse } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,7 +6,9 @@ import {
   faGripVertical,
   faPlus,
   faCaretDown,
-  faUtensils,
+  faArrowUp,
+  faArrowDown,
+  faCaretUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface CategoriaCardProps {
@@ -25,10 +27,13 @@ interface CategoriaCardProps {
     },
     index: number
   ) => void;
-  onDragEnter: (event: React.DragEvent<HTMLDivElement>, index: number) => void;
+  onDragEnter: (index: number) => void;
   onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
+  onDragLeave: () => void;
   onDragEnd: () => void;
   onToggleCategoria: (categoriaId: string) => void;
+  onMoveUp: (index: number) => void;
+  onMoveDown: (index: number) => void;
   expandedCategoria: string | null;
 }
 
@@ -38,8 +43,11 @@ const CategoriaCard: React.FC<CategoriaCardProps> = ({
   onDragStart,
   onDragEnter,
   onDragOver,
+  onDragLeave,
   onDragEnd,
   onToggleCategoria,
+  onMoveUp,
+  onMoveDown,
   expandedCategoria,
 }) => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
@@ -57,11 +65,9 @@ const CategoriaCard: React.FC<CategoriaCardProps> = ({
     onDragStart(event, categoria, index);
   };
 
-  const handleDragEnter = (
-    event: React.DragEvent<HTMLDivElement>
-  ) => {
+  const handleDragEnter = () => {
     setIsDraggingOver(true);
-    onDragEnter(event, index);
+    onDragEnter(index);
   };
 
   const handleDragOver = (
@@ -73,6 +79,7 @@ const CategoriaCard: React.FC<CategoriaCardProps> = ({
 
   const handleDragLeave = () => {
     setIsDraggingOver(false);
+    onDragLeave();
   };
 
   const handleDragEnd = () => {
@@ -111,18 +118,16 @@ const CategoriaCard: React.FC<CategoriaCardProps> = ({
         width: "100%",
         cursor: "grab",
         transition:
-          "background-color 0.3s, transform 0.3s, border 0.3s, box-shadow 0.3s",
+          "background-color 0.3s, transform 0.3s, box-shadow 0.3s",
         backgroundColor: isDraggingOver
           ? "rgba(0,123,255,0.1)"
           : "",
-        border: isDraggingOver
-          ? "2px dashed rgba(0,123,255,0.5)"
-          : "1px solid #ddd",
-        borderRadius: "5px",
         transform: isDragging
           ? "scale(1.05)"
           : "scale(1)",
-        boxShadow: isDragging
+        boxShadow: isDraggingOver
+          ? "0px 0px 10px rgba(0,123,255,0.5)"
+          : isDragging
           ? "0px 0px 10px rgba(0,123,255,0.5)"
           : "none",
         position: "relative",
@@ -145,20 +150,35 @@ const CategoriaCard: React.FC<CategoriaCardProps> = ({
               {categoria.nome}
             </div>
             <div>
+            <Button
+  variant="link"
+  onClick={() => onToggleCategoria(categoria.id)}
+  style={{ visibility: "visible" }}
+>
+  <FontAwesomeIcon
+    icon={
+      expandedCategoria === categoria.id
+        ? faCaretUp // Troquei para o ícone de seta para cima quando expandido
+        : faCaretDown
+    }
+  />
+</Button>
+
               <Button
                 variant="link"
-                onClick={() =>
-                  onToggleCategoria(categoria.id)
-                }
+                onClick={() => onMoveUp(index)}
                 style={{ visibility: "visible" }}
+                disabled={index === 0}
               >
-                <FontAwesomeIcon
-                  icon={
-                    expandedCategoria === categoria.id
-                      ? faCaretDown
-                      : faPlus
-                  }
-                />
+                <FontAwesomeIcon icon={faArrowUp} />
+              </Button>
+              <Button
+                variant="link"
+                onClick={() => onMoveDown(index)}
+                style={{ visibility: "visible" }}
+               
+              >
+                <FontAwesomeIcon icon={faArrowDown} />
               </Button>
             </div>
           </div>
