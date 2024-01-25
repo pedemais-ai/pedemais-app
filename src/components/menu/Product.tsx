@@ -100,11 +100,11 @@ export default function Product({id}: { id: number }) {
                     </Container>
                 </Navbar>
                 <Container style={{ marginTop: '5rem' }}>
-  <Row className="g-4">
+  <Row className="g-4 align-items-center">
     {/* Imagem do produto */}
     <Col md={4} xs={12}>
       <Image
-        src="https://via.placeholder.com/350"
+        src="https://via.placeholder.com/350x250"
         alt={slugify(product?.name || '').toLowerCase()}
         className="img-thumbnail w-100"
         width={350}
@@ -112,7 +112,7 @@ export default function Product({id}: { id: number }) {
         layout="responsive"
         objectFit="cover"
         loading="lazy"
-        style={{ maxWidth: '100%' }}
+        style={{ maxWidth: '100%', maxHeight: '250px' }} // Adicionado maxHeight
       />
     </Col>
 
@@ -129,6 +129,9 @@ export default function Product({id}: { id: number }) {
     </Col>
   </Row>
 </Container>
+
+
+
 
 
 
