@@ -1,7 +1,7 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Button, Col, Container, Form, InputGroup, Navbar, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, InputGroup, Navbar, Ratio, Row} from "react-bootstrap";
 import {useProduct} from "@/core/hooks/useProduct";
 import Image from "next/image";
 import slugify from "slugify";
@@ -11,7 +11,7 @@ import Loading from "@/components/Loading";
 import {formatCurrency} from "@/core/functions";
 import AppButton from "@/components/app/AppButton";
 import AppIcon from "@/components/app/AppIcon";
-import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import {faCartPlus, faChevronLeft, faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 import styles from "./product.module.css";
 
 export default function Product({id}: { id: number }) {
@@ -99,79 +99,67 @@ export default function Product({id}: { id: number }) {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <Container style={{ marginTop: '5rem' }}>
-  <Row className="g-4 align-items-center">
-    {/* Imagem do produto */}
-    <Col md={4} xs={12}>
-      <Image
-        src="https://via.placeholder.com/400x300"
-        alt={slugify(product?.name || '').toLowerCase()}
-        className="img-thumbnail w-100"
-        width={400}
-        height={300} // Proporção 4:3
-        layout="responsive"
-        objectFit="cover"
-        loading="lazy"
-        style={{ maxWidth: '400px', maxHeight: '300px' }} // Adicionado maxHeight
-      />
-    </Col>
+                <Container style={{marginTop: '5rem'}}>
+                    <Row className="g-4 align-items-center">
+                        <Col md={4} xs={12}>
+                            <Ratio aspectRatio={'4x3'}>
+                                <Image
+                                    src={product?.images?.[0].path ?? ''}
+                                    alt={slugify(product?.name || '').toLowerCase()}
+                                    className="img-thumbnail w-100"
+                                    width={400}
+                                    height={300}
+                                    objectFit="cover"
+                                    loading="lazy"
+                                    style={{maxWidth: '400px', maxHeight: '300px'}}
+                                />
+                            </Ratio>
+                        </Col>
 
-    {/* Informações do produto */}
-    <Col md={8} xs={12} className="d-flex flex-column">
-      {/* Nome do produto */}
-      <h4 className="mb-3">{product?.name}</h4>
-
-      {/* Preço do produto com destaque em azul */}
-      <h5 className="text-primary mb-3">{formatCurrency(product?.prices?.[0].price || 0)}</h5>
-
-      {/* Descrição do produto */}
-      <p className="mb-0">{product?.description}</p>
-    </Col>
-  </Row>
-</Container>
-
-
-
-
-
+                        <Col md={8} xs={12} className="d-flex flex-column">
+                            <h4 className="mb-3">{product?.name}</h4>
+                            <h5 className="text-primary mb-3">{formatCurrency(product?.prices?.[0].price || 0)}</h5>
+                            <p className="mb-0">{product?.description}</p>
+                        </Col>
+                    </Row>
+                </Container>
 
                 <Navbar className="bg-body-tertiary" fixed={"bottom"}>
-                <Container className="d-flex align-items-center justify-content-center">
-  <div>
-    <InputGroup style={{ flexWrap: "nowrap" }}>
-      <Button
-        variant="outline-secondary"
-        disabled={quantity <= 1}
-        onClick={handleQuantityDecrease}
-      >
-        -
-      </Button>
-      <Form.Control
-        aria-label="Example text with button addon"
-        aria-describedby="basic-addon1"
-        value={quantity}
-        onChange={handleQuantityChange}
-        className={styles.quantityInput}
-      />
-      <Button
-        variant="outline-secondary"
-        onClick={handleQuantityIncrease}
-      >
-        +
-      </Button>
-    </InputGroup>
-  </div>
-  <AppButton
-    variant="primary"
-    onClick={handleAddToCart}
-    isLoading={isAddingProduct}
-    className="w-100 ms-2"
-  >
-    Adicionar
-  </AppButton>
-</Container>
-
-
+                    <Container className="d-flex align-items-center justify-content-center">
+                        <div>
+                            <InputGroup style={{flexWrap: "nowrap"}}>
+                                <Button
+                                    variant="outline-secondary"
+                                    disabled={quantity <= 1}
+                                    onClick={handleQuantityDecrease}
+                                >
+                                    <AppIcon icon={faMinus}/>
+                                </Button>
+                                <Form.Control
+                                    aria-label="Example text with button addon"
+                                    aria-describedby="basic-addon1"
+                                    value={quantity}
+                                    onChange={handleQuantityChange}
+                                    className={styles.quantityInput}
+                                />
+                                <Button
+                                    variant="outline-secondary"
+                                    onClick={handleQuantityIncrease}
+                                >
+                                    <AppIcon icon={faPlus}/>
+                                </Button>
+                            </InputGroup>
+                        </div>
+                        <AppButton
+                            variant="primary"
+                            onClick={handleAddToCart}
+                            isLoading={isAddingProduct}
+                            className="w-100 ms-2"
+                        >
+                            <AppIcon icon={faCartPlus} className={"me-2"}/>
+                            Adicionar
+                        </AppButton>
+                    </Container>
                 </Navbar>
             </Container>
         </Suspense>

@@ -26,6 +26,12 @@ export async function GET(
                                     },
                                     take: 1,
                                 },
+                                images: {
+                                    orderBy: {
+                                        id: 'asc',
+                                    },
+                                    take: 1,
+                                },
                             },
                         },
                     }

@@ -111,6 +111,15 @@ async function createBurger(user: Prisma.User) {
                             ],
                         },
                     },
+                    images: {
+                        createMany: {
+                            data: [
+                                {
+                                    path: product.imageUrl,
+                                },
+                            ],
+                        },
+                    },
                 }
             });
         }
@@ -227,6 +236,15 @@ async function createSushi(user: Prisma.User) {
                                 {
                                     price: product.price,
                                     effective_date: new Date('2023-12-31'),
+                                },
+                            ],
+                        },
+                    },
+                    images: {
+                        createMany: {
+                            data: [
+                                {
+                                    path: product.imageUrl,
                                 },
                             ],
                         },

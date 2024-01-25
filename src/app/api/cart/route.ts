@@ -44,10 +44,19 @@ async function getUserCart(userId: number) {
                                 },
                                 take: 1,
                             },
+                            images: {
+                                orderBy: {
+                                    id: 'asc',
+                                },
+                                take: 1,
+                            },
                         },
                     },
                 },
             },
+        },
+        orderBy: {
+            id: 'asc',
         },
     });
 }
@@ -74,6 +83,12 @@ async function createUserCart(userId: number) {
                                 },
                                 orderBy: {
                                     effective_date: 'desc',
+                                },
+                                take: 1,
+                            },
+                            images: {
+                                orderBy: {
+                                    id: 'asc',
                                 },
                                 take: 1,
                             },

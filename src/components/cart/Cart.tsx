@@ -26,7 +26,6 @@ export default function Cart() {
     };
 
     const handleQuantityChange = async (id: number, quantity: number) => {
-
         setIsUpdatingQuantity(true);
 
         try {
@@ -52,7 +51,6 @@ export default function Cart() {
             setIsUpdatingQuantity(false);
         }
     };
-
 
     useEffect(() => {
         cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p))
@@ -92,8 +90,7 @@ export default function Cart() {
                                         />
                                     </div>
                                     <div className="flex-grow-1 ms-3">
-                                        <h4 className="mb-1">{item.product?.name}</h4>
-                                        <p className="mb-1">{item.product?.description}</p>
+                                        <h5 className="mb-1">{item.product?.name}</h5>
                                     </div>
                                     <div className="d-flex flex-column flex-shrink-0 ms-auto align-items-end ">
                                         <h5>{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</h5>

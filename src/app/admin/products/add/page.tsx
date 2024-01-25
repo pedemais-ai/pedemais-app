@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { Card, Container, Form, ProgressBar } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUtensils, faList, faStar, faClock } from "@fortawesome/free-solid-svg-icons";
+import React, {useState} from "react";
+import {Card, Container, Form, ProgressBar} from "react-bootstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faClock, faList, faStar, faUtensils} from "@fortawesome/free-solid-svg-icons";
 
 const ProductsAdd: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -49,7 +49,7 @@ const ProductsAdd: React.FC = () => {
     <Container>
       <Card className="mt-3" style={{ marginBottom: "100px" }}>
         <Card.Header>
-          <h2 className="mt-2">Adicionar Novo Item</h2>
+          <h2 className="mt-2">Adicionar produto</h2>
         </Card.Header>
         <Card.Body>
           <ProgressBar now={passo * 25} />

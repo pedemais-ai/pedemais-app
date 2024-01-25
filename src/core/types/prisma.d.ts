@@ -7,6 +7,7 @@ import {
     Flow as PrismaFlow,
     Message as PrismaMessage,
     Product as PrismaProduct,
+    ProductImage as PrismaProductImage,
     ProductPrice as PrismaProductPrice,
     Store as PrismaStore,
     User as PrismaUser,
@@ -42,11 +43,14 @@ declare namespace Prisma {
     export type Product = PrismaProduct & {
         category?: Category,
         prices?: ProductPrice[]
+        images?: ProductImage[]
     };
 
     export type ProductPrice = PrismaProductPrice & {
         product?: PrismaProduct,
     };
+
+    export type ProductImage = PrismaProductImage & {};
 
     export type Store = PrismaStore & {
         categories?: Category[]
