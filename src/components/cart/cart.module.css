@@ -1,0 +1,5 @@
+.quantityInput {
+    width: 50px !important;
+    border-color: var(--bs-btn-border-color);
+    text-align: center;
+}

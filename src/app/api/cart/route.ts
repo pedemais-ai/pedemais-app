@@ -233,3 +233,98 @@ export async function POST(request: NextRequest) {
         await prisma.$disconnect();
     }
 }
+
+export async function PATCH(request: NextRequest) {
+    try {
+        const session = await getServerSession(authOptions);
+        const user = await getUser(session);
+
+        const requestBody = await request.json();
+        const {id, quantity} = requestBody;
+
+        const existingCartItem = await prisma.cartItem.findUnique({
+            where: {
+                id: Number(id),
+                cart: {
+                    user_id: Number(user?.id),
+                },
+            },
+            include: {
+                product: {
+                    include: {
+                        prices: {
+                            where: {
+                                effective_date: {
+                                    lte: new Date(),
+                                },
+                            },
+                            orderBy: {
+                                effective_date: 'desc',
+                            },
+                            take: 1,
+                        },
+                    },
+                },
+            },
+        });
+
+        if (!existingCartItem) {
+            throw new Error('CartItem not found');
+        }
+
+        if (quantity <= 0) {
+            // Delete the item if quantity is zero
+            await prisma.cartItem.delete({
+                where: {
+                    id: existingCartItem.id,
+                },
+            });
+        } else {
+            await prisma.cartItem.update({
+                where: {
+                    id: existingCartItem.id,
+                },
+                data: {
+                    quantity: quantity,
+                },
+            });
+        }
+
+        // Retrieve the updated cart
+        const cart = await getUserCart(Number(user?.id));
+
+        const totalPrice = cart!.items.reduce((sum, item) => {
+            const productPrice = item.product?.prices[0];
+
+            if (!productPrice) {
+                throw new Error(`Price not found for product ${item.product.id}.`);
+            }
+
+            return sum + productPrice.price * item.quantity;
+        }, 0);
+
+        return NextResponse.json(
+            {
+                ...cart,
+                totalPrice: totalPrice,
+            },
+            {
+                status: 200,
+            }
+        );
+    } catch (error: any) {
+        console.error('Error updating cart:', error);
+
+        return NextResponse.json(
+            {
+                error: error.message,
+            },
+            {
+                status: 400,
+            }
+        );
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
