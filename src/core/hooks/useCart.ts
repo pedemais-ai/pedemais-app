@@ -4,17 +4,18 @@ import {API_URL} from "@/constants";
 
 interface EntityState<T> {
     entity?: T;
-    get: () => Promise<T | null>;
+    get: (force?: boolean) => Promise<T | null>;
 }
 
 const createEntityHook = <T>(
     apiEndpoint: string,
 ) => create<EntityState<T>>((set, get) => ({
     entity: undefined,
-    get: async function () {
+    get: async function (force?: boolean) {
+
         let entity = get().entity;
 
-        if (entity) {
+        if (!force && entity) {
             return entity;
         }
 

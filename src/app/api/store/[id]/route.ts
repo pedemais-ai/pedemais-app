@@ -13,10 +13,24 @@ export async function GET(
             include: {
                 categories: {
                     include: {
-                        products: true
+                        products: {
+                            include: {
+                                prices: {
+                                    where: {
+                                        effective_date: {
+                                            lte: new Date(),
+                                        },
+                                    },
+                                    orderBy: {
+                                        effective_date: 'desc',
+                                    },
+                                    take: 1,
+                                },
+                            },
+                        },
                     }
                 }
-            }
+            },
         });
 
         if (!store) {

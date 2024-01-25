@@ -2,11 +2,12 @@
 
 import React, {Suspense} from "react";
 import Image from "next/image";
-import {Badge, ListGroup} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 import slugify from 'slugify';
 import {Prisma} from "@/core/types/prisma";
 import Link from "next/link";
 import Loading from "@/components/Loading";
+import {formatCurrency} from "@/core/functions";
 
 export default function MenuItemList({store}: { store: Prisma.Store }) {
 
@@ -32,12 +33,12 @@ export default function MenuItemList({store}: { store: Prisma.Store }) {
                                                 height={100}
                                             />
                                         </div>
-                                        <div className="flex-grow-1 ms-3">
-                                            <h4 className="mb-1">{product.name}</h4>
-                                            <p className="mb-1">{product.description}</p>
+                                        <div className="flex-grow-1 mx-3">
+                                            <h4 className="mb-1">{product?.name}</h4>
+                                            <p className="mb-1">{product?.description}</p>
                                         </div>
-                                        <div>
-                                            <Badge bg="secondary" pill>R$9.99</Badge>
+                                        <div className="d-flex flex-column flex-shrink-0 ms-auto align-items-end ">
+                                            <h5>{formatCurrency(product?.prices?.[0].price || 0)}</h5>
                                         </div>
                                     </div>
                                 </ListGroup.Item>

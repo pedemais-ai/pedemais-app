@@ -1,7 +1,7 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Badge, Button, Container, Form, InputGroup, Navbar, Row} from "react-bootstrap";
+import {Button, Container, Form, InputGroup, Navbar, Row} from "react-bootstrap";
 import {useProduct} from "@/core/hooks/useProduct";
 import Image from "next/image";
 import slugify from "slugify";
@@ -12,6 +12,7 @@ import {formatCurrency} from "@/core/functions";
 import AppButton from "@/components/app/AppButton";
 import AppIcon from "@/components/app/AppIcon";
 import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import styles from "./product.module.css";
 
 export default function Product({id}: { id: number }) {
 
@@ -67,7 +68,7 @@ export default function Product({id}: { id: number }) {
             });
 
             if (response.ok) {
-                alert("Product added to cart successfully!");
+                router.push('/cart');
             } else {
                 console.error("Error adding product to cart:", response.statusText);
             }
@@ -108,12 +109,12 @@ export default function Product({id}: { id: number }) {
                                 height={100}
                             />
                         </div>
-                        <div className="flex-grow-1 ms-3">
+                        <div className="flex-grow-1 mx-3">
                             <h4 className="mb-1">{product?.name}</h4>
                             <p className="mb-1">{product?.description}</p>
                         </div>
-                        <div>
-                            <Badge bg="secondary" pill>{formatCurrency(product?.prices?.[0].price || 0)}</Badge>
+                        <div className="d-flex flex-column flex-shrink-0 ms-auto align-items-end ">
+                            <h5>{formatCurrency(product?.prices?.[0].price || 0)}</h5>
                         </div>
                     </div>
                 </Row>
@@ -133,6 +134,7 @@ export default function Product({id}: { id: number }) {
                                     aria-describedby="basic-addon1"
                                     value={quantity}
                                     onChange={handleQuantityChange}
+                                    className={styles.quantityInput}
                                 />
                                 <Button
                                     variant="outline-secondary"
