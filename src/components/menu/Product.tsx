@@ -13,11 +13,13 @@ import AppButton from "@/components/app/AppButton";
 import AppIcon from "@/components/app/AppIcon";
 import {faCartPlus, faChevronLeft, faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 import styles from "./product.module.css";
+import {useCart} from "@/core/hooks/useCart";
 
 export default function Product({id}: { id: number }) {
 
     const router = useRouter();
     const productState = useProduct();
+    const cartState = useCart();
 
     const [product, setProduct] = useState<Prisma.Product | null>();
     const [quantity, setQuantity] = useState(1);
@@ -68,6 +70,7 @@ export default function Product({id}: { id: number }) {
             });
 
             if (response.ok) {
+                cartState.clean();
                 router.push('/cart');
             } else {
                 console.error("Error adding product to cart:", response.statusText);

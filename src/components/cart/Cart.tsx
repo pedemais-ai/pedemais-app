@@ -41,7 +41,8 @@ export default function Cart() {
             });
 
             if (response.ok) {
-                cartState.get(true).then((p: Prisma.Cart | null | undefined) => setCart(p))
+                cartState.clean();
+                cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p))
             } else {
                 console.error("Error updating quantity:", response.statusText);
             }
