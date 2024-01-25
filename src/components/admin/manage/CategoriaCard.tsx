@@ -133,80 +133,72 @@ const CategoriaCard: React.FC<CategoriaCardProps> = ({
         position: "relative",
       }}
     >
-      <Card>
-        <Card.Body>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <FontAwesomeIcon
-                icon={faGripVertical}
-                className="me-2"
-              />
-              {categoria.nome}
-            </div>
-            <div>
-            <Button
-  variant="link"
-  onClick={() => onToggleCategoria(categoria.id)}
-  style={{ visibility: "visible" }}
->
-  <FontAwesomeIcon
-    icon={
-      expandedCategoria === categoria.id
-        ? faCaretUp // Troquei para o ícone de seta para cima quando expandido
-        : faCaretDown
-    }
-  />
-</Button>
+<Card>
+  <Card.Body>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center", // Adicionado para alinhar verticalmente os itens
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center"> {/* Adicionado align-items-center */}
+        <FontAwesomeIcon
+          icon={faGripVertical}
+          className="me-2"
+        />
+        <span className="fs-4">{categoria.nome}</span>
+        <Button
+          variant="link"
+          onClick={() => onToggleCategoria(categoria.id)}
+          style={{ visibility: "visible" }}
+        >
+          <FontAwesomeIcon
+            icon={
+              expandedCategoria === categoria.id
+                ? faCaretUp
+                : faCaretDown
+            }
+          />
+        </Button>
+      </div>
+      <div>
+        <Button
+          variant="link"
+          onClick={() => onMoveUp(index)}
+          style={{ visibility: "visible" }}
+          disabled={index === 0}
+        >
+          <FontAwesomeIcon icon={faArrowUp} />
+        </Button>
+        <Button
+          variant="link"
+          onClick={() => onMoveDown(index)}
+          style={{ visibility: "visible" }}
+        >
+          <FontAwesomeIcon icon={faArrowDown} />
+        </Button>
+      </div>
+    </div>
+    <Collapse in={expandedCategoria === categoria.id}>
+      <div>
+        <ul>
+          {categoria.itens.map((item, itemIndex) => (
+            <li key={itemIndex}>
+              {item.nome} - {item.descricao} - R${" "}
+              {item.preco.toFixed(2)}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Collapse>
+    <Card.Link href="products/add">
+      <FontAwesomeIcon icon={faPlus} className="me-2" />
+      Adicionar Item
+    </Card.Link>
+  </Card.Body>
+</Card>
 
-              <Button
-                variant="link"
-                onClick={() => onMoveUp(index)}
-                style={{ visibility: "visible" }}
-                disabled={index === 0}
-              >
-                <FontAwesomeIcon icon={faArrowUp} />
-              </Button>
-              <Button
-                variant="link"
-                onClick={() => onMoveDown(index)}
-                style={{ visibility: "visible" }}
-               
-              >
-                <FontAwesomeIcon icon={faArrowDown} />
-              </Button>
-            </div>
-          </div>
-          <Collapse in={expandedCategoria === categoria.id}>
-            <div>
-              <ul>
-                {categoria.itens.map(
-                  (item, itemIndex) => (
-                    <li key={itemIndex}>
-                      {item.nome} - {item.descricao} - R${" "}
-                      {item.preco.toFixed(2)}
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
-          </Collapse>
-          <Card.Link
-            href="products/add"
-          >
-            <FontAwesomeIcon
-              icon={faPlus}
-              className="me-2"
-            />
-            Adicionar Item
-          </Card.Link>
-        </Card.Body>
-      </Card>
 
       {/* Botão "Avançar" flutuante fora do modal */}
       {showModal && (
