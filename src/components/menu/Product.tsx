@@ -1,7 +1,7 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Button, Container, Form, InputGroup, Navbar, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, InputGroup, Navbar, Row} from "react-bootstrap";
 import {useProduct} from "@/core/hooks/useProduct";
 import Image from "next/image";
 import slugify from "slugify";
@@ -99,59 +99,76 @@ export default function Product({id}: { id: number }) {
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <Row style={{marginTop: '5rem'}}>
-                    <div className="d-flex">
-                        <div className="flex-shrink-0">
-                            <Image
-                                src="https://via.placeholder.com/100" alt={slugify(product?.name || '').toLowerCase()}
-                                className="img-thumbnail mr-3"
-                                width={100}
-                                height={100}
-                            />
-                        </div>
-                        <div className="flex-grow-1 mx-3">
-                            <h4 className="mb-1">{product?.name}</h4>
-                            <p className="mb-1">{product?.description}</p>
-                        </div>
-                        <div className="d-flex flex-column flex-shrink-0 ms-auto align-items-end ">
-                            <h5>{formatCurrency(product?.prices?.[0].price || 0)}</h5>
-                        </div>
-                    </div>
-                </Row>
+                <Container style={{ marginTop: '5rem' }}>
+  <Row className="g-4">
+    {/* Imagem do produto */}
+    <Col md={4} xs={12}>
+      <Image
+        src="https://via.placeholder.com/350"
+        alt={slugify(product?.name || '').toLowerCase()}
+        className="img-thumbnail w-100"
+        width={350}
+        height={263} // Proporção 4:3
+        layout="responsive"
+        objectFit="cover"
+        loading="lazy"
+        style={{ maxWidth: '100%' }}
+      />
+    </Col>
+
+    {/* Informações do produto */}
+    <Col md={8} xs={12} className="d-flex flex-column">
+      {/* Nome do produto */}
+      <h4 className="mb-3">{product?.name}</h4>
+
+      {/* Preço do produto com destaque em azul */}
+      <h5 className="text-primary mb-3">{formatCurrency(product?.prices?.[0].price || 0)}</h5>
+
+      {/* Descrição do produto */}
+      <p className="mb-0">{product?.description}</p>
+    </Col>
+  </Row>
+</Container>
+
+
+
                 <Navbar className="bg-body-tertiary" fixed={"bottom"}>
-                    <Container>
-                        <div className="flex-shrink-0">
-                            <InputGroup className="mb-3">
-                                <Button
-                                    variant="outline-secondary"
-                                    disabled={quantity <= 1}
-                                    onClick={handleQuantityDecrease}
-                                >
-                                    -
-                                </Button>
-                                <Form.Control
-                                    aria-label="Example text with button addon"
-                                    aria-describedby="basic-addon1"
-                                    value={quantity}
-                                    onChange={handleQuantityChange}
-                                    className={styles.quantityInput}
-                                />
-                                <Button
-                                    variant="outline-secondary"
-                                    onClick={handleQuantityIncrease}
-                                >
-                                    +
-                                </Button>
-                            </InputGroup>
-                        </div>
-                        <AppButton
-                            variant="primary"
-                            onClick={handleAddToCart}
-                            isLoading={isAddingProduct}
-                        >
-                            Adicionar
-                        </AppButton>
-                    </Container>
+                <Container className="d-flex align-items-center justify-content-center">
+  <div>
+    <InputGroup style={{ flexWrap: "nowrap" }}>
+      <Button
+        variant="outline-secondary"
+        disabled={quantity <= 1}
+        onClick={handleQuantityDecrease}
+      >
+        -
+      </Button>
+      <Form.Control
+        aria-label="Example text with button addon"
+        aria-describedby="basic-addon1"
+        value={quantity}
+        onChange={handleQuantityChange}
+        className={styles.quantityInput}
+      />
+      <Button
+        variant="outline-secondary"
+        onClick={handleQuantityIncrease}
+      >
+        +
+      </Button>
+    </InputGroup>
+  </div>
+  <AppButton
+    variant="primary"
+    onClick={handleAddToCart}
+    isLoading={isAddingProduct}
+    className="w-100 ms-2"
+  >
+    Adicionar
+  </AppButton>
+</Container>
+
+
                 </Navbar>
             </Container>
         </Suspense>
