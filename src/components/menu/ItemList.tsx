@@ -27,7 +27,7 @@ export default function MenuItemList({store}: { store: Prisma.Store }) {
                                     <div className="d-flex">
                                         <div className="flex-shrink-0">
                                             <Image
-                                                src="https://via.placeholder.com/100" alt={slugify(product.name).toLowerCase()}
+                                                src={product?.images?.[0].path || ''} alt={slugify(product.name).toLowerCase()}
                                                 className="img-thumbnail mr-3"
                                                 width={100}
                                                 height={100}

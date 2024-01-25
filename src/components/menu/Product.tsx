@@ -1,7 +1,7 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Button, Col, Container, Form, InputGroup, Navbar, Ratio, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, InputGroup, Navbar, Placeholder, Ratio, Row} from "react-bootstrap";
 import {useProduct} from "@/core/hooks/useProduct";
 import Image from "next/image";
 import slugify from "slugify";
@@ -88,9 +88,16 @@ export default function Product({id}: { id: number }) {
             <Container>
                 <Navbar className="bg-body-tertiary" fixed={"top"}>
                     <Container>
-                        <Navbar.Brand>
-                            <h3>{product?.category?.store?.name}</h3>
-                        </Navbar.Brand>
+                        {product ? <>
+                            <Navbar.Brand>
+                                <h3>{product?.category?.store?.name}</h3>
+                            </Navbar.Brand>
+                        </> : <>
+                            <Placeholder animation="glow" as={Navbar.Brand}>
+                                <Placeholder xs={12}/>
+                            </Placeholder>
+                        </>}
+
                         <Navbar.Collapse className="justify-content-end">
                             <Button variant="outline-secondary" onClick={handleBackButtonClick}>
                                 <AppIcon icon={faChevronLeft} className={"me-2"}/>
@@ -103,23 +110,42 @@ export default function Product({id}: { id: number }) {
                     <Row className="g-4 align-items-center">
                         <Col md={4} xs={12}>
                             <Ratio aspectRatio={'4x3'}>
-                                <Image
-                                    src={product?.images?.[0].path ?? ''}
-                                    alt={slugify(product?.name || '').toLowerCase()}
-                                    className="img-thumbnail w-100"
-                                    width={400}
-                                    height={300}
-                                    objectFit="cover"
-                                    loading="lazy"
-                                    style={{maxWidth: '400px', maxHeight: '300px'}}
-                                />
+                                {product ?
+                                    <Image
+                                        src={product?.images?.[0].path ?? ''}
+                                        alt={slugify(product?.name || '').toLowerCase()}
+                                        className="img-thumbnail w-100"
+                                        width={400}
+                                        height={300}
+                                        objectFit="cover"
+                                        loading="lazy"
+                                    /> : <>
+                                        <Placeholder animation="glow">
+                                            <Placeholder xs={12} style={{height: '100%'}}/>
+                                        </Placeholder>
+                                    </>}
                             </Ratio>
                         </Col>
 
                         <Col md={8} xs={12} className="d-flex flex-column">
-                            <h4 className="mb-3">{product?.name}</h4>
-                            <h5 className="text-primary mb-3">{formatCurrency(product?.prices?.[0].price || 0)}</h5>
-                            <p className="mb-0">{product?.description}</p>
+                            <h4 className="mb-3">{product ? product?.name : <>
+                                <Placeholder animation="glow">
+                                    <Placeholder xs={8}/>
+                                </Placeholder>
+                            </>}</h4>
+                            <h5 className="text-primary mb-3">
+                                {product ? formatCurrency(product?.prices?.[0].price || 0) : <>
+                                    <Placeholder animation="glow">
+                                        <Placeholder xs={3} bg="primary"/>
+                                    </Placeholder>
+                                </>}
+                            </h5>
+                            <p className="mb-0">{product ? product?.description : <>
+                                <Placeholder animation="glow">
+                                    <Placeholder xs={8}/> <Placeholder xs={3}/> <Placeholder xs={4}/>
+                                    <Placeholder xs={6}/> <Placeholder xs={8}/>
+                                </Placeholder>
+                            </>}</p>
                         </Col>
                     </Row>
                 </Container>
