@@ -117,7 +117,7 @@ export default function Product({id}: { id: number }) {
                                     <Image
                                         src={product?.images?.[0].path ?? ''}
                                         alt={slugify(product?.name || '').toLowerCase()}
-                                        className="img-thumbnail w-100"
+                                        className="w-100"
                                         width={400}
                                         height={300}
                                         objectFit="cover"
