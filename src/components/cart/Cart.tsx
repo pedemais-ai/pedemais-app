@@ -1,7 +1,7 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Badge, Button, Container, Form, InputGroup, ListGroup, Navbar} from "react-bootstrap";
+import {Button, Container, Form, InputGroup, ListGroup, Navbar} from "react-bootstrap";
 import {Prisma} from "@/core/types/prisma";
 import Loading from "@/components/Loading";
 import {useRouter} from "next/navigation";
@@ -9,17 +9,23 @@ import {useCart} from "@/core/hooks/useCart";
 import {formatCurrency} from "@/core/functions";
 import Image from "next/image";
 import slugify from "slugify";
+import AppIcon from "@/components/app/AppIcon";
+import {faChevronLeft, faMinus, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 export default function Cart() {
 
     const router = useRouter();
+    const cartState = useCart();
+
+    const [cart, setCart] = useState<Prisma.Cart | null>()
 
     const handleBackButtonClick = () => {
         router.back();
     };
 
-    const cartState = useCart();
-    const [cart, setCart] = useState<Prisma.Cart | null>()
+    const handleQuantityChange = (id: number, quantity: number) => {
+
+    };
 
     useEffect(() => {
         cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p))
@@ -34,6 +40,7 @@ export default function Cart() {
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Button variant="outline-secondary" onClick={handleBackButtonClick}>
+                            <AppIcon icon={faChevronLeft} className={"me-2"}/>
                             Voltar
                         </Button>
                     </Navbar.Collapse>
@@ -61,34 +68,30 @@ export default function Cart() {
                                         <h4 className="mb-1">{item.product?.name}</h4>
                                         <p className="mb-1">{item.product?.description}</p>
                                     </div>
-                                    <div className="flex-shrink-0">
-                                        <div>
-                                            <Badge bg="secondary" pill>{formatCurrency(item.product?.prices?.[0].price!)}</Badge>
-                                        </div>
-                                        <div className="mt-2">
-                                            <InputGroup>
+                                    <div className="d-flex flex-column flex-shrink-0 ms-auto align-items-end ">
+                                        <h5>{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</h5>
+                                        <div className="mt-3">
+                                            <InputGroup size={"sm"}>
                                                 <Button
                                                     variant="outline-secondary"
-                                                    // onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                                                 >
-                                                    -
+                                                    {item.quantity > 1 ? <AppIcon icon={faMinus}/> : <AppIcon icon={faTrash}/>}
                                                 </Button>
                                                 <Form.Control
-                                                    type="number"
+                                                    type="text"
                                                     value={item.quantity}
-                                                    readOnly
                                                     className="text-center"
                                                 />
                                                 <Button
                                                     variant="outline-secondary"
-                                                    // onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                                                 >
-                                                    +
+                                                    <AppIcon icon={faPlus}/>
                                                 </Button>
                                             </InputGroup>
                                         </div>
                                     </div>
-
                                 </div>
                             </ListGroup.Item>
                         ))
