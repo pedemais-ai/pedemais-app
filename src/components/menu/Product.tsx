@@ -104,15 +104,15 @@ export default function Product({id}: { id: number }) {
     {/* Imagem do produto */}
     <Col md={4} xs={12}>
       <Image
-        src="https://via.placeholder.com/350x250"
+        src="https://via.placeholder.com/400x300"
         alt={slugify(product?.name || '').toLowerCase()}
         className="img-thumbnail w-100"
-        width={350}
-        height={263} // Proporção 4:3
+        width={400}
+        height={300} // Proporção 4:3
         layout="responsive"
         objectFit="cover"
         loading="lazy"
-        style={{ maxWidth: '100%', maxHeight: '250px' }} // Adicionado maxHeight
+        style={{ maxWidth: '400px', maxHeight: '300px' }} // Adicionado maxHeight
       />
     </Col>
 
