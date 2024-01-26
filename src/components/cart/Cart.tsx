@@ -85,16 +85,17 @@ export default function Cart() {
                                     <div className="flex-shrink-0">
                                         <Image
                                             src="https://via.placeholder.com/100" alt={slugify(item.product?.name!).toLowerCase()}
-                                            className="img-thumbnail mr-3"
+                                            className="mr-3"
                                             width={100}
                                             height={100}
                                         />
                                     </div>
                                     <div className="flex-grow-1 ms-3">
-                                        <h5 className="mb-1">{item.product?.name}</h5>
+                                        <p className="mb-0 fs-6 fw-bold">{item.product?.name}</p>
+                                        <p className="text-primary mb-0 fs-6">{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</p>
                                     </div>
                                     <div className="d-flex flex-column flex-shrink-0 ms-auto align-items-end ">
-                                        <h5>{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</h5>
+                                        
                                         <div className="mt-3">
                                             <InputGroup size={"sm"}>
                                                 <Button
@@ -129,6 +130,7 @@ export default function Cart() {
                 <Container>
                     <Navbar.Collapse className="justify-content-end">
                         <Button
+                            className="w-100"
                             variant="primary"
                             disabled={cart?.items?.length === 0}
                         >

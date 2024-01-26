@@ -17,7 +17,7 @@ export default function MenuItemList({store}: { store: Prisma.Store }) {
                     <div key={category.id}>
                         
 
-                        <Container className="mb-2">
+                        <Container className="mt-2 mb-2">
                             
   <Row>
   <h2 id={`${slugify(category.name).toLowerCase()}`}>{category.name}</h2>
