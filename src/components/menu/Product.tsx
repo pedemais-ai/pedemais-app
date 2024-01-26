@@ -1,7 +1,7 @@
 "use client";
 
 import React, {Suspense, useEffect, useState} from "react";
-import {Button, Col, Container, Form, InputGroup, Navbar, Placeholder, Ratio, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, InputGroup, Modal, Navbar, Placeholder, Ratio, Row} from "react-bootstrap";
 import {useProduct} from "@/core/hooks/useProduct";
 import Image from "next/image";
 import slugify from "slugify";
@@ -24,6 +24,10 @@ export default function Product({id}: { id: number }) {
     const [product, setProduct] = useState<Prisma.Product | null>();
     const [quantity, setQuantity] = useState(1);
     const [isAddingProduct, setIsAddingProduct] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleCloseModal = () => setShowModal(false);
+    const handleShowModal = () => setShowModal(true);
 
     const handleBackButtonClick = () => {
         router.back();
@@ -53,9 +57,40 @@ export default function Product({id}: { id: number }) {
         setQuantity(quantity + 1);
     };
 
-    const handleAddToCart = async () => {
-
+    const showAddToCartModal = async () => {
         setIsAddingProduct(true);
+        setShowModal(true);
+        setIsAddingProduct(false);
+    };
+
+    const handleAddToCart = async () => {
+        setIsAddingProduct(true);
+
+        const isAdded = await addToCart();
+
+        if (isAdded) {
+            cartState.clean();
+            router.push('/cart');
+        }
+
+        setIsAddingProduct(false);
+    };
+
+    const handleAddToCartContinue = async () => {
+        setIsAddingProduct(true);
+
+        const isAdded = await addToCart();
+
+        if (isAdded) {
+            cartState.clean();
+            router.push(`/menu/${product?.category?.store?.id}`);
+
+        }
+
+        setIsAddingProduct(false);
+    };
+
+    const addToCart = async () => {
 
         try {
             const response = await fetch(`/api/cart`, {
@@ -69,16 +104,17 @@ export default function Product({id}: { id: number }) {
                 }),
             });
 
-            if (response.ok) {
-                cartState.clean();
-                router.push('/cart');
-            } else {
+            if (!response.ok) {
                 console.error("Error adding product to cart:", response.statusText);
+
+                return false;
             }
+
+            return true;
         } catch (error) {
             console.error("Error adding product to cart:", error);
-        } finally {
-            setIsAddingProduct(false);
+
+            return false;
         }
     };
 
@@ -117,10 +153,8 @@ export default function Product({id}: { id: number }) {
                                     <Image
                                         src={product?.images?.[0].path ?? ''}
                                         alt={slugify(product?.name || '').toLowerCase()}
-                                        className="w-100"
                                         width={400}
                                         height={300}
-                                        objectFit="cover"
                                         loading="lazy"
                                     /> : <>
                                         <Placeholder animation="glow">
@@ -181,7 +215,7 @@ export default function Product({id}: { id: number }) {
                         </div>
                         <AppButton
                             variant="primary"
-                            onClick={handleAddToCart}
+                            onClick={showAddToCartModal}
                             isLoading={isAddingProduct}
                             className="w-100 ms-2"
                         >
@@ -192,5 +226,70 @@ export default function Product({id}: { id: number }) {
                 </Navbar>
             </Container>
         </Suspense>
+
+        <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+                <Modal.Title>Adicionar produto</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Ratio aspectRatio={'4x3'}>
+                    <Image
+                        src={product?.images?.[0].path ?? ''}
+                        alt={slugify(product?.name || '').toLowerCase()}
+                        width={200}
+                        height={150}
+                        loading="lazy"
+                    />
+                </Ratio>
+                <h3 className={"my-3"}>{product?.name}</h3>
+                <Form.Group className="mb-3">
+                    <Form.Label>Quantidade</Form.Label>
+                    <InputGroup style={{flexWrap: "nowrap"}}>
+                        <Button
+                            variant="outline-secondary"
+                            disabled={quantity <= 1}
+                            onClick={handleQuantityDecrease}
+                        >
+                            <AppIcon icon={faMinus}/>
+                        </Button>
+                        <Form.Control
+                            aria-label="Example text with button addon"
+                            aria-describedby="basic-addon1"
+                            value={quantity}
+                            onChange={handleQuantityChange}
+                            className={styles.quantityInput}
+                        />
+                        <Button
+                            variant="outline-secondary"
+                            onClick={handleQuantityIncrease}
+                        >
+                            <AppIcon icon={faPlus}/>
+                        </Button>
+                    </InputGroup>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Observação</Form.Label>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="Ex.: sem sebola, sem milho"
+                    />
+                </Form.Group>
+            </Modal.Body>
+            <Modal.Footer style={{display: 'unset'}}>
+                <div className="d-grid gap-2">
+                    <AppButton variant="success" onClick={handleAddToCartContinue}>
+                        Continuar comprando
+                    </AppButton>
+                    <AppButton variant="primary" onClick={handleAddToCart}>
+                        Ir para o carrinho
+                    </AppButton>
+                    <AppButton variant="secondary" onClick={handleCloseModal}>
+                        Cancelar
+                    </AppButton>
+                </div>
+            </Modal.Footer>
+        </Modal>
     </>)
 };
