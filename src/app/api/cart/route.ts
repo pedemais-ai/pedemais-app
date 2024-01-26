@@ -53,13 +53,14 @@ async function getUserCart(userId: number) {
                         },
                     },
                 },
+                orderBy: {
+                    id: 'asc',
+                },
             },
-        },
-        orderBy: {
-            id: 'asc',
         },
     });
 }
+
 
 async function createUserCart(userId: number) {
     return await prisma.cart.create({
