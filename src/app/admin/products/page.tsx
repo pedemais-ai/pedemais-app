@@ -3,7 +3,7 @@
 "use client";
 
 import React, {useState} from "react";
-import {Button, Container, Dropdown, FormControl, Modal, Tab, Tabs} from "react-bootstrap";
+import {Button, Card, Container, Dropdown, FormControl, Modal, Tab, Tabs} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEllipsisV, faSearch} from "@fortawesome/free-solid-svg-icons";
 import CategoriaCard from "@/components/admin/manage/CategoriaCard";
@@ -122,9 +122,13 @@ export default function Admin() {
 
     return (
         <>
-            <Container fluid>
-                <Tabs defaultActiveKey="manage" className="mb-3">
+            <Container>
+              
+                <Tabs defaultActiveKey="manage" className="mb-0 mt-3">
+                
                     <Tab eventKey="manage" title="Gestor">
+                    <Card className="border-top-0 rounded-top-0">
+                      <Card.Body>
                         <Container>
                             <div className="d-flex justify-content-between mb-3">
                                 <div className="d-flex align-items-center">
@@ -173,14 +177,26 @@ export default function Admin() {
                                 ))}
                             </div>
                         </Container>
+                        </Card.Body></Card>
                     </Tab>
                     <Tab eventKey="images" title="Imagens do cardápio">
                         {/* Conteúdo da guia de imagens do cardápio */}
+                        <Card className="border-top-0 rounded-top-0">
+                          <Card.Body>
+                            {/* Content for the "Mesas" tab */}
+                          </Card.Body>
+                        </Card>
                     </Tab>
                     <Tab eventKey="list" title="Lista de produtos">
                         {/* Conteúdo da guia de lista de produtos */}
+                        <Card className="border-top-0 rounded-top-0">
+                          <Card.Body>
+                            {/* Content for the "Mesas" tab */}
+                          </Card.Body>
+                        </Card>
                     </Tab>
                 </Tabs>
+                
             </Container>
 
             {/* Modal para adicionar uma nova categoria */}

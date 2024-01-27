@@ -3,7 +3,7 @@
 "use client";
 
 import React, {useState} from 'react';
-import {Col, Container, Row, Tab, Tabs} from 'react-bootstrap';
+import {Card, Col, Container, Row, Tab, Tabs} from 'react-bootstrap';
 import OrderCard from '@/components/admin/order/OrderCard'; // Verifique o caminho de importação
 import OrderModal from '@/components/admin/order/OrderModal'; // Verifique o caminho de importação
 import styles from './styles.module.css';
@@ -57,17 +57,19 @@ const AdminDelivery: React.FC = () => {
   };
 
   return (
-    <Container fluid>
+    <Container>
       <Tabs
           defaultActiveKey="tables"
-          className="mb-3"
+          className="mb-0 mt-3"
       >
         <Tab eventKey="tables" title="Delivery">
+        <Card className="border-top-0 rounded-top-0">
+            <Card.Body>
           <Row>
             {columns.map((column, columnIndex) => (
                 <Col className={`m-2 p-0 ${styles['custom-col']}`} key={columnIndex}>
-                  <div className={`${styles['custom-card-title']} ${styles[column.toLowerCase()]}`}>
-                    {column}
+                  <div className={`${styles[column.toLowerCase()]}`}>
+                    <h5>&nbsp;{column}</h5>
                   </div>
                   <div className={`${styles['custom-order-card-details']} ${styles[column.toLowerCase()]}`}>
                     {ordersData.map((order) => order.column === column && (
@@ -80,6 +82,8 @@ const AdminDelivery: React.FC = () => {
                 </Col>
             ))}
           </Row>
+          </Card.Body>
+          </Card>
         </Tab>
         <Tab eventKey="delivery" title="Mesas">
           Tab content for Profile

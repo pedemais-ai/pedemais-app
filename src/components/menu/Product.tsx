@@ -285,9 +285,6 @@ export default function Product({id}: { id: number }) {
                     <AppButton variant="primary" onClick={handleAddToCart}>
                         Ir para o carrinho
                     </AppButton>
-                    <AppButton variant="secondary" onClick={handleCloseModal}>
-                        Cancelar
-                    </AppButton>
                 </div>
             </Modal.Footer>
         </Modal>

@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import {Col, Container, Nav, Navbar, NavDropdown, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClipboardList, faUser, faUtensils} from "@fortawesome/free-solid-svg-icons";
+import {faClipboardList, faCog, faUser, faUtensils} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 export default function Header() {
@@ -42,11 +42,11 @@ export default function Header() {
         <>
             <Navbar expand="lg" bg="dark" variant="dark">
                 <Container fluid>
-                    <Link href={"/admin"} passHref>
                         <Navbar.Brand className="text-white">
-                            Pede.AI
+                        <Nav.Link as={Link} href={"/admin"}>
+                            ipede.ai
+                            </Nav.Link>
                         </Navbar.Brand>
-                    </Link>
 
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(!expanded)} />
 
@@ -59,6 +59,10 @@ export default function Header() {
                             <Nav.Link as={Link} href={"/admin/products"}>
                                 <FontAwesomeIcon icon={faClipboardList} className="me-2" />
                                 Gestor de Cardápio
+                            </Nav.Link>
+                            <Nav.Link as={Link} href={"/admin/config"}>
+                                <FontAwesomeIcon icon={faCog} className="me-2" />
+                                Configurações
                             </Nav.Link>
                         </Nav>
                         <div className="position-absolute end-0 text-white d-flex align-items-center me-2">
@@ -92,7 +96,7 @@ export default function Header() {
                                 >
                                     <NavDropdown.Item href="#minha-conta">Minha Conta</NavDropdown.Item>
                                     <NavDropdown.Divider />
-                                    <NavDropdown.Item href="#sair">Sair</NavDropdown.Item>
+                                    <NavDropdown.Item href="/api/auth/signout">Sair</NavDropdown.Item>
                                 </NavDropdown>
                             </div>
                         </div>

@@ -13,17 +13,6 @@
   border-radius: 4px;
 }
 
-/* Títulos e cores específicas */
-.custom-card-title {
-  margin: 0;
-  padding: 10px;
-  font-size: 1.5rem;
-  font-weight: 600;
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-  border: 1px solid #afafaf;
-}
-
 .h2-analise {
   background-color: #afafaf;
   border-color: #afafaf;
