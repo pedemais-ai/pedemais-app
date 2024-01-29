@@ -2,9 +2,9 @@
 
 import React, {useEffect, useState} from "react";
 import {Col, Container, Nav, Navbar, NavDropdown, Row} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClipboardList, faCog, faUser, faUtensils} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import AppIcon from "@/components/app/AppIcon";
 
 export default function Header() {
     const [expanded, setExpanded] = useState(false);
@@ -13,9 +13,9 @@ export default function Header() {
     function getCurrentDateTime() {
         const currentTime = new Date();
 
-        const dayOfWeek = new Intl.DateTimeFormat('pt-BR', { weekday: 'long' }).format(currentTime);
-        const dayOfMonth = new Intl.DateTimeFormat('pt-BR', { day: 'numeric' }).format(currentTime);
-        const month = new Intl.DateTimeFormat('pt-BR', { month: 'short' }).format(currentTime);
+        const dayOfWeek = new Intl.DateTimeFormat('pt-BR', {weekday: 'long'}).format(currentTime);
+        const dayOfMonth = new Intl.DateTimeFormat('pt-BR', {day: 'numeric'}).format(currentTime);
+        const month = new Intl.DateTimeFormat('pt-BR', {month: 'short'}).format(currentTime);
 
         const formattedTime = currentTime.toLocaleTimeString('pt-BR', {
             hour: 'numeric',
@@ -42,26 +42,26 @@ export default function Header() {
         <>
             <Navbar expand="lg" bg="dark" variant="dark">
                 <Container fluid>
-                        <Navbar.Brand className="text-white">
+                    <Navbar.Brand className="text-white">
                         <Nav.Link as={Link} href={"/admin"}>
                             qfome.ai
-                            </Nav.Link>
-                        </Navbar.Brand>
+                        </Nav.Link>
+                    </Navbar.Brand>
 
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(!expanded)} />
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" onClick={() => setExpanded(!expanded)}/>
 
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto">
                             <Nav.Link as={Link} href={"/admin/delivery"}>
-                                <FontAwesomeIcon icon={faUtensils} className="me-2" />
+                                <AppIcon icon={faUtensils} className="me-2"/>
                                 Restaurante
                             </Nav.Link>
                             <Nav.Link as={Link} href={"/admin/products"}>
-                                <FontAwesomeIcon icon={faClipboardList} className="me-2" />
+                                <AppIcon icon={faClipboardList} className="me-2"/>
                                 Gestor de Cardápio
                             </Nav.Link>
                             <Nav.Link as={Link} href={"/admin/config"}>
-                                <FontAwesomeIcon icon={faCog} className="me-2" />
+                                <AppIcon icon={faCog} className="me-2"/>
                                 Configurações
                             </Nav.Link>
                         </Nav>
@@ -69,9 +69,9 @@ export default function Header() {
 
                             <div className="text-right">
                                 <Row className="mb-0">
-                                    <Col className="text-end mb-0" style={{ lineHeight: '1', fontSize: '0.75rem' }}>
+                                    <Col className="text-end mb-0" style={{lineHeight: '1', fontSize: '0.75rem'}}>
                                         <small>{currentTime.dayOfWeek.toUpperCase()}</small>
-                                        <br />
+                                        <br/>
                                         <small>{currentTime.dayOfMonth} {currentTime.month.toUpperCase()}</small>
                                     </Col>
                                 </Row>
@@ -84,7 +84,7 @@ export default function Header() {
                                 <NavDropdown
                                     title={
                                         <>
-                                            <FontAwesomeIcon icon={faUser} style={{ marginRight: '8px' }} />
+                                            <AppIcon icon={faUser} style={{marginRight: '8px'}}/>
                                             Admin
                                         </>
                                     }
@@ -92,10 +92,10 @@ export default function Header() {
                                     // @ts-ignore
                                     drop="down"
                                     align="end"
-                                    style={{ marginLeft: 'auto' } as React.CSSProperties}
+                                    style={{marginLeft: 'auto'} as React.CSSProperties}
                                 >
                                     <NavDropdown.Item href="/admin/myaccount">Minha Conta</NavDropdown.Item>
-                                    <NavDropdown.Divider />
+                                    <NavDropdown.Divider/>
                                     <NavDropdown.Item href="/api/auth/signout">Sair</NavDropdown.Item>
                                 </NavDropdown>
                             </div>

@@ -4,9 +4,9 @@
 
 import React, {useState} from "react";
 import {Button, Card, Container, Dropdown, FormControl, Modal, Tab, Tabs} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEllipsisV, faSearch} from "@fortawesome/free-solid-svg-icons";
 import CategoriaCard from "@/components/admin/manage/CategoriaCard";
+import AppIcon from "@/components/app/AppIcon";
 
 interface Categoria {
     id: string;
@@ -123,80 +123,80 @@ export default function Admin() {
     return (
         <>
             <Container>
-              
+
                 <Tabs defaultActiveKey="manage" className="mb-0 mt-3">
-                
+
                     <Tab eventKey="manage" title="Gestor">
-                    <Card className="border-top-0 rounded-top-0">
-                      <Card.Body>
-                        <Container>
-                            <div className="d-flex justify-content-between mb-3">
-                                <div className="d-flex align-items-center">
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Buscar categoria"
-                                        onChange={handleSearch}
-                                        value={searchTerm}
-                                    />
-                                    <FontAwesomeIcon icon={faSearch} className="ms-2"/>
-                                </div>
+                        <Card className="border-top-0 rounded-top-0">
+                            <Card.Body>
+                                <Container>
+                                    <div className="d-flex justify-content-between mb-3">
+                                        <div className="d-flex align-items-center">
+                                            <FormControl
+                                                type="text"
+                                                placeholder="Buscar categoria"
+                                                onChange={handleSearch}
+                                                value={searchTerm}
+                                            />
+                                            <AppIcon icon={faSearch} className="ms-2"/>
+                                        </div>
 
-                                <div className="d-flex">
-                                    <Dropdown className="ms-auto">
-                                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                                            <FontAwesomeIcon icon={faEllipsisV}/>
-                                        </Dropdown.Toggle>
+                                        <div className="d-flex">
+                                            <Dropdown className="ms-auto">
+                                                <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                                                    <AppIcon icon={faEllipsisV}/>
+                                                </Dropdown.Toggle>
 
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item>Action 1</Dropdown.Item>
-                                            <Dropdown.Item>Action 2</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item>Action 1</Dropdown.Item>
+                                                    <Dropdown.Item>Action 2</Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
 
-                                    <Button variant="success" className="ms-2" onClick={() => setShowModal(true)}>
-                                        + Nova Categoria
-                                    </Button>
-                                </div>
-                            </div>
-                            <div>
-                                {filteredCategorias.map((categoria, index) => (
-                                    <CategoriaCard
-                                        key={categoria.id}
-                                        categoria={categoria}
-                                        index={index}
-                                        onDragStart={handleDragStart}
-                                        onDragEnter={handleDragEnter}
-                                        onDragOver={handleDragOver}
-                                        onDragLeave={handleDragLeave}
-                                        onDragEnd={handleDragEnd}
-                                        onToggleCategoria={handleToggleCategoria}
-                                        onMoveUp={() => handleMoveUp(index)}
-                                        onMoveDown={() => handleMoveDown(index)}
-                                        expandedCategoria={expandedCategoria}
-                                    />
-                                ))}
-                            </div>
-                        </Container>
-                        </Card.Body></Card>
+                                            <Button variant="success" className="ms-2" onClick={() => setShowModal(true)}>
+                                                + Nova Categoria
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {filteredCategorias.map((categoria, index) => (
+                                            <CategoriaCard
+                                                key={categoria.id}
+                                                categoria={categoria}
+                                                index={index}
+                                                onDragStart={handleDragStart}
+                                                onDragEnter={handleDragEnter}
+                                                onDragOver={handleDragOver}
+                                                onDragLeave={handleDragLeave}
+                                                onDragEnd={handleDragEnd}
+                                                onToggleCategoria={handleToggleCategoria}
+                                                onMoveUp={() => handleMoveUp(index)}
+                                                onMoveDown={() => handleMoveDown(index)}
+                                                expandedCategoria={expandedCategoria}
+                                            />
+                                        ))}
+                                    </div>
+                                </Container>
+                            </Card.Body></Card>
                     </Tab>
                     <Tab eventKey="images" title="Imagens do cardápio">
                         {/* Conteúdo da guia de imagens do cardápio */}
                         <Card className="border-top-0 rounded-top-0">
-                          <Card.Body>
-                            {/* Content for the "Mesas" tab */}
-                          </Card.Body>
+                            <Card.Body>
+                                {/* Content for the "Mesas" tab */}
+                            </Card.Body>
                         </Card>
                     </Tab>
                     <Tab eventKey="list" title="Lista de produtos">
                         {/* Conteúdo da guia de lista de produtos */}
                         <Card className="border-top-0 rounded-top-0">
-                          <Card.Body>
-                            {/* Content for the "Mesas" tab */}
-                          </Card.Body>
+                            <Card.Body>
+                                {/* Content for the "Mesas" tab */}
+                            </Card.Body>
                         </Card>
                     </Tab>
                 </Tabs>
-                
+
             </Container>
 
             {/* Modal para adicionar uma nova categoria */}
