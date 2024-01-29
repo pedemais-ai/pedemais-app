@@ -44,7 +44,7 @@ export default function Header() {
                 <Container fluid>
                         <Navbar.Brand className="text-white">
                         <Nav.Link as={Link} href={"/admin"}>
-                            ipede.ai
+                            qfome.ai
                             </Nav.Link>
                         </Navbar.Brand>
 
@@ -94,7 +94,7 @@ export default function Header() {
                                     align="end"
                                     style={{ marginLeft: 'auto' } as React.CSSProperties}
                                 >
-                                    <NavDropdown.Item href="#minha-conta">Minha Conta</NavDropdown.Item>
+                                    <NavDropdown.Item href="/admin/myaccount">Minha Conta</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item href="/api/auth/signout">Sair</NavDropdown.Item>
                                 </NavDropdown>

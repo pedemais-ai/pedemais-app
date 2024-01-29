@@ -59,10 +59,10 @@ const AdminDelivery: React.FC = () => {
   return (
     <Container>
       <Tabs
-          defaultActiveKey="tables"
+          defaultActiveKey="delivery"
           className="mb-0 mt-3"
       >
-        <Tab eventKey="tables" title="Delivery">
+        <Tab eventKey="delivery" title="Delivery">
         <Card className="border-top-0 rounded-top-0">
             <Card.Body>
           <Row>
@@ -85,8 +85,19 @@ const AdminDelivery: React.FC = () => {
           </Card.Body>
           </Card>
         </Tab>
-        <Tab eventKey="delivery" title="Mesas">
-          Tab content for Profile
+        <Tab eventKey="tables" title="Mesas">
+          <Card className="border-top-0 rounded-top-0">
+            <Card.Body>
+              {/* Content for the "Mesas" tab */}
+            </Card.Body>
+          </Card>
+        </Tab>
+        <Tab eventKey="pdv" title="Pedidos Balcão PDV">
+          <Card className="border-top-0 rounded-top-0">
+            <Card.Body>
+              {/* Content for the "Mesas" tab */}
+            </Card.Body>
+          </Card>
         </Tab>
       </Tabs>
 

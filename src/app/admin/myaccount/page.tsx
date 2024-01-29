@@ -8,48 +8,41 @@ const AdminDelivery: React.FC = () => {
   return (
     <Container>
       <Tabs
-        defaultActiveKey="menu"
+        defaultActiveKey="info"
         className="mb-0 mt-3"
       >
-        <Tab eventKey="menu" title="Cardápio Digital">
+        <Tab eventKey="info" title="Geral">
           <Card className="border-top-0 rounded-top-0">
             <Card.Body>
               {/* Content for the "Delivery" tab */}
             </Card.Body>
           </Card>
         </Tab>
-        <Tab eventKey="orders" title="Pedidos">
+        <Tab eventKey="account" title="Meus dados">
           <Card className="border-top-0 rounded-top-0">
             <Card.Body>
               {/* Content for the "Delivery" tab */}
             </Card.Body>
           </Card>
         </Tab>
-        <Tab eventKey="bot" title="Robô">
+        <Tab eventKey="payment" title="Pagamento do Plano">
           <Card className="border-top-0 rounded-top-0">
             <Card.Body>
               {/* Content for the "Mesas" tab */}
             </Card.Body>
           </Card>
         </Tab>
-        <Tab eventKey="paymentmethod" title="Formas de Pagamento">
-          <Card className="border-top-0 rounded-top-0">
-            <Card.Body>
-              {/* Content for the "Mesas" tab */}
-            </Card.Body>
-          </Card>
-        </Tab>
-        <Tab eventKey="printer" title="Impressora">
-          <Card className="border-top-0 rounded-top-0">
-            <Card.Body>
-              {/* Content for the "Mesas" tab */}
-            </Card.Body>
-          </Card>
-        </Tab>
-        <Tab eventKey="about" title="Estabelecimento">
+        <Tab eventKey="plans" title="Planos">
           <Card className="border-top-0 rounded-top-0">
             <Card.Body>
               {/* Content for the "Delivery" tab */}
+            </Card.Body>
+          </Card>
+        </Tab>
+        <Tab eventKey="invoice" title="Faturas">
+          <Card className="border-top-0 rounded-top-0">
+            <Card.Body>
+              {/* Content for the "Mesas" tab */}
             </Card.Body>
           </Card>
         </Tab>
