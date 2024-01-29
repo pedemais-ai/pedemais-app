@@ -23,6 +23,7 @@ export default function Product({id}: { id: number }) {
 
     const [product, setProduct] = useState<Prisma.Product | null>();
     const [quantity, setQuantity] = useState(1);
+    const [note, setNote] = useState<string>();
     const [isAddingProduct, setIsAddingProduct] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
@@ -101,6 +102,7 @@ export default function Product({id}: { id: number }) {
                 body: JSON.stringify({
                     productId: id,
                     quantity: quantity,
+                    note: note,
                 }),
             });
 
@@ -273,7 +275,9 @@ export default function Product({id}: { id: number }) {
                     <Form.Control
                         as="textarea"
                         rows={3}
-                        placeholder="Ex.: sem sebola, sem milho"
+                        placeholder="Ex.: sem cebola, sem milho"
+                        value={note}
+                        onChange={e => setNote(e.target.value)}
                     />
                 </Form.Group>
             </Modal.Body>

@@ -234,6 +234,7 @@ model CartItem {
   cart_id    Int
   product_id Int
   quantity   Int
+  note       String?
   created_at DateTime  @default(now())
   updated_at DateTime? @updatedAt
 

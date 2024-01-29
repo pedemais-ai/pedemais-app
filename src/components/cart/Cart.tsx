@@ -92,7 +92,8 @@ export default function Cart() {
                                     </div>
                                     <div className="flex-grow-1 ms-3">
                                         <p className="mb-0 fs-6 fw-bold">{item.product?.name}</p>
-                                        <p className="text-primary mb-0 fs-6">{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</p>
+                                        <p className="text-primary mb-2 fs-6">{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</p>
+                                        {item.note ? <small className="mt-3 text-muted fs-0">Obs: {item.note}</small> : ''}
                                     </div>
                                     <div className="d-flex flex-column flex-shrink-0 ms-auto align-items-end ">
                                         

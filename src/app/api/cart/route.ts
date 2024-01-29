@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
         const user = await getUser(session);
 
         const requestBody = await request.json();
-        const {productId, quantity} = requestBody;
+        const {productId, quantity, note} = requestBody;
 
         const product = await prisma.product.findUnique({
             where: {
@@ -187,15 +187,37 @@ export async function POST(request: NextRequest) {
         const existingCartItem = cart.items.find(item => item.product?.id === Number(productId));
 
         if (existingCartItem) {
-            await prisma.cartItem.update({
-                where: {
-                    id: existingCartItem.id,
-                },
-                data: {
-                    quantity: existingCartItem.quantity + quantity,
-                },
-            });
+            // If the previous product doesn't have a note, update the quantity
+            if (!existingCartItem.note && !note) {
+                await prisma.cartItem.update({
+                    where: {
+                        id: existingCartItem.id,
+                    },
+                    data: {
+                        quantity: existingCartItem.quantity + quantity,
+                    },
+                });
+            } else {
+                // If the previous product has a note, or the new product has a note, create a new CartItem record
+                await prisma.cartItem.create({
+                    data: {
+                        cart: {
+                            connect: {
+                                id: cart.id,
+                            },
+                        },
+                        product: {
+                            connect: {
+                                id: Number(productId),
+                            },
+                        },
+                        quantity: quantity,
+                        note: note,
+                    },
+                });
+            }
         } else {
+            // If the product is not in the cart, create a new CartItem
             await prisma.cartItem.create({
                 data: {
                     cart: {
@@ -209,10 +231,12 @@ export async function POST(request: NextRequest) {
                         },
                     },
                     quantity: quantity,
+                    note: note
                 },
             });
         }
 
+        // Retrieve the updated cart
         cart = await getUserCart(Number(user?.id));
 
         const totalPrice = cart!.items.reduce((sum, item) => {
@@ -249,6 +273,7 @@ export async function POST(request: NextRequest) {
         await prisma.$disconnect();
     }
 }
+
 
 export async function PATCH(request: NextRequest) {
     try {
