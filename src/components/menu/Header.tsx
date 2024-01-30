@@ -12,8 +12,6 @@ import AppIcon from "@/components/app/AppIcon";
 import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
 
 export default function MenuHeader({store}: { store: Prisma.Store }) {
-    const category = store?.categories?.[0];
-
     const cartState = useCart();
 
     const [cart, setCart] = useState<Prisma.Cart | null>()
@@ -37,21 +35,22 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <Row style={{marginTop: '5rem'}}>
+            <Row style={{marginTop: '5rem', position: 'sticky', top: '65px', zIndex: 9999, backgroundColor: '#FFF'}}>
                 <Col md={12}>
-                    <Nav
-                        variant="tabs"
-                        defaultActiveKey={category?.id}
-                        className={styles.nav}
-                    >
-                        {store?.categories?.map((category: Prisma.Category) => <>
-                            <Nav.Item
-                                key={category.id}
-                            >
-                                <Nav.Link href={`#${slugify(category.name).toLowerCase()}`}>{category.name}</Nav.Link>
-                            </Nav.Item>
-                        </>)}
-                    </Nav>
+                    {store?.categories?.[0] ?
+                        <Nav
+                            variant="tabs"
+                            defaultActiveKey={`#${slugify(store?.categories?.[0]?.name).toLowerCase()}`}
+                            className={styles.nav}
+                        >
+                            {store?.categories?.map((category: Prisma.Category, index: number) => <>
+                                <Nav.Item key={index}>
+                                    <Nav.Link href={`#${slugify(category.name).toLowerCase()}`}>
+                                        {category.name}
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </>)}
+                        </Nav> : <></>}
                 </Col>
             </Row>
         </Suspense>
