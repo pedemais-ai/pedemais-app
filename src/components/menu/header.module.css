@@ -1,5 +1,5 @@
 .nav {
-    position: sticky;
-    top: 0;
-    z-index: 9999999;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
 }
