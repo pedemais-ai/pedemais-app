@@ -1,7 +1,6 @@
 import React, {Suspense} from 'react';
 import type {Metadata} from 'next'
 import Header from "@/components/admin/Header";
-import Breadcrumbs from "@/components/admin/Breadcrumb";
 import {Container} from "react-bootstrap";
 
 import 'bootstrap/dist/css/bootstrap.min.css';

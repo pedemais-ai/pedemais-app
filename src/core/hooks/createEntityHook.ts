@@ -6,7 +6,8 @@ interface EntityState<T> {
     find: (id: number) => Promise<T | null>;
 }
 
-const fetchEntity = async (url: string): Promise<any> => {
+
+export const fetchEntity = async (url: string): Promise<any> => {
     const response = await fetch(url, {
         method: "GET",
         mode: "cors",

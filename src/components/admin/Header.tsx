@@ -80,7 +80,6 @@ export default function Header() {
                                 <p className="mb-0 fs-3">{currentTime.formattedTime}</p>
                             </div>
                             <div className="position-static me-2">
-                                {/* Menu Dropdown "Admin" */}
                                 <NavDropdown
                                     title={
                                         <>
@@ -89,7 +88,6 @@ export default function Header() {
                                         </>
                                     }
                                     id="admin-dropdown"
-                                    // @ts-ignore
                                     drop="down"
                                     align="end"
                                     style={{marginLeft: 'auto'} as React.CSSProperties}
