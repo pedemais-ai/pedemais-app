@@ -26,7 +26,6 @@ export default async function getClient(): Promise<Prisma.Client> {
             handle: useClientHandle,
         },
         include: {
-            flow: true,
             user: {
                 include: {
                     stores: true,
