@@ -255,7 +255,7 @@ async function createSushi(user: Prisma.User) {
     }
 }
 
-async function main() {
+async function alf() {
     const user = await prisma.user.create({
         data: {
             name: 'Alfredo Costa',
@@ -272,8 +272,8 @@ async function main() {
 
     const client = await prisma.client.create({
         data: {
-            name: 'Social Up',
-            handle: 'social',
+            name: 'Musgo',
+            handle: 'musgo',
             is_authenticated: false,
             user_id: user.id,
             flow_id: flow.id,
@@ -281,7 +281,40 @@ async function main() {
     });
 
     await createBurger(user);
+}
+
+async function tirrom() {
+    const user = await prisma.user.create({
+        data: {
+            name: 'Rômulo Pita',
+            email: 'romulo.pvb@gmail.com',
+        }
+    });
+
+    const flow = await prisma.flow.create({
+        data: {
+            name: 'default',
+            greeting: 'Olá! Sou seu o Bisgo, o seu atendente virtual. Como posso te ajudar?',
+        }
+    });
+
+    const client = await prisma.client.create({
+        data: {
+            name: 'Tirrom',
+            handle: 'tirrom',
+            is_authenticated: false,
+            user_id: user.id,
+            flow_id: flow.id,
+        }
+    });
+
     await createSushi(user);
+}
+
+async function main() {
+
+    await alf();
+    await tirrom();
 
     console.log('Seed finished');
 }
