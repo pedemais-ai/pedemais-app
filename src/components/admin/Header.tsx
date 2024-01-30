@@ -92,7 +92,7 @@ export default function Header() {
                                     align="end"
                                     style={{marginLeft: 'auto'} as React.CSSProperties}
                                 >
-                                    <NavDropdown.Item href="/admin/myaccount">Minha Conta</NavDropdown.Item>
+                                    <NavDropdown.Item href="/admin/my-account">Minha Conta</NavDropdown.Item>
                                     <NavDropdown.Divider/>
                                     <NavDropdown.Item href="/api/auth/signout">Sair</NavDropdown.Item>
                                 </NavDropdown>

@@ -6,6 +6,7 @@ import {Prisma} from '@/core/types/prisma';
 import {OverlayInjectedProps} from "react-bootstrap/Overlay";
 import AppSpinner from "@/components/app/AppSpinner";
 import AppIcon from '@/components/app/AppIcon';
+import UpdateCategoryForm from "@/components/admin/products/category/UpdateCategoryForm";
 
 export default function ProductCategoryList({categories, searchTerm}: {
     categories?: Prisma.Category[],
@@ -17,6 +18,8 @@ export default function ProductCategoryList({categories, searchTerm}: {
     const [buttonDisabled, setButtonDisabled] = useState<Record<number, boolean>>({});
     const [showSuccessToast, setShowSuccessToast] = useState(false);
     const [toastSuccessText, setToastSuccessText] = useState('');
+    const [showModalUpdate, setShowModalUpdate] = useState(false);
+    const [category, setCategory] = useState<Prisma.Category>();
 
     const toggleCategoryCollapse = (categoryId: number) => {
         setCollapsedCategories(prevState => ({
@@ -158,7 +161,14 @@ export default function ProductCategoryList({categories, searchTerm}: {
                                 </ul>
                             </div>
                         </Collapse>
-                        <Button variant={"link"} className={"font-size-14"}>
+                        <Button
+                            variant={"link"}
+                            className={"font-size-14"}
+                            onClick={() => {
+                                setCategory(category);
+                                setShowModalUpdate(true);
+                            }}
+                        >
                             <AppIcon icon={faEdit} className="me-2"/>
                             Atualizar
                         </Button>
@@ -187,6 +197,12 @@ export default function ProductCategoryList({categories, searchTerm}: {
                     <Toast.Body>{toastSuccessText}</Toast.Body>
                 </Toast>
             </ToastContainer>
+
+            <UpdateCategoryForm
+                show={showModalUpdate}
+                setShow={setShowModalUpdate}
+                category={category}
+            />
         </>
     );
 }

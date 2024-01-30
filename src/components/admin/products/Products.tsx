@@ -12,7 +12,7 @@ import {Prisma} from "@/core/types/prisma";
 export default function Products() {
 
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [showModal, setShowModal] = useState(false);
+    const [showModalAdd, setShowModalAdd] = useState(false);
     const [categories, setCategories] = useState<Prisma.Category[]>([])
     const [lastVersion, setLastVersion] = useState<number>()
 
@@ -67,7 +67,7 @@ export default function Products() {
 
                                     <Button
                                         variant="success"
-                                        onClick={() => setShowModal(true)}
+                                        onClick={() => setShowModalAdd(true)}
                                     >
                                         <AppIcon icon={faPlus}/>
                                         <span className={"ms-1 d-none d-sm-block"}>Nova Categoria</span>
@@ -100,8 +100,8 @@ export default function Products() {
             </Container>
 
             <AddCategoryForm
-                show={showModal}
-                setShow={setShowModal}
+                show={showModalAdd}
+                setShow={setShowModalAdd}
             />
         </>
     );

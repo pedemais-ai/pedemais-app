@@ -1,8 +1,8 @@
 /* AdminConfig.tsx */
 "use client";
 
-import React, { useState } from 'react';
-import { Card, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
+import React from 'react';
+import {Card, Container, Tab, Tabs} from 'react-bootstrap';
 
 const AdminDelivery: React.FC = () => {
   return (

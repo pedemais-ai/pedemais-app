@@ -24,7 +24,7 @@ export const fetchEntity = async (url: string): Promise<any> => {
     return response.json();
 };
 
-export const updateEntityApiFetch = async <T>(
+export const patchEntity = async <T>(
     apiEndpoint: string,
     id: number,
     data: Partial<T>,
@@ -63,6 +63,21 @@ export const createEntityHook = <T>(
     return ({
         version: version ?? 0,
         entities: [],
+        findAll: async function () {
+            try {
+                const allEntities = await fetchEntity(`${API_URL}/${apiEndpoint}`);
+
+                set((state) => ({
+                    entities: allEntities,
+                }));
+
+                return allEntities;
+            } catch (error) {
+                console.error(`Error fetching all ${apiEndpoint} from Prisma:`, error);
+
+                return [];
+            }
+        },
         find: async function (id: number) {
             let entity = get().entities.find((e: T) => (e as any).id === Number(id));
 
@@ -83,24 +98,9 @@ export const createEntityHook = <T>(
 
             return entity;
         },
-        findAll: async function () {
-            try {
-                const allEntities = await fetchEntity(`${API_URL}/${apiEndpoint}`);
-
-                set((state) => ({
-                    entities: allEntities,
-                }));
-
-                return allEntities;
-            } catch (error) {
-                console.error(`Error fetching all ${apiEndpoint} from Prisma:`, error);
-
-                return [];
-            }
-        },
         update: async function (id: number, data: Partial<T>) {
             try {
-                const updatedEntity = await updateEntityApiFetch<T>(apiEndpoint, id, data);
+                const updatedEntity = await patchEntity<T>(apiEndpoint, id, data);
 
                 set((state) => ({
                     entities: state.entities.map((entity: T) => {
