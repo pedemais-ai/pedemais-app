@@ -83,7 +83,7 @@ const UpdateCategoryForm: React.FC<AppModalProps> = (
     }, [category, reset]);
 
     if (!category) {
-        return <>No category selected</>;
+        return <></>;
     }
 
     return (
