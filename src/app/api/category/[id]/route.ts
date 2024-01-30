@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 import {prisma} from '@/prisma';
+import {PatchCategoryInputsSchema} from "@/components/admin/products/category/types";
 
 // GET - Retrieve a category by ID
 export async function GET(
@@ -65,6 +66,42 @@ export async function PUT(
         });
     } catch (error: any) {
         console.error('Error updating category:', error);
+
+        return NextResponse.json(
+            {
+                error: error.message,
+            },
+            {
+                status: 400,
+            }
+        );
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
+// PATCH - Update an existing category
+export async function PATCH(
+    request: NextRequest,
+    {params}: { params: { id: string } }
+) {
+    try {
+        const data = PatchCategoryInputsSchema.parse(await request.json());
+
+        const updatedCategory = await prisma.category.update({
+            where: {
+                id: Number(params.id),
+            },
+            data: {
+                is_active: data.is_active
+            },
+        });
+
+        return NextResponse.json(updatedCategory, {
+            status: 200,
+        });
+    } catch (error: any) {
+        console.error('Error patching category:', error);
 
         return NextResponse.json(
             {

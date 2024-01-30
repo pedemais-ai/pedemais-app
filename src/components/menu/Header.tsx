@@ -20,9 +20,12 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
     const [categories, setCategories] = useState<Prisma.Category[] | null>()
 
     useEffect(() => {
-        cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p))
-        categoryState.findAll().then((p: Prisma.Category[] | null | undefined) => setCategories(p))
-    }, [cartState, categoryState]);
+        cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p));
+
+        if (categories?.length === 0) {
+            categoryState.findAll().then((p: Prisma.Category[] | null | undefined) => setCategories(p));
+        }
+    }, [cartState, categories?.length, categoryState]);
 
     return (
         <Suspense fallback={<Loading/>}>

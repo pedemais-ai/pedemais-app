@@ -14,6 +14,7 @@ export default function Products() {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [showModal, setShowModal] = useState(false);
     const [categories, setCategories] = useState<Prisma.Category[]>([])
+    const [lastVersion, setLastVersion] = useState<number>()
 
     const categoryState = useCategory();
 
@@ -22,10 +23,14 @@ export default function Products() {
     };
 
     useEffect(() => {
-        if (categories.length === 0) {
-            categoryState.findAll().then((p: Prisma.Category[]) => setCategories(p))
+        if (categories.length === 0 || categoryState.version !== lastVersion) {
+            categoryState.findAll().then((p: Prisma.Category[]) => {
+                setCategories(p);
+                setLastVersion(categoryState.version);
+            });
         }
-    }, [categories.length, categoryState]);
+    }, [categories.length, categoryState, lastVersion]);
+
 
     return (
         <>

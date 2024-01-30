@@ -46,6 +46,9 @@ export async function GET() {
             include: {
                 products: true
             },
+            orderBy: {
+                order: 'asc'
+            }
         });
 
         return NextResponse.json(categories, {

@@ -15,8 +15,8 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 export default function AppButton(props: Props) {
 
     const {
-        isLoading,
         children,
+        isLoading,
         disabled,
         ...buttonProps
     } = props;
