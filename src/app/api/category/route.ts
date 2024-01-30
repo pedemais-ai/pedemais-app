@@ -3,8 +3,69 @@ import {prisma} from '@/prisma';
 import {AddCategoryInputsSchema} from "@/components/admin/products/category/types";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/app/api/auth/[...nextauth]/authOptions";
-import {getUser} from "@/app/api/session/route";
+import type {Session} from "next-auth";
+import {Prisma} from "@/core/types/prisma";
 
+async function getUser(session: Session | null): Promise<Prisma.User> {
+    if (!session?.user?.email) {
+        throw new Error('Invalid session');
+    }
+
+    const user = await prisma.user.findUnique({
+        where: {
+            email: session.user.email,
+        },
+        include: {
+            stores: true
+        }
+    });
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    return user;
+}
+
+// GET - Retrieve a category by ID
+export async function GET() {
+    try {
+        const session = await getServerSession(authOptions);
+        const user = await getUser(session);
+
+        const store = user.stores?.[0];
+
+        if (!store) {
+            throw Error('User does not have a store');
+        }
+
+        const categories = await prisma.category.findMany({
+            where: {
+                store_id: store.id,
+            },
+            include: {
+                products: true
+            },
+        });
+
+        return NextResponse.json(categories, {
+            status: 200,
+        });
+    } catch (error: any) {
+        console.error('Error fetching categories:', error);
+
+        return NextResponse.json(
+            {
+                error: error.message,
+            },
+            {
+                status: 400,
+            }
+        );
+    } finally {
+        await prisma.$disconnect();
+    }
+}
 
 // POST - Create a new category
 export async function POST(request: NextRequest) {

@@ -10,15 +10,19 @@ import {useCart} from "@/core/hooks/useCart";
 import AppButton from "@/components/app/AppButton";
 import AppIcon from "@/components/app/AppIcon";
 import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
+import {useCategory} from "@/core/hooks/useCategory";
 
 export default function MenuHeader({store}: { store: Prisma.Store }) {
     const cartState = useCart();
+    const categoryState = useCategory();
 
     const [cart, setCart] = useState<Prisma.Cart | null>()
+    const [categories, setCategories] = useState<Prisma.Category[] | null>()
 
     useEffect(() => {
         cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p))
-    }, [cartState]);
+        categoryState.findAll().then((p: Prisma.Category[] | null | undefined) => setCategories(p))
+    }, [cartState, categoryState]);
 
     return (
         <Suspense fallback={<Loading/>}>
@@ -35,7 +39,7 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <Row style={{marginTop: '5rem', position: 'sticky', top: '65px', zIndex: 9999, backgroundColor: '#FFF'}}>
+            <Row className={styles.tabsRow}>
                 <Col md={12}>
                     {store?.categories?.[0] ?
                         <Nav

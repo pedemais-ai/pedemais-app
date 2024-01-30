@@ -4,8 +4,8 @@ import {API_URL} from "@/constants";
 interface EntityState<T> {
     entities: T[];
     find: (id: number) => Promise<T | null>;
+    findAll: () => Promise<T[]>;
 }
-
 
 export const fetchEntity = async (url: string): Promise<any> => {
     const response = await fetch(url, {
@@ -55,6 +55,21 @@ export const createEntityHook = <T>(
         }
 
         return entity;
+    },
+    findAll: async function () {
+        try {
+            const allEntities = await fetchEntity(`${API_URL}/${apiEndpoint}`);
+
+            set({
+                entities: allEntities
+            });
+
+            return allEntities;
+        } catch (error) {
+            console.error(`Error fetching all ${apiEndpoint} from Prisma:`, error);
+
+            return [];
+        }
     },
 }));
 

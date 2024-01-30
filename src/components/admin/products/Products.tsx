@@ -1,19 +1,31 @@
 "use client";
 
-import React, {useState} from "react";
-import {Button, Card, Container, Dropdown, FormControl, Tab, Tabs} from "react-bootstrap";
-import {faEllipsisV, faSearch} from "@fortawesome/free-solid-svg-icons";
+import React, {useEffect, useState} from "react";
+import {Button, Card, Col, Container, Dropdown, FormControl, InputGroup, Stack, Tab, Tabs} from "react-bootstrap";
+import {faEllipsisV, faPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
 import AppIcon from "@/components/app/AppIcon";
 import AddCategoryForm from "@/components/admin/products/category/AddCategoryForm";
 import ProductCategoryList from "@/components/admin/products/category/ProductCategoryList";
+import {useCategory} from "@/core/hooks/useCategory";
+import {Prisma} from "@/core/types/prisma";
 
 export default function Products() {
-    const [searchTerm, setSearchTerm] = useState<string>("");
+
+    const [searchTerm, setSearchTerm] = useState<string>('');
     const [showModal, setShowModal] = useState(false);
+    const [categories, setCategories] = useState<Prisma.Category[]>([])
+
+    const categoryState = useCategory();
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
+
+    useEffect(() => {
+        if (categories.length === 0) {
+            categoryState.findAll().then((p: Prisma.Category[]) => setCategories(p))
+        }
+    }, [categories.length, categoryState]);
 
     return (
         <>
@@ -22,39 +34,46 @@ export default function Products() {
                     <Tab eventKey="manage" title="Gestor">
                         <Card className="border-top-0 rounded-top-0">
                             <Card.Body>
-                                <Container>
-                                    <div className="d-flex justify-content-between mb-3">
-                                        <div className="d-flex align-items-center">
+                                <Stack direction="horizontal" gap={3} className={"mb-3"}>
+                                    <Col lg={3}>
+                                        <InputGroup>
                                             <FormControl
                                                 type="text"
                                                 placeholder="Buscar categoria"
                                                 onChange={handleSearch}
                                                 value={searchTerm}
                                             />
-                                            <AppIcon icon={faSearch} className="ms-2"/>
-                                        </div>
+                                            <InputGroup.Text>
+                                                <AppIcon icon={faSearch} className="ms-2"/>
+                                            </InputGroup.Text>
+                                        </InputGroup>
+                                    </Col>
 
-                                        <div className="d-flex">
-                                            <Dropdown className="ms-auto">
-                                                <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                                                    <AppIcon icon={faEllipsisV}/>
-                                                </Dropdown.Toggle>
+                                    <Dropdown className={"ms-auto"}>
+                                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                                            <AppIcon icon={faEllipsisV}/>
+                                        </Dropdown.Toggle>
 
-                                                <Dropdown.Menu>
-                                                    <Dropdown.Item>Action 1</Dropdown.Item>
-                                                    <Dropdown.Item>Action 2</Dropdown.Item>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item>Action 1</Dropdown.Item>
+                                            <Dropdown.Item>Action 2</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
 
-                                            <Button variant="success" className="ms-2" onClick={() => setShowModal(true)}>
-                                                + Nova Categoria
-                                            </Button>
-                                        </div>
-                                    </div>
+                                    <Button
+                                        variant="success"
+                                        onClick={() => setShowModal(true)}
+                                    >
+                                        <AppIcon icon={faPlus}/>
+                                        <span className={"ms-1 d-none d-sm-block"}>Nova Categoria</span>
+                                    </Button>
+                                </Stack>
 
-                                    <ProductCategoryList/>
+                                <ProductCategoryList
+                                    categories={categories}
+                                    searchTerm={searchTerm}
+                                />
 
-                                </Container>
                             </Card.Body>
                         </Card>
                     </Tab>

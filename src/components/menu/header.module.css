@@ -4,3 +4,11 @@
     overflow-x: auto;
     overflow-y: hidden;
 }
+
+.tabsRow {
+    margin-Top: 5rem;
+    position: sticky;
+    top: 65px;
+    z-index: 9999;
+    background-color: #FFF;
+}
