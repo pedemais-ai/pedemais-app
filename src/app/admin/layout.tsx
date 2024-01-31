@@ -22,12 +22,10 @@ export default async function AdminLayout({children}: {
 
     return (
         <Suspense fallback={<>Loading...</>}>
-            <main>
-                <Header/>
-                <Container fluid>
-                    {children}
-                </Container>
-            </main>
+            <Header/>
+            <Container>
+                {children}
+            </Container>
         </Suspense>
     );
 }

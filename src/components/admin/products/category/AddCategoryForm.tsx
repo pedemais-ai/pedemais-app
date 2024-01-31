@@ -3,9 +3,9 @@
 import React, {useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {AddCategoryInputs, AddCategoryInputsSchema} from "@/components/admin/products/category/types";
 import {Form, Modal, Toast, ToastContainer} from "react-bootstrap";
 import AppButton from "@/components/app/AppButton";
+import {AddCategoryInputs, AddCategoryInputsSchema} from "@/core/types/zod";
 
 interface AppModalProps {
     show: boolean;

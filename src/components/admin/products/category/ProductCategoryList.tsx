@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Card, Collapse, Form, OverlayTrigger, Stack, Toast, ToastContainer, Tooltip} from 'react-bootstrap';
-import {faArrowDown, faArrowUp, faBan, faCaretDown, faCaretUp, faCheck, faEdit, faGripVertical, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faArrowDown, faArrowUp, faBan, faCalendar, faCaretDown, faCaretUp, faCheck, faClone, faEdit, faFeather, faGripVertical, faLink, faPlus, faPlusCircle, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {useCategory} from "@/core/hooks/useCategory";
 import {Prisma} from '@/core/types/prisma';
 import {OverlayInjectedProps} from "react-bootstrap/Overlay";
@@ -188,9 +188,34 @@ export default function ProductCategoryList({categories, searchTerm}: {
                                                 </Dropdown.Toggle>
 
                                                 <Dropdown.Menu>
-                                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-1">
+                                                        <AppIcon className={"me-1"} icon={faEdit}/>
+                                                        Editar
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-2">
+                                                        <AppIcon className={"me-1"} icon={faClone}/>
+                                                        Duplicar
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-3">
+                                                        <AppIcon className={"me-1"} icon={faLink}/>
+                                                        Copiar link
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-3">
+                                                        <AppIcon className={"me-1"} icon={faPlusCircle}/>
+                                                        Editar adicionais
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-3">
+                                                        <AppIcon className={"me-1"} icon={faFeather}/>
+                                                        Editar classificações
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-3">
+                                                        <AppIcon className={"me-1"} icon={faCalendar}/>
+                                                        Editar disponibilidade
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-3">
+                                                        <AppIcon className={"me-1"} icon={faTrash}/>
+                                                        Excluir
+                                                    </Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                         </div>

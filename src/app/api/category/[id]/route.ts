@@ -1,6 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 import {prisma} from '@/prisma';
-import {PatchCategoryInputsSchema} from "@/components/admin/products/category/types";
+import {PatchCategoryInputsSchema} from "@/core/types/zod";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/app/api/auth/[...nextauth]/authOptions";
 import type {Session} from "next-auth";
