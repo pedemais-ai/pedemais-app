@@ -239,7 +239,7 @@ export default function Product({ id }: { id: number }) {
                 </Navbar>
             </Container>
         </Suspense>
-
+<div className="m-5">&nbsp;</div>
         <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
                 <Modal.Title>Adicionar produto</Modal.Title>
