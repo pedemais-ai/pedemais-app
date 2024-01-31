@@ -42,3 +42,7 @@ next-env.d.ts
 .wwebjs_auth
 .wwebjs_cache
 /tokens/
+
+# IDEs files
+/.idea
+
