@@ -1,21 +1,21 @@
 "use client";
 
-import React, {Suspense, useEffect, useState} from "react";
-import {Button, Col, Container, Form, InputGroup, Modal, Navbar, Placeholder, Ratio, Row} from "react-bootstrap";
-import {useProduct} from "@/core/hooks/useProduct";
+import React, { Suspense, useEffect, useState } from "react";
+import { Button, Col, Container, Form, InputGroup, Modal, Navbar, Placeholder, Ratio, Row } from "react-bootstrap";
+import { useProduct } from "@/core/hooks/useProduct";
 import Image from "next/image";
 import slugify from "slugify";
-import {useRouter} from "next/navigation";
-import {Prisma} from "@/core/types/prisma";
+import { useRouter } from "next/navigation";
+import { Prisma } from "@/core/types/prisma";
 import Loading from "@/components/Loading";
-import {formatCurrency} from "@/core/functions";
+import { formatCurrency } from "@/core/functions";
 import AppButton from "@/components/app/AppButton";
 import AppIcon from "@/components/app/AppIcon";
-import {faCartPlus, faChevronLeft, faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faChevronLeft, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./product.module.css";
-import {useCart} from "@/core/hooks/useCart";
+import { useCart } from "@/core/hooks/useCart";
 
-export default function Product({id}: { id: number }) {
+export default function Product({ id }: { id: number }) {
 
     const router = useRouter();
     const productState = useProduct();
@@ -125,7 +125,7 @@ export default function Product({id}: { id: number }) {
     }, [id, productState]);
 
     return (<>
-        <Suspense fallback={<Loading/>}>
+        <Suspense fallback={<Loading />}>
             <Container>
                 <Navbar className="bg-body-tertiary" fixed={"top"}>
                     <Container>
@@ -135,19 +135,19 @@ export default function Product({id}: { id: number }) {
                             </Navbar.Brand>
                         </> : <>
                             <Placeholder animation="glow" as={Navbar.Brand}>
-                                <Placeholder xs={12}/>
+                                <Placeholder xs={12} />
                             </Placeholder>
                         </>}
 
                         <Navbar.Collapse className="justify-content-end">
                             <Button variant="outline-secondary" onClick={handleBackButtonClick}>
-                                <AppIcon icon={faChevronLeft} className={"me-2"}/>
+                                <AppIcon icon={faChevronLeft} className={"me-2"} />
                                 Voltar
                             </Button>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
-                <Container style={{marginTop: '5rem'}}>
+                <Container style={{ marginTop: '5rem' }}>
                     <Row className="g-4 align-items-center">
                         <Col md={4} xs={12}>
                             <Ratio aspectRatio={'4x3'}>
@@ -160,7 +160,7 @@ export default function Product({id}: { id: number }) {
                                         loading="lazy"
                                     /> : <>
                                         <Placeholder animation="glow">
-                                            <Placeholder xs={12} style={{height: '100%'}}/>
+                                            <Placeholder xs={12} style={{ height: '100%' }} />
                                         </Placeholder>
                                     </>}
                             </Ratio>
@@ -169,36 +169,47 @@ export default function Product({id}: { id: number }) {
                         <Col md={8} xs={12} className="d-flex flex-column">
                             <h4 className="mb-3">{product ? product?.name : <>
                                 <Placeholder animation="glow">
-                                    <Placeholder xs={8}/>
+                                    <Placeholder xs={8} />
                                 </Placeholder>
                             </>}</h4>
                             <h5 className="text-primary mb-3">
                                 {product ? formatCurrency(product?.prices?.[0].price || 0) : <>
                                     <Placeholder animation="glow">
-                                        <Placeholder xs={3} bg="primary"/>
+                                        <Placeholder xs={3} bg="primary" />
                                     </Placeholder>
                                 </>}
                             </h5>
                             <p className="mb-0">{product ? product?.description : <>
                                 <Placeholder animation="glow">
-                                    <Placeholder xs={8}/> <Placeholder xs={3}/> <Placeholder xs={4}/>
-                                    <Placeholder xs={6}/> <Placeholder xs={8}/>
+                                    <Placeholder xs={8} /> <Placeholder xs={3} /> <Placeholder xs={4} />
+                                    <Placeholder xs={6} /> <Placeholder xs={8} />
                                 </Placeholder>
                             </>}</p>
                         </Col>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Observação</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                placeholder="Ex.: sem cebola, sem milho"
+                                value={note}
+                                onChange={e => setNote(e.target.value)}
+                            />
+                        </Form.Group>
                     </Row>
                 </Container>
 
                 <Navbar className="bg-body-tertiary" fixed={"bottom"}>
-                    <Container className="d-flex align-items-center justify-content-center">
+                    <Container className="d-flex align-items-center justify-content-center my-2">
                         <div>
-                            <InputGroup style={{flexWrap: "nowrap"}}>
+                            <InputGroup style={{ flexWrap: "nowrap" }}>
                                 <Button
                                     variant="outline-secondary"
                                     disabled={quantity <= 1}
                                     onClick={handleQuantityDecrease}
                                 >
-                                    <AppIcon icon={faMinus}/>
+                                    <AppIcon icon={faMinus} />
                                 </Button>
                                 <Form.Control
                                     aria-label="Example text with button addon"
@@ -211,17 +222,17 @@ export default function Product({id}: { id: number }) {
                                     variant="outline-secondary"
                                     onClick={handleQuantityIncrease}
                                 >
-                                    <AppIcon icon={faPlus}/>
+                                    <AppIcon icon={faPlus} />
                                 </Button>
                             </InputGroup>
                         </div>
                         <AppButton
                             variant="primary"
-                            onClick={showAddToCartModal}
+                            onClick={handleAddToCartContinue}
                             isLoading={isAddingProduct}
-                            className="w-100 ms-2"
+                            className="w-100 ms-2 fs-5"
                         >
-                            <AppIcon icon={faCartPlus} className={"me-2"}/>
+                            <AppIcon icon={faCartPlus} className={"me-2"} />
                             Adicionar
                         </AppButton>
                     </Container>
@@ -246,13 +257,13 @@ export default function Product({id}: { id: number }) {
                 <h3 className={"my-3"}>{product?.name}</h3>
                 <Form.Group className="mb-3">
                     <Form.Label>Quantidade</Form.Label>
-                    <InputGroup style={{flexWrap: "nowrap"}}>
+                    <InputGroup style={{ flexWrap: "nowrap" }}>
                         <Button
                             variant="outline-secondary"
                             disabled={quantity <= 1}
                             onClick={handleQuantityDecrease}
                         >
-                            <AppIcon icon={faMinus}/>
+                            <AppIcon icon={faMinus} />
                         </Button>
                         <Form.Control
                             aria-label="Example text with button addon"
@@ -265,23 +276,13 @@ export default function Product({id}: { id: number }) {
                             variant="outline-secondary"
                             onClick={handleQuantityIncrease}
                         >
-                            <AppIcon icon={faPlus}/>
+                            <AppIcon icon={faPlus} />
                         </Button>
                     </InputGroup>
                 </Form.Group>
 
-                <Form.Group className="mb-3">
-                    <Form.Label>Observação</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        rows={3}
-                        placeholder="Ex.: sem cebola, sem milho"
-                        value={note}
-                        onChange={e => setNote(e.target.value)}
-                    />
-                </Form.Group>
             </Modal.Body>
-            <Modal.Footer style={{display: 'unset'}}>
+            <Modal.Footer style={{ display: 'unset' }}>
                 <div className="d-grid gap-2">
                     <AppButton variant="success" onClick={handleAddToCartContinue}>
                         Continuar comprando
