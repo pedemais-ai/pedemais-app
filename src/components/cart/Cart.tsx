@@ -131,7 +131,7 @@ export default function Cart() {
                 <Container>
                     <Navbar.Collapse className="justify-content-end">
                         <Button
-                            className="w-100"
+                            className="w-100 my-2 fs-5"
                             variant="primary"
                             disabled={cart?.items?.length === 0}
                         >
