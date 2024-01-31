@@ -42,6 +42,7 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+            <Container>
             <Row className={styles.tabsRow}>
                 <Col md={12}>
                     {store?.categories?.[0] ?
@@ -60,6 +61,7 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                         </Nav> : <></>}
                 </Col>
             </Row>
+            </Container>
         </Suspense>
     )
 };

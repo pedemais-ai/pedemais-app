@@ -126,7 +126,7 @@ export default function Product({ id }: { id: number }) {
 
     return (<>
         <Suspense fallback={<Loading />}>
-            <Container>
+            <Container className="col-md-6">
                 <Navbar className="bg-body-tertiary" fixed={"top"}>
                     <Container>
                         {product ? <>
@@ -201,7 +201,7 @@ export default function Product({ id }: { id: number }) {
                 </Container>
 
                 <Navbar className="bg-body-tertiary" fixed={"bottom"}>
-                    <Container className="d-flex align-items-center justify-content-center my-2">
+                    <Container className="col-md-6 d-flex align-items-center justify-content-center my-2">
                         <div>
                             <InputGroup style={{ flexWrap: "nowrap" }}>
                                 <Button

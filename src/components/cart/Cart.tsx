@@ -58,7 +58,7 @@ export default function Cart() {
     }, [cartState]);
 
     return (<>
-        <Container>
+        <Container className="col-md-6">
             <Navbar className="bg-body-tertiary" fixed={"top"}>
                 <Container>
                     <Navbar.Brand>
@@ -136,7 +136,7 @@ export default function Cart() {
                 <button type="button" className="btn btn-outline-primary w-100">Adicionar mais itens</button>
             </div>
             <Navbar className="bg-body-tertiary" fixed={"bottom"}>
-                <Container>
+                <Container className="col-md-6">
                     <Navbar.Collapse className="justify-content-end">
                         <Button
                             className="w-100 my-2 fs-5"
