@@ -161,7 +161,7 @@ export default function ProductCategoryList({categories, searchTerm}: {
                                     <Stack className={"mb-1"} direction="horizontal" gap={3} key={product.id}>
                                         <div>
                                             <Image
-                                                src={product?.images?.[0].path || ''}
+                                                src={product?.images?.[0]?.path || ''}
                                                 alt={slugify(product.name).toLowerCase()}
                                                 width={40}
                                                 height={40}

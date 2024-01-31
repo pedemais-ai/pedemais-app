@@ -32,7 +32,7 @@ export default function MenuItemList({store}: {
                                                     <div className="flex-grow-1 me-2">
                                                         <p className="mb-0 fs-6 fw-bold">{product?.name}</p>
                                                         <p className="mb-1"><small>{product?.description}</small></p>
-                                                        <p className="text-primary mb-0 fs-6">{formatCurrency(product?.prices?.[0].price || 0)}</p>
+                                                        <p className="text-primary mb-0 fs-6">{formatCurrency(product?.prices?.[0]?.price || 0)}</p>
                                                     </div>
                                                     <div className="flex-shrink-0">
                                                         <Image
@@ -59,11 +59,11 @@ export default function MenuItemList({store}: {
                                                     <div className="flex-grow-1 me-2">
                                                         <p className="mb-0 fs-6 fw-bold">{product?.name}</p>
                                                         <p className="mb-1"><small>{product?.description}</small></p>
-                                                        <p className="text-primary mb-0 fs-6">{formatCurrency(product?.prices?.[0].price || 0)}</p>
+                                                        <p className="text-primary mb-0 fs-6">{formatCurrency(product?.prices?.[0]?.price || 0)}</p>
                                                     </div>
                                                     <div className="flex-shrink-0">
                                                         <Image
-                                                            src={product?.images?.[0].path || ''}
+                                                            src={product?.images?.[0]?.path || 'https://via.placeholder.com/100'}
                                                             alt={slugify(product.name).toLowerCase()}
                                                             className="mr-3"
                                                             width={100}
@@ -77,7 +77,6 @@ export default function MenuItemList({store}: {
                                 </Col>
                             </Row>
                         </Container>
-
                     </div>
                 </>
             )}
