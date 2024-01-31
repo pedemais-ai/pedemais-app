@@ -122,33 +122,36 @@ export async function PATCH(
 
         const data = PatchCategoryInputsSchema.parse(await request.json());
 
-        // Check if the category with the given name already exists
-        const existingCategory = await prisma.category.findFirst({
-            where: {
-                id: {
-                    not: Number(params.id)
-                },
-                name: data.name,
-                store_id: store.id,
-            },
-        });
-
-        if (existingCategory) {
-            return NextResponse.json(
-                {
-                    error: {
-                        issues: [
-                            {
-                                path: ['name'],
-                                message: 'Category with this name already exists',
-                            },
-                        ],
+        if (data.name) {
+            // Check if the category with the given name already exists
+            const existingCategory = await prisma.category.findFirst({
+                where: {
+                    id: {
+                        not: Number(params.id)
                     },
+                    name: data.name,
+                    store_id: store.id,
                 },
-                {
-                    status: 400,
-                }
-            );
+            });
+
+            if (existingCategory) {
+                return NextResponse.json(
+                    {
+                        error: {
+                            issues: [
+                                {
+                                    path: ['name'],
+                                    message: 'Category with this name already exists',
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        status: 400,
+                    }
+                );
+            }
+
         }
 
         const updatedCategory = await prisma.category.update({

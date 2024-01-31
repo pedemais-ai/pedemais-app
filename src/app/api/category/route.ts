@@ -44,7 +44,11 @@ export async function GET() {
                 store_id: store.id,
             },
             include: {
-                products: true
+                products: {
+                    include: {
+                        images: true
+                    }
+                }
             },
             orderBy: {
                 order: 'asc'

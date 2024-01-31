@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Card, Collapse, OverlayTrigger, Toast, ToastContainer, Tooltip} from 'react-bootstrap';
+import {Button, Card, Collapse, Form, OverlayTrigger, Stack, Toast, ToastContainer, Tooltip} from 'react-bootstrap';
 import {faArrowDown, faArrowUp, faBan, faCaretDown, faCaretUp, faCheck, faEdit, faGripVertical, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {useCategory} from "@/core/hooks/useCategory";
 import {Prisma} from '@/core/types/prisma';
@@ -7,6 +7,9 @@ import {OverlayInjectedProps} from "react-bootstrap/Overlay";
 import AppSpinner from "@/components/app/AppSpinner";
 import AppIcon from '@/components/app/AppIcon';
 import UpdateCategoryForm from "@/components/admin/products/category/UpdateCategoryForm";
+import Dropdown from "react-bootstrap/Dropdown";
+import Image from "next/image";
+import slugify from "slugify";
 
 export default function ProductCategoryList({categories, searchTerm}: {
     categories?: Prisma.Category[],
@@ -154,11 +157,46 @@ export default function ProductCategoryList({categories, searchTerm}: {
                         </div>
                         <Collapse in={collapsedCategories[category.id]}>
                             <div>
-                                <ul>
-                                    {category.products?.map((product: Prisma.Product) => (
-                                        <li key={product.id}>{product.name}</li>
-                                    ))}
-                                </ul>
+                                {category.products?.map((product: Prisma.Product) => (
+                                    <Stack className={"mb-1"} direction="horizontal" gap={3} key={product.id}>
+                                        <div>
+                                            <Image
+                                                src={product?.images?.[0].path || ''}
+                                                alt={slugify(product.name).toLowerCase()}
+                                                width={40}
+                                                height={40}
+                                            />
+                                        </div>
+                                        <div className="pe-2">{product.name}</div>
+                                        <div className="pe-2 ms-auto">
+                                            R$9,99
+                                            <AppIcon className={"ms-2"} icon={faEdit}/>
+                                        </div>
+                                        <div className="pe-2">
+                                            <Form.Check
+                                                type="switch"
+                                                label="Esgotar"
+                                            />
+                                        </div>
+                                        <div className="pe-2">
+                                            <Dropdown>
+                                                <Dropdown.Toggle
+                                                    variant="outline-secondary"
+                                                    size={"sm"}
+                                                >
+                                                    Ações
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </div>
+                                    </Stack>
+                                ))}
+                                <hr/>
                             </div>
                         </Collapse>
                         <Button
@@ -174,7 +212,7 @@ export default function ProductCategoryList({categories, searchTerm}: {
                         </Button>
                         <Card.Link href="#" className={"font-size-14"}>
                             <AppIcon icon={faPlus} className="me-2"/>
-                            Adicionar Item
+                            Adicionar produto
                         </Card.Link>
                     </Card.Body>
                 </Card>

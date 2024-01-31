@@ -68,6 +68,7 @@ export default function Products() {
                                     <Button
                                         variant="success"
                                         onClick={() => setShowModalAdd(true)}
+                                        className="d-sm-flex align-items-center"
                                     >
                                         <AppIcon icon={faPlus}/>
                                         <span className={"ms-1 d-none d-sm-block"}>Nova Categoria</span>
