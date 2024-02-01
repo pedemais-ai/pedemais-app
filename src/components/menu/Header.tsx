@@ -9,15 +9,30 @@ import Loading from "@/components/Loading";
 import {useCart} from "@/core/hooks/useCart";
 import AppButton from "@/components/app/AppButton";
 import AppIcon from "@/components/app/AppIcon";
-import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
+import {faCartShopping, faMoon, faSun} from "@fortawesome/free-solid-svg-icons";
 import {useCategory} from "@/core/hooks/useCategory";
 
 export default function MenuHeader({store}: { store: Prisma.Store }) {
     const cartState = useCart();
     const categoryState = useCategory();
 
-    const [cart, setCart] = useState<Prisma.Cart | null>()
-    const [categories, setCategories] = useState<Prisma.Category[] | null>()
+    const [cart, setCart] = useState<Prisma.Cart | null>();
+    const [categories, setCategories] = useState<Prisma.Category[] | null>();
+    const [storedTheme, setStoredTheme] = useState(
+        typeof window !== "undefined" ? localStorage.getItem("data-bs-theme") : null
+    );
+
+    const toggleTheme = () => {
+        const newTheme = storedTheme === 'dark' ? 'light' : 'dark';
+
+        // Set the data-bs-theme attribute dynamically on the client side
+        document.body.setAttribute('data-bs-theme', newTheme);
+
+        // Save the new theme to localStorage
+        localStorage.setItem('data-bs-theme', newTheme);
+
+        setStoredTheme(newTheme);
+    };
 
     useEffect(() => {
         cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p));
@@ -35,6 +50,15 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                         <h3>{store?.name}</h3>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
+                        <AppButton
+                            variant="link"
+                            type={"button"}
+                            className={"me-2"}
+                            onClick={toggleTheme}
+                            style={{color: 'var(--bs-secondary-color)'}}
+                        >
+                            <AppIcon icon={storedTheme === 'dark' ? faMoon : faSun}/>
+                        </AppButton>
                         <AppButton variant="outline-secondary" href={"/cart"}>
                             <AppIcon icon={faCartShopping} className={"me-2"}/>
                             Carrinho ({cart?.items?.length || 0})
