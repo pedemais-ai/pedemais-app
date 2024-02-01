@@ -11,6 +11,7 @@ export default function ClientSideLayout() {
             document.body.setAttribute('data-bs-theme', storedTheme);
         } else {
             document.body.setAttribute('data-bs-theme', prefersDarkMode ? 'dark' : 'light');
+            localStorage.setItem('data-bs-theme', prefersDarkMode ? 'dark' : 'light');
         }
     }, []);
 
