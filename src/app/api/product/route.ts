@@ -5,6 +5,14 @@ import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/app/api/auth/[...nextauth]/authOptions";
 import type {Session} from "next-auth";
 import {Prisma} from "@/core/types/prisma";
+import AWS from 'aws-sdk';
+import {AWS_ACCESS_KEY_ID, AWS_BUCKET_NAME, AWS_CLOUDFRONT_DOMAIN, AWS_REGION, AWS_SECRET_ACCESS_KEY} from "@/constants";
+
+const s3 = new AWS.S3({
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    region: AWS_REGION,
+});
 
 async function getUser(session: Session | null): Promise<Prisma.User> {
     if (!session?.user?.email) {
@@ -39,12 +47,13 @@ export async function POST(request: NextRequest) {
             throw Error('User does not have a store');
         }
 
-        const data = AddProductInputsSchema.parse(await request.json());
+        const formData = await request.formData();
+        const validatedData = AddProductInputsSchema.parse(Object.fromEntries(formData));
 
         // Check if the product with the given name already exists
         const existingProduct = await prisma.product.findFirst({
             where: {
-                name: data.name,
+                name: validatedData.name,
                 category: {
                     store_id: store.id
                 },
@@ -69,12 +78,49 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        let imageURL: string | undefined;
+
+        if (formData.has('image')) {
+            const file = formData.get('image') as File;
+            const arrayBuffer = await file.arrayBuffer();
+            const body = Buffer.from(arrayBuffer);
+
+            const fileName = `images/${Date.now()}_${file.name}`;
+
+            const data = await s3.upload({
+                Bucket: AWS_BUCKET_NAME,
+                Key: fileName, // File name you want to save as in S3
+                Body: body,
+                ACL: 'public-read', // This makes the file public
+            }).promise();
+
+            console.log(data)
+
+            imageURL = `${AWS_CLOUDFRONT_DOMAIN}/${fileName}`;
+        } else {
+            console.log('no image')
+        }
+
+        const productData: any = {
+            name: validatedData.name,
+            description: validatedData.description,
+            category_id: Number(validatedData.category_id),
+        };
+
+        if (imageURL) {
+            productData.images = {
+                createMany: {
+                    data: [
+                        {
+                            path: imageURL,
+                        },
+                    ],
+                },
+            };
+        }
+
         const createdProduct = await prisma.product.create({
-            data: {
-                name: data.name,
-                description: data.description,
-                category_id: Number(data.category_id),
-            },
+            data: productData,
         });
 
         return NextResponse.json(createdProduct, {

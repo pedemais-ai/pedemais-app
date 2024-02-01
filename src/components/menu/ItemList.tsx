@@ -36,7 +36,7 @@ export default function MenuItemList({store}: {
                                                     </div>
                                                     <div className="flex-shrink-0">
                                                         <Image
-                                                            src={product?.images?.[0].path || ''}
+                                                            src={product?.images?.[0]?.path || ''}
                                                             alt={slugify(product.name).toLowerCase()}
                                                             width={100}
                                                             height={100}

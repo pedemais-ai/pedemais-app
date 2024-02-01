@@ -1,6 +1,6 @@
 "use client";
 
-import React, {DragEvent, useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Button, Card, Col, Container, Form, ProgressBar, Row} from "react-bootstrap";
 import AppIcon from "@/components/app/AppIcon";
 import {faHeart, faUtensils} from "@fortawesome/free-solid-svg-icons";
@@ -9,13 +9,24 @@ import {Prisma} from "@/core/types/prisma";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {AddProductInputs, AddProductInputsSchema} from "@/core/types/zod";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {formatFileSize} from "@/core/functions";
 
 export default function AddProduct() {
     const categoryState = useCategory();
 
     const [step, setStep] = useState(1);
-    const [file, setFile] = useState<File>();
-    const [categories, setCategories] = useState<Prisma.Category[]>([])
+    const [categories, setCategories] = useState<Prisma.Category[]>([]);
+    const [isDragging, setIsDragging] = useState(false);
+    const [selectedFile, setSelectedFile] = useState<File>();
+    const [fileErrors, setFileErrors] = useState<string[]>([]);
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFileSelect = function () {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
 
     const {
         register,
@@ -30,15 +41,102 @@ export default function AddProduct() {
         resolver: zodResolver(AddProductInputsSchema),
     });
 
-    const handleDrop = (e: DragEvent) => {
-        e.preventDefault();
-        const droppedFile = e.dataTransfer.files[0];
+    const validateImageResolution = function (file: File): Promise<string[]> {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
 
-        setFile(droppedFile);
+            reader.onload = (event) => {
+                const image = new Image();
+                image.src = event.target?.result as string;
+
+                image.onload = () => {
+                    const resolutionErrors: string[] = [];
+
+                    if (image.width < 200 || image.height < 200) {
+                        resolutionErrors.push("Minimum image resolution should be 200x200 pixels.");
+                    }
+
+                    resolve(resolutionErrors);
+                };
+            };
+
+            reader.readAsDataURL(file);
+        });
     };
 
-    const handleDragOver = (e: DragEvent) => {
+    const validateFile = async function (file: File): Promise<string[]> {
+        const errors: string[] = [];
+
+        // Check file extension
+        const acceptedFormats = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+        if (!acceptedFormats.includes(file.type)) {
+            errors.push("Please select a file in .jpg, .png, .jpeg, or .webp format.");
+        }
+
+        // Check file size
+        const maxSize = 1024 * 1024; // 1MB in bytes
+
+        if (file.size > maxSize) {
+            errors.push("File size exceeds the maximum limit of 1MB.");
+        }
+
+        // Check file resolution
+        const imageResolutionErrors = await validateImageResolution(file);
+        errors.push(...imageResolutionErrors);
+
+        return errors;
+    };
+
+
+    const handleFileSelection = async function (e: React.ChangeEvent<HTMLInputElement>) {
+        setFileErrors([]);
+        setIsDragging(false);
+
+        if (e.target.files && e.target.files.length > 0) {
+
+            let file = e.target.files[0];
+            const errors = await validateFile(file);
+
+            if (errors.length === 0) {
+                setSelectedFile(file);
+            } else {
+                setFileErrors(errors);
+            }
+        }
+    };
+
+    const handleDrop = async (e: React.DragEvent) => {
         e.preventDefault();
+
+        setFileErrors([]);
+        setIsDragging(false);
+
+        const droppedFile = e.dataTransfer.files[0];
+        const errors = await validateFile(droppedFile);
+
+        if (errors.length === 0) {
+            setSelectedFile(droppedFile);
+        } else {
+            setFileErrors(errors);
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+    };
+
+    const handleDragEnter = (e: React.DragEvent) => {
+        e.preventDefault();
+
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent) => {
+        e.preventDefault();
+
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            setIsDragging(false);
+        }
     };
 
     const onSubmit: SubmitHandler<AddProductInputs> = async function (data) {
@@ -47,18 +145,15 @@ export default function AddProduct() {
             const formData = new FormData();
             formData.append('name', data.name);
             formData.append('description', data.description);
-            formData.append('category_id', data.category_id);
+            formData.append('category_id', String(data.category_id));
 
-            if (file) {
-                formData.append('image', file);
+            if (selectedFile) {
+                formData.append('image', selectedFile);
             }
 
             const response = await fetch('/api/product', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
+                body: formData,
             });
 
             if (response.ok) {
@@ -185,22 +280,43 @@ export default function AddProduct() {
                             </Col>
                             <Col md={6} className="d-flex flex-column justify-content-center align-items-center">
                                 <div
+                                    onClick={handleFileSelect}
                                     onDrop={handleDrop}
+                                    onDragEnter={handleDragEnter}
+                                    onDragLeave={handleDragLeave}
                                     onDragOver={handleDragOver}
-                                    style={{border: "2px dashed #ddd", borderRadius: "5px", padding: "20px", textAlign: "center", fontSize: "1.5em"}}>
+                                    style={{
+                                        border: isDragging ? "2px solid #000" : "2px dashed #ddd",
+                                        borderRadius: "5px",
+                                        padding: "20px",
+                                        textAlign: "center",
+                                        fontSize: "1.5em",
+                                        cursor: "pointer"
+                                    }}
+                                >
                                     <AppIcon icon={faUtensils} size="3x" style={{marginBottom: "10px"}}/>
                                     <p>Escolha a foto <br/><small>Clique aqui ou arraste uma foto</small></p>
                                 </div>
                                 <div style={{textAlign: "center"}}>
                                     <small>Formatos: .jpg, .png, .jpeg, .webp <br/> Peso máximo: 1mb <br/> Resolução mínima: 200px</small>
                                 </div>
-                                {file && (
-                                    <div>
+
+                                {fileErrors.length > 0 ? (
+                                    <div className={"mt-4"}>
+                                        <h4>Arquivo inválido:</h4>
+                                        <ul>
+                                            {fileErrors.map((error, index) => (
+                                                <li key={index}>{error}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ) : selectedFile && (
+                                    <div className={"mt-4"}>
                                         <h4>File Uploaded:</h4>
-                                        <p>{file.name}</p>
-                                        <p>{file.size}</p>
-                                        <p>{file.type}</p>
-                                        <p>{file.lastModified}</p>
+                                        <p>Name: {selectedFile.name}</p>
+                                        <p>Size: {formatFileSize(selectedFile.size)}</p>
+                                        <p>Type: {selectedFile.type}</p>
+                                        <p>Last Modified: {(new Date(selectedFile.lastModified)).toLocaleString()}</p>
                                     </div>
                                 )}
                             </Col>
@@ -212,6 +328,13 @@ export default function AddProduct() {
                             </Button>
                         </div>
                     </Card.Body>
+
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        style={{display: "none"}}
+                        onChange={handleFileSelection}
+                    />
                 </Form>
             </Card>
         </Container>

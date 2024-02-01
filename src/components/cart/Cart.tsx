@@ -1,16 +1,16 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import { Button, Container, Form, InputGroup, ListGroup, Navbar } from "react-bootstrap";
-import { Prisma } from "@/core/types/prisma";
+import React, {Suspense, useEffect, useState} from "react";
+import {Button, Container, Form, InputGroup, ListGroup, Navbar} from "react-bootstrap";
+import {Prisma} from "@/core/types/prisma";
 import Loading from "@/components/Loading";
-import { useRouter } from "next/navigation";
-import { useCart } from "@/core/hooks/useCart";
-import { formatCurrency } from "@/core/functions";
+import {useRouter} from "next/navigation";
+import {useCart} from "@/core/hooks/useCart";
+import {formatCurrency} from "@/core/functions";
 import Image from "next/image";
 import slugify from "slugify";
 import AppIcon from "@/components/app/AppIcon";
-import { faChevronLeft, faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft, faMinus, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import styles from "./cart.module.css";
 
 export default function Cart() {
@@ -85,7 +85,8 @@ export default function Cart() {
                                 <div className="d-flex border-1">
                                     <div className="flex-shrink-0">
                                         <Image
-                                            src="https://via.placeholder.com/100" alt={slugify(item.product?.name!).toLowerCase()}
+                                            src={item.product?.images?.[0]?.path || ''}
+                                            alt={slugify(item.product?.name ?? '').toLowerCase()}
                                             className="mr-3"
                                             width={60}
                                             height={60}

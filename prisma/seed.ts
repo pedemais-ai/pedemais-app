@@ -27,31 +27,31 @@ async function createBurger(user: Prisma.User) {
                     name: 'CHEESE SALADA',
                     description: 'Delicioso pão brioche com blend de 150g na churrasqueira, queijo cheddar, picles, cebola em rodelas, tomate e alface picado, tudo coberto com nosso molho especial da casa.',
                     price: 20.99,
-                    imageUrl: 'https://via.placeholder.com/100'
+                    imageUrl: 'https://daa3jt2buy7x.cloudfront.net/images/1706760671226_HDStockImages_premium_gGJWjy.jpg'
                 },
                 {
                     name: 'CHEESE BACON',
                     description: 'Irresistível blend de 150g feito na churrasqueira, queijo cheddar, fatias de bacon e nosso molho especial da casa, tudo envolto em nosso suculento pão brioche com gergelim.',
                     price: 22.99,
-                    imageUrl: 'https://via.placeholder.com/100'
+                    imageUrl: 'https://daa3jt2buy7x.cloudfront.net/images/1706760671226_HDStockImages_premium_gGJWjy.jpg'
                 },
                 {
                     name: 'SMASH BURGUER',
                     description: 'Nosso pão brioche liso com um smash de 80g grelhado com cebola temperada, queijo cheddar fatiado e molho especial da casa.',
                     price: 18.99,
-                    imageUrl: 'https://via.placeholder.com/100'
+                    imageUrl: 'https://daa3jt2buy7x.cloudfront.net/images/1706760671226_HDStockImages_premium_gGJWjy.jpg'
                 },
                 {
                     name: 'VEGGIE BURGER',
                     description: 'Delicioso hambúrguer vegetariano com vegetais frescos, queijo derretido e molho especial em pão integral.',
                     price: 16.99,
-                    imageUrl: 'https://via.placeholder.com/100'
+                    imageUrl: 'https://daa3jt2buy7x.cloudfront.net/images/1706760671226_HDStockImages_premium_gGJWjy.jpg'
                 },
                 {
                     name: 'BBQ CHICKEN BURGER',
                     description: 'Saboroso hambúrguer de frango grelhado com molho barbecue, queijo, alface e tomate em pão de hambúrguer tradicional.',
                     price: 24.99,
-                    imageUrl: 'https://via.placeholder.com/100'
+                    imageUrl: 'https://daa3jt2buy7x.cloudfront.net/images/1706760671226_HDStockImages_premium_gGJWjy.jpg'
                 },
             ]
         },
@@ -62,13 +62,13 @@ async function createBurger(user: Prisma.User) {
                     name: 'Coca-Cola 600ml',
                     description: 'Aproveite uma garrafa de 600ml de Coca-Cola para acompanhar sua refeição.',
                     price: 8.99,
-                    imageUrl: 'https://via.placeholder.com/100'
+                    imageUrl: 'https://daa3jt2buy7x.cloudfront.net/images/1706761263528_HDStockImages.com-3t5rpF.jpg'
                 },
                 {
                     name: 'Coca-Cola 2 litros',
                     description: 'Incremente com uma garrafa maior de 2 litros de Coca-Cola para compartilhar ou se deliciar.',
                     price: 24.99,
-                    imageUrl: 'https://via.placeholder.com/100'
+                    imageUrl: 'https://daa3jt2buy7x.cloudfront.net/images/1706761263528_HDStockImages.com-3t5rpF.jpg'
                 },
             ]
         },
@@ -79,7 +79,7 @@ async function createBurger(user: Prisma.User) {
                     name: 'Batatas Fritas Tradicionais',
                     description: 'Experimente nossas deliciosas batatas fritas tradicionais, crocantes por fora e macias por dentro.',
                     price: 9.99,
-                    imageUrl: 'https://via.placeholder.com/100'
+                    imageUrl: 'https://daa3jt2buy7x.cloudfront.net/images/1706761604322_HDStockImages.com-ezCysv.jpg'
                 },
             ]
         }
