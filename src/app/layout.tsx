@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import './icons.css';
 import './globals.css';
-import ClientSideLayout from '@/components/ClientSideLayout';
+import ColorSchema from '@/components/ColorSchema';
 import {config} from '@fortawesome/fontawesome-svg-core';
 import {Metadata} from "next";
 
@@ -22,12 +22,14 @@ export const metadata: Metadata = {
     robots: 'index, follow',
 }
 
-export default function RootLayout({children}: { children: React.ReactNode }) {
+export default function RootLayout({children}: {
+    children: React.ReactNode
+}) {
     return (
         <html lang="en">
         <body>
+        <ColorSchema/>
         <Suspense fallback={<>Loading...</>}>
-            <ClientSideLayout/>
             {children}
         </Suspense>
         </body>

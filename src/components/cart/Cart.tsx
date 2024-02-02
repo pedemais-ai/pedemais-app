@@ -66,14 +66,14 @@ export default function Cart() {
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Button variant="outline-secondary" onClick={handleBackButtonClick}>
-                            <AppIcon icon={faChevronLeft} className={"me-2"} />
+                            <AppIcon icon={faChevronLeft} className={"me-2"}/>
                             Voltar
                         </Button>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <ListGroup style={{ marginTop: '4rem' }}>
-                <Suspense fallback={<Loading />}>
+            <ListGroup style={{marginTop: '4rem'}}>
+                <Suspense fallback={<Loading/>}>
                     {!cart?.items || cart?.items?.length === 0 ? (
                         <ListGroup.Item variant="info">Seu carrinho está vazio</ListGroup.Item>
                     ) : (
@@ -106,7 +106,7 @@ export default function Cart() {
                                                             disabled={isUpdatingQuantity}
                                                             onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                                                         >
-                                                            {item.quantity > 1 ? <AppIcon icon={faMinus} /> : <AppIcon icon={faTrash} />}
+                                                            {item.quantity > 1 ? <AppIcon icon={faMinus}/> : <AppIcon icon={faTrash}/>}
                                                         </Button>
                                                         <Form.Control
                                                             type="text"
@@ -118,7 +118,7 @@ export default function Cart() {
                                                             disabled={isUpdatingQuantity}
                                                             onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                                                         >
-                                                            <AppIcon icon={faPlus} />
+                                                            <AppIcon icon={faPlus}/>
                                                         </Button>
                                                     </InputGroup>
                                                 </div>
@@ -127,7 +127,7 @@ export default function Cart() {
                                         <small>{item.note ? <small className="mt-3 text-muted fs-0">Obs: {item.note}</small> : ''}</small>
                                     </div>
                                 </div>
-                                <hr />
+                                <hr/>
                             </ListGroup.Item>
                         ))
                     )}

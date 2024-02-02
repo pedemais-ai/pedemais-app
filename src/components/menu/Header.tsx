@@ -9,8 +9,9 @@ import Loading from "@/components/Loading";
 import {useCart} from "@/core/hooks/useCart";
 import AppButton from "@/components/app/AppButton";
 import AppIcon from "@/components/app/AppIcon";
-import {faCartShopping, faMoon, faSun} from "@fortawesome/free-solid-svg-icons";
+import {faCartShopping} from "@fortawesome/free-solid-svg-icons";
 import {useCategory} from "@/core/hooks/useCategory";
+import {useThemeStore} from "@/core/hooks/useThemeStore";
 
 export default function MenuHeader({store}: { store: Prisma.Store }) {
     const cartState = useCart();
@@ -18,21 +19,8 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
 
     const [cart, setCart] = useState<Prisma.Cart | null>();
     const [categories, setCategories] = useState<Prisma.Category[] | null>();
-    const [storedTheme, setStoredTheme] = useState(
-        typeof window !== "undefined" ? localStorage.getItem("data-bs-theme") : null
-    );
 
-    const toggleTheme = () => {
-        const newTheme = storedTheme === 'dark' ? 'light' : 'dark';
-
-        // Set the data-bs-theme attribute dynamically on the client side
-        document.body.setAttribute('data-bs-theme', newTheme);
-
-        // Save the new theme to localStorage
-        localStorage.setItem('data-bs-theme', newTheme);
-
-        setStoredTheme(newTheme);
-    };
+    const {icon: themeIcon, theme, toggleTheme} = useThemeStore();
 
     useEffect(() => {
         cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p));
@@ -57,7 +45,7 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                             onClick={toggleTheme}
                             style={{color: 'var(--bs-secondary-color)'}}
                         >
-                            <AppIcon icon={storedTheme === 'dark' ? faMoon : faSun}/>
+                            <AppIcon icon={themeIcon}/>
                         </AppButton>
                         <AppButton variant="outline-secondary" href={"/cart"}>
                             <AppIcon icon={faCartShopping} className={"me-2"}/>
@@ -67,24 +55,24 @@ export default function MenuHeader({store}: { store: Prisma.Store }) {
                 </Container>
             </Navbar>
             <Container>
-            <Row className={styles.tabsRow}>
-                <Col md={12}>
-                    {store?.categories?.[0] ?
-                        <Nav
-                            variant="tabs"
-                            defaultActiveKey={`#${slugify(store?.categories?.[0]?.name).toLowerCase()}`}
-                            className={styles.nav}
-                        >
-                            {store?.categories?.map((category: Prisma.Category, index: number) => <>
-                                <Nav.Item key={index}>
-                                    <Nav.Link href={`#${slugify(category.name).toLowerCase()}`}>
-                                        {category.name}
-                                    </Nav.Link>
-                                </Nav.Item>
-                            </>)}
-                        </Nav> : <></>}
-                </Col>
-            </Row>
+                <Row className={styles.tabsRow}>
+                    <Col md={12}>
+                        {store?.categories?.[0] ?
+                            <Nav
+                                variant="tabs"
+                                defaultActiveKey={`#${slugify(store?.categories?.[0]?.name).toLowerCase()}`}
+                                className={styles.nav}
+                            >
+                                {store?.categories?.map((category: Prisma.Category, index: number) => <>
+                                    <Nav.Item key={index}>
+                                        <Nav.Link href={`#${slugify(category.name).toLowerCase()}`}>
+                                            {category.name}
+                                        </Nav.Link>
+                                    </Nav.Item>
+                                </>)}
+                            </Nav> : <></>}
+                    </Col>
+                </Row>
             </Container>
         </Suspense>
     )
