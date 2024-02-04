@@ -145,6 +145,7 @@ export default function AddProduct() {
             const formData = new FormData();
             formData.append('name', data.name);
             formData.append('description', data.description);
+            formData.append('price', String(data.price));
             formData.append('category_id', String(data.category_id));
 
             if (selectedFile) {
@@ -247,7 +248,7 @@ export default function AddProduct() {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Nome da categoria</Form.Label>
+                                    <Form.Label>Nome do produto</Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder="Informe o nome"
@@ -275,6 +276,21 @@ export default function AddProduct() {
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {errors.description?.message}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Preço do produto</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="Informe preço"
+                                        aria-label="Preço do produto"
+                                        aria-describedby="price"
+                                        aria-invalid={errors.price ? "true" : "false"}
+                                        {...register("price", {required: true})}
+                                        isInvalid={!!errors.price}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.price?.message}
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </Col>

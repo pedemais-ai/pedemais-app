@@ -94,17 +94,23 @@ export async function POST(request: NextRequest) {
                 ACL: 'public-read', // This makes the file public
             }).promise();
 
-            console.log(data)
-
             imageURL = `${AWS_CLOUDFRONT_DOMAIN}/${fileName}`;
-        } else {
-            console.log('no image')
         }
 
         const productData: any = {
             name: validatedData.name,
             description: validatedData.description,
             category_id: Number(validatedData.category_id),
+            prices: {
+                createMany: {
+                    data: [
+                        {
+                            price: validatedData.price,
+                            effective_date: new Date()
+                        },
+                    ],
+                },
+            }
         };
 
         if (imageURL) {

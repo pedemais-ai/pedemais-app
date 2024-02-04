@@ -12,6 +12,7 @@ export const PatchCategoryInputsSchema = z.object({
 export const AddProductInputsSchema = z.object({
     name: z.string().min(3).max(32),
     description: z.string().min(3).max(255),
+    price: z.number().min(0.01),
     category_id: z.string().min(1),
 });
 

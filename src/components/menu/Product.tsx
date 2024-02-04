@@ -1,19 +1,19 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import { Button, Col, Container, Form, InputGroup, Modal, Navbar, Placeholder, Ratio, Row } from "react-bootstrap";
-import { useProduct } from "@/core/hooks/useProduct";
+import React, {Suspense, useEffect, useState} from "react";
+import {Button, Col, Container, Form, InputGroup, Modal, Navbar, Placeholder, Ratio, Row} from "react-bootstrap";
+import {useProduct} from "@/core/hooks/useProduct";
 import Image from "next/image";
 import slugify from "slugify";
-import { useRouter } from "next/navigation";
-import { Prisma } from "@/core/types/prisma";
+import {useRouter} from "next/navigation";
+import {Prisma} from "@/core/types/prisma";
 import Loading from "@/components/Loading";
-import { formatCurrency } from "@/core/functions";
+import {formatCurrency} from "@/core/functions";
 import AppButton from "@/components/app/AppButton";
 import AppIcon from "@/components/app/AppIcon";
-import { faCartPlus, faChevronLeft, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {faCartPlus, faChevronLeft, faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 import styles from "./product.module.css";
-import { useCart } from "@/core/hooks/useCart";
+import {useCart} from "@/core/hooks/useCart";
 
 export default function Product({ id }: { id: number }) {
 
@@ -153,7 +153,7 @@ export default function Product({ id }: { id: number }) {
                             <Ratio aspectRatio={'4x3'}>
                                 {product ?
                                     <Image
-                                        src={product?.images?.[0].path ?? ''}
+                                        src={product?.images?.[0]?.path ?? ''}
                                         alt={slugify(product?.name || '').toLowerCase()}
                                         width={400}
                                         height={300}
@@ -173,7 +173,7 @@ export default function Product({ id }: { id: number }) {
                                 </Placeholder>
                             </>}</h4>
                             <h5 className="text-primary mb-3">
-                                {product ? formatCurrency(product?.prices?.[0].price || 0) : <>
+                                {product ? formatCurrency(product?.prices?.[0]?.price || 0) : <>
                                     <Placeholder animation="glow">
                                         <Placeholder xs={3} bg="primary" />
                                     </Placeholder>
@@ -247,7 +247,7 @@ export default function Product({ id }: { id: number }) {
             <Modal.Body>
                 <Ratio aspectRatio={'4x3'}>
                     <Image
-                        src={product?.images?.[0].path ?? ''}
+                        src={product?.images?.[0]?.path ?? ''}
                         alt={slugify(product?.name || '').toLowerCase()}
                         width={200}
                         height={150}
