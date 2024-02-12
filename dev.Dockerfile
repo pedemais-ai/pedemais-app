@@ -7,6 +7,7 @@ COPY src ./src
 COPY public ./public
 COPY next.config.js .
 COPY tsconfig.json .
+COPY .env .
 
 RUN npm ci
 RUN npm install -g prisma ts-node next
