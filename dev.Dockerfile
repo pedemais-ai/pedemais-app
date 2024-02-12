@@ -9,6 +9,6 @@ COPY next.config.js .
 COPY tsconfig.json .
 
 RUN npm ci
-RUN npm install -g prisma ts-node
+RUN npm install -g prisma ts-node next
 
 CMD npm run dev
