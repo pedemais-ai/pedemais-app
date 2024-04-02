@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -242,4 +243,17 @@ model CartItem {
 
   cart    Cart    @relation(fields: [cart_id], references: [id])
   product Product @relation(fields: [product_id], references: [id])
+}
+
+model Lead {
+  id              Int      @id @default(autoincrement())
+  name            String
+  email           String
+  store_name      String
+  phone_number    String
+  orders_per_day  Int
+  password        String?
+  ifood_url       String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
 }
