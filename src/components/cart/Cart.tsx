@@ -21,6 +21,10 @@ export default function Cart() {
     const [cart, setCart] = useState<Prisma.Cart | null>();
     const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
 
+    const handleFinishButtonClick = () => {
+        router.push('/checkout')
+    };
+
     const handleBackButtonClick = () => {
         router.back();
     };
@@ -143,6 +147,7 @@ export default function Cart() {
                             className="w-100 my-2 fs-5"
                             variant="primary"
                             disabled={cart?.items?.length === 0}
+                            onClick={handleFinishButtonClick}
                         >
                             Avançar ({formatCurrency(cart?.totalPrice || 0)})
                         </Button>

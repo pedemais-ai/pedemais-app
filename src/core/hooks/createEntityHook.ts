@@ -67,7 +67,7 @@ export const createEntityHook = <T>(
             try {
                 const allEntities = await fetchEntity(`${API_URL}/${apiEndpoint}`);
 
-                set((state) => ({
+                set(() => ({
                     entities: allEntities,
                 }));
 
