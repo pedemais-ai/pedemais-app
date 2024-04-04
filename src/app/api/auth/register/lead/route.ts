@@ -2,7 +2,6 @@ import {prisma} from "@/prisma";
 import {NextRequest, NextResponse} from "next/server";
 import {z} from "zod";
 import {LeadRegistrationInputs, LeadRegistrationInputsSchema} from "@/components/auth/register/leads/types";
-import bcrypt from "bcrypt";
 
 export async function POST(request: NextRequest, context: {}) {
     try {
@@ -14,7 +13,8 @@ export async function POST(request: NextRequest, context: {}) {
                 email: json.email,
                 store_name: json.store_name,
                 phone_number: json.phone_number,
-                orders_per_day: json.orders_per_day,
+                orders_per_day: Number(json.orders_per_day),
+                has_computer: "1" === json.has_computer,
             },
         });
 
@@ -31,49 +31,6 @@ export async function POST(request: NextRequest, context: {}) {
                 status: 400,
             });
         }
-
-        return NextResponse.json({
-            error: error.message,
-        }, {
-            status: 400,
-        });
-    } finally {
-        await prisma.$disconnect();
-    }
-}
-
-export async function PATCH(request: NextRequest) {
-    try {
-        const requestBody = await request.json();
-        const {id, password} = requestBody;
-
-        const lead = await prisma.lead.findUnique({
-            where: {
-                id: Number(id),
-            },
-        });
-
-        if (!lead) {
-            throw new Error('Lead not found');
-        }
-
-        const hashed = await bcrypt.hash(password, 10);
-
-        await prisma.lead.update({
-            where: {
-                id: lead.id,
-            },
-            data: {
-                password: hashed,
-            },
-        });
-
-
-        return NextResponse.json(lead, {
-            status: 200,
-        });
-    } catch (error: any) {
-        console.error('Error updating lead:', error);
 
         return NextResponse.json({
             error: error.message,

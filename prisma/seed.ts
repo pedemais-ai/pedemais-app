@@ -1,5 +1,6 @@
 import {PrismaClient} from '@prisma/client'
 import {Prisma} from "@/core/types/prisma";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient()
 
@@ -256,10 +257,13 @@ async function createSushi(user: Prisma.User) {
 }
 
 async function alf() {
+    const hashed = await bcrypt.hash('123123', 10);
+
     const user = await prisma.user.create({
         data: {
             name: 'Alfredo Costa',
             email: 'alfredocosta@live.com',
+            password: hashed,
         }
     });
 
@@ -284,10 +288,13 @@ async function alf() {
 }
 
 async function tirrom() {
+    const hashed = await bcrypt.hash('123123', 10);
+
     const user = await prisma.user.create({
         data: {
             name: 'Rômulo Pita',
             email: 'romulo.pvb@gmail.com',
+            password: hashed,
         }
     });
 
