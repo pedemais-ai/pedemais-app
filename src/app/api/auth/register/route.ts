@@ -4,6 +4,7 @@ import {prisma} from "@/prisma";
 import {NextRequest, NextResponse} from "next/server";
 import {UserRegistrationInputs, UserRegistrationInputsSchema} from "@/components/auth/register/types";
 import {z} from "zod";
+import bcrypt from "bcrypt";
 
 export async function POST(request: NextRequest, context: {}) {
     const session = await getServerSession(authOptions);
@@ -29,14 +30,19 @@ export async function POST(request: NextRequest, context: {}) {
             }]);
         }
 
+        const hashed = await bcrypt.hash(json.password, 10);
+
         const newUser = await prisma.user.create({
             data: {
                 name: json.name,
                 email: json.email,
+                password: hashed
             },
         });
 
-        return NextResponse.json(newUser, {
+        const {password: omit, ...userWithoutPassword} = newUser;
+
+        return NextResponse.json(userWithoutPassword, {
             status: 201, // 201 Created status code
         });
     } catch (error: any) {
