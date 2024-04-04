@@ -1,4 +1,4 @@
-import type {NextAuthOptions, User} from 'next-auth'
+import type {NextAuthOptions} from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import {GITHUB_ID, GITHUB_SECRET, GOOGLE_ID, GOOGLE_SECRET} from "@/constants";
@@ -47,26 +47,26 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
-    callbacks: {
-        async signIn({user}: { user: User }) {
-            const existingUser = await prisma.user.findUnique({
-                where: {
-                    email: String(user.email)
-                },
-            });
-
-            if (!existingUser) {
-                await prisma.user.create({
-                    data: {
-                        name: String(user.name),
-                        email: String(user.email),
-                        password: '0000000000000000'
-                    },
-                });
-            }
-
-            return true;
-        },
-    },
+    // callbacks: {
+    //     async signIn({user}: { user: User }) {
+    //         const existingUser = await prisma.user.findUnique({
+    //             where: {
+    //                 email: String(user.email)
+    //             },
+    //         });
+    //
+    //         if (!existingUser) {
+    //             await prisma.user.create({
+    //                 data: {
+    //                     name: String(user.name),
+    //                     email: String(user.email),
+    //                     password: '0000000000000000'
+    //                 },
+    //             });
+    //         }
+    //
+    //         return true;
+    //     },
+    // },
     debug: false
 }
