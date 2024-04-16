@@ -5,8 +5,10 @@ import {GITHUB_ID, GITHUB_SECRET, GOOGLE_ID, GOOGLE_SECRET} from "@/constants";
 import {prisma} from "@/prisma";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+import {PrismaAdapter} from "@auth/prisma-adapter";
 
 export const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(prisma) as any,
     providers: [
         GitHubProvider({
             clientId: GITHUB_ID,

@@ -15,10 +15,12 @@ export default async function Profile() {
 
     return (
         <>
+            <pre>{JSON.stringify(session)}</pre>
             <Container className={"m-3"}>
                 <Row>
                     <Col xs={4} lg={2}>
-                        <Image src={String(session?.user?.image)} width={100} height={100} alt={"profile-pic"}/>
+                        {session?.user?.image ?
+                            <Image src={String(session?.user?.image)} width={100} height={100} alt={"profile-pic"}/> : ''}
                     </Col>
                     <Col xs={8} lg={10}>
                         <Table bordered>
