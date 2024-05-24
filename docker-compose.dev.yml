@@ -12,7 +12,9 @@ services:
       - .:/app
     restart: always
     ports:
-      - "3002:3000"
+      - "3000:3000"
+    networks:
+      - pedemais_network
   postgres:
     container_name: pedemais-app-postgres
     image: postgres:latest
@@ -22,6 +24,11 @@ services:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - "54320:5432"
-
+    networks:
+      - pedemais_network
 volumes:
   postgres-data:
+
+networks:
+  pedemais_network:
+    driver: bridge
