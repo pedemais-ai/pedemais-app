@@ -1,42 +1,14 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
-import {Col, Container, Nav, Navbar, NavDropdown, Row} from "react-bootstrap";
+import React, {useState} from "react";
+import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {faClipboardList, faCog, faUser, faUtensils} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import Timer from "@/components/admin/header/Timer";
 import AppIcon from "@/components/app/AppIcon";
 
 export default function Header() {
     const [expanded, setExpanded] = useState(false);
-    const [currentTime, setCurrentTime] = useState(getCurrentDateTime());
-
-    function getCurrentDateTime() {
-        const currentTime = new Date();
-
-        const dayOfWeek = new Intl.DateTimeFormat('pt-BR', {weekday: 'long'}).format(currentTime);
-        const dayOfMonth = new Intl.DateTimeFormat('pt-BR', {day: 'numeric'}).format(currentTime);
-        const month = new Intl.DateTimeFormat('pt-BR', {month: 'short'}).format(currentTime);
-
-        const formattedTime = currentTime.toLocaleTimeString('pt-BR', {
-            hour: 'numeric',
-            minute: 'numeric',
-        });
-
-        return {
-            dayOfWeek,
-            dayOfMonth,
-            month,
-            formattedTime,
-        };
-    }
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            setCurrentTime(getCurrentDateTime());
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, []);
 
     return (
         <>
@@ -44,7 +16,7 @@ export default function Header() {
                 <Container fluid>
                     <Navbar.Brand className="text-white">
                         <Nav.Link as={Link} href={"/admin"}>
-                            qfome.ai
+                            PedeMais.ai
                         </Nav.Link>
                     </Navbar.Brand>
 
@@ -67,18 +39,8 @@ export default function Header() {
                         </Nav>
                         <div className="position-absolute end-0 text-white d-flex align-items-center me-2">
 
-                            <div className="text-right">
-                                <Row className="mb-0">
-                                    <Col className="text-end mb-0" style={{lineHeight: '1', fontSize: '0.75rem'}}>
-                                        <small>{currentTime.dayOfWeek.toUpperCase()}</small>
-                                        <br/>
-                                        <small>{currentTime.dayOfMonth} {currentTime.month.toUpperCase()}</small>
-                                    </Col>
-                                </Row>
-                            </div>
-                            <div className="text-right ms-1 me-4">
-                                <p className="mb-0 fs-3">{currentTime.formattedTime}</p>
-                            </div>
+                            <Timer />
+
                             <div className="position-static me-2">
                                 <NavDropdown
                                     title={
