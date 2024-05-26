@@ -1,5 +1,6 @@
 import {authOptions} from "./api/auth/[...nextauth]/authOptions"
 import {getServerSession} from "next-auth/next"
+import Link from "next/link";
 
 export default async function Home() {
     const session = await getServerSession(authOptions)
@@ -11,7 +12,10 @@ export default async function Home() {
                     Hello {session?.user?.name}!
                 </>
             ) : (
-                <h1 className="text-5xl">You Shall Not Pass!</h1>
+                <>
+                    <Link href={"/api/auth/signin"}>Sign-in</Link>
+                    <Link href={"/api/auth/register"}>Sign-up</Link>
+                </>
             )}
         </>
     )

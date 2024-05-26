@@ -13,6 +13,7 @@ export const authOptions: NextAuthOptions = {
         GitHubProvider({
             clientId: GITHUB_ID,
             clientSecret: GITHUB_SECRET,
+            allowDangerousEmailAccountLinking: true
         }),
         GoogleProvider({
             clientId: GOOGLE_ID,
@@ -49,26 +50,4 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
-    // callbacks: {
-    //     async signIn({user}: { user: User }) {
-    //         const existingUser = await prisma.user.findUnique({
-    //             where: {
-    //                 email: String(user.email)
-    //             },
-    //         });
-    //
-    //         if (!existingUser) {
-    //             await prisma.user.create({
-    //                 data: {
-    //                     name: String(user.name),
-    //                     email: String(user.email),
-    //                     password: '0000000000000000'
-    //                 },
-    //             });
-    //         }
-    //
-    //         return true;
-    //     },
-    // },
-    debug: false
 }
