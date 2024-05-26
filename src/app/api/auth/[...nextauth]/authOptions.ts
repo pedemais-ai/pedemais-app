@@ -8,6 +8,11 @@ import bcrypt from "bcrypt";
 import {PrismaAdapter} from "@auth/prisma-adapter";
 
 export const authOptions: NextAuthOptions = {
+    session: {
+        strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60,
+        updateAge: 24 * 60 * 60,
+    },
     adapter: PrismaAdapter(prisma) as any,
     providers: [
         GitHubProvider({
@@ -50,4 +55,38 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
+    callbacks: {
+        async signIn({user, account, profile, email, credentials}) {
+            const existingUser = await prisma.user.findUnique({
+                where: {
+                    email: String(user.email)
+                },
+            });
+
+            if (!existingUser) {
+                return '/api/auth/register'
+            }
+
+            return true;
+        },
+        async session({session, token, user}) {
+            console.log('session', session)
+
+            return session
+        },
+        async jwt({token, user, account, profile}) {
+
+            return token
+        },
+        async redirect({url, baseUrl}) {
+            if (url.startsWith("/")) {// Allows relative callback URLs
+                return `${baseUrl}${url}`;
+            } else if (new URL(url).origin === baseUrl) { // Allows callback URLs on the same origin
+                return url;
+            }
+
+            return baseUrl;
+        }
+    },
+    debug: false
 }
