@@ -32,7 +32,7 @@ export default function Header() {
                                 <AppIcon icon={faClipboardList} className="me-2"/>
                                 Gestor de Cardápio
                             </Nav.Link>
-                            <Nav.Link as={Link} href={"/admin/config"}>
+                            <Nav.Link as={Link} href={"/admin/config/store"}>
                                 <AppIcon icon={faCog} className="me-2"/>
                                 Configurações
                             </Nav.Link>

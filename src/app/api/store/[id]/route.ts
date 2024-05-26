@@ -58,3 +58,69 @@ export async function GET(
         await prisma.$disconnect();
     }
 }
+
+export async function PATCH(
+    request: NextRequest,
+    {params}: { params: { id: string } }
+) {
+    try {
+        const storeId = Number(params.id);
+
+        const {name, minimum_order_price} = await request.json();
+
+        const updatedStore = await prisma.store.update({
+            where: {
+                id: storeId,
+            },
+            data: {
+                name: name,
+                minimum_order_price: minimum_order_price,
+            },
+            include: {
+                categories: {
+                    include: {
+                        products: {
+                            include: {
+                                prices: {
+                                    where: {
+                                        effective_date: {
+                                            lte: new Date(),
+                                        },
+                                    },
+                                    orderBy: {
+                                        effective_date: 'desc',
+                                    },
+                                    take: 1,
+                                },
+                                images: {
+                                    orderBy: {
+                                        id: 'asc',
+                                    },
+                                    take: 1,
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        return NextResponse.json(updatedStore, {
+            status: 200,
+        });
+    } catch (error: any) {
+        console.error('Error updating store:', error);
+
+        return NextResponse.json(
+            {
+                error: error.message,
+            },
+            {
+                status: 400,
+            }
+        );
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+

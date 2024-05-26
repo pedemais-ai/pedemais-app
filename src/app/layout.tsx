@@ -6,6 +6,7 @@ import './globals.css';
 import ColorSchema from '@/components/ColorSchema';
 import {config} from '@fortawesome/fontawesome-svg-core';
 import {Metadata} from "next";
+import AuthProvider from "@/components/auth/context/AuthProvider";
 
 config.autoAddCss = false;
 
@@ -28,10 +29,12 @@ export default function RootLayout({children}: {
     return (
         <html lang="en">
         <body>
-        <ColorSchema/>
-        <Suspense fallback={<>Loading...</>}>
-            {children}
-        </Suspense>
+        <AuthProvider>
+            <ColorSchema/>
+            <Suspense fallback={<>Loading...</>}>
+                {children}
+            </Suspense>
+        </AuthProvider>
         </body>
         </html>
     );

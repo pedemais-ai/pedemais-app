@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials, req) {
                 if (!credentials?.username || !credentials?.password) {
-                    throw new Error('Username and password are required');
+                    throw new Error('Invalid user name or password');
                 }
 
                 const user = await prisma.user.findUnique({
@@ -42,13 +42,17 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (!user) {
-                    throw new Error('User not found');
+                    throw new Error('Invalid user name or password');
                 }
 
-                const passwordMatch = await bcrypt.compare(credentials?.password, user.password);
+                if (!user.password) {
+                    throw new Error('Invalid user name or password');
+                }
+
+                const passwordMatch = await bcrypt.compare(credentials.password, user.password);
 
                 if (!passwordMatch) {
-                    throw new Error('Invalid password');
+                    throw new Error('Invalid user name or password');
                 }
 
                 return user as any;
@@ -70,13 +74,10 @@ export const authOptions: NextAuthOptions = {
             return true;
         },
         async session({session, token, user}) {
-            console.log('session', session)
-
-            return session
+            return session;
         },
         async jwt({token, user, account, profile}) {
-
-            return token
+            return token;
         },
         async redirect({url, baseUrl}) {
             if (url.startsWith("/")) {// Allows relative callback URLs

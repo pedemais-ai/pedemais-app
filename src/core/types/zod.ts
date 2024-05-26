@@ -16,8 +16,15 @@ export const AddProductInputsSchema = z.object({
     category_id: z.string().min(1),
 });
 
+export const UpdateStoreConfigInputsSchema = z.object({
+    name: z.string().min(3).max(32),
+    minimum_order_price: z.number().min(0.01),
+});
+
 
 export type AddCategoryInputs = z.infer<typeof AddCategoryInputsSchema>;
 export type PatchCategoryInputs = z.infer<typeof PatchCategoryInputsSchema>;
 
 export type AddProductInputs = z.infer<typeof AddProductInputsSchema>;
+
+export type UpdateStoreConfigInputs = z.infer<typeof UpdateStoreConfigInputsSchema>;

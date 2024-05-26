@@ -16,7 +16,8 @@ export async function GET(request: NextRequest) {
                 email: session.user.email,
             },
             include: {
-                clients: true
+                clients: true,
+                stores: true,
             }
         });
 
