@@ -17,7 +17,12 @@ export async function GET(request: NextRequest) {
             },
             include: {
                 clients: true,
-                stores: true,
+                stores: {
+                    include: {
+                        paymentMethods: true,
+                        deliveryMethods: true
+                    }
+                },
             }
         });
 

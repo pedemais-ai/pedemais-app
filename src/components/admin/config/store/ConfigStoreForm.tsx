@@ -9,13 +9,19 @@ import {Prisma} from "@/core/types/prisma";
 import Loading from "@/app/loading";
 import {useSession} from "next-auth/react";
 import {useMe} from "@/core/hooks/useMe";
+import {usePaymentMethod} from "@/core/hooks/usePaymentMethod";
+import {useDeliveryMethod} from "@/core/hooks/useDeliveryMethod";
 
 export default function ConfigStoreForm() {
 
     const [me, setMe] = useState<Prisma.User>();
     const [store, setStore] = useState<Prisma.Store>();
+    const [paymentMethods, setPaymentMethods] = useState<Prisma.PaymentMethod[]>([]);
+    const [deliveryMethods, setDeliveryMethods] = useState<Prisma.DeliveryMethod[]>([]);
 
     const meState = useMe();
+    const paymentMethodState = usePaymentMethod();
+    const deliveryMethodState = useDeliveryMethod();
 
     const {
         register,
@@ -49,6 +55,18 @@ export default function ConfigStoreForm() {
 
         setStore(me.stores[0]);
     }, [me]);
+
+    useEffect(() => {
+        paymentMethodState.findAll().then((p: Prisma.PaymentMethod[]) => {
+            if (p) setPaymentMethods(p);
+        });
+    }, []);
+
+    useEffect(() => {
+        deliveryMethodState.findAll().then((p: Prisma.DeliveryMethod[]) => {
+            if (p) setDeliveryMethods(p);
+        });
+    }, []);
 
     const onSubmit: SubmitHandler<UpdateStoreConfigInputs> = async function (data) {
 
@@ -135,6 +153,30 @@ export default function ConfigStoreForm() {
                             <Form.Control.Feedback type="invalid">
                                 {errors.minimum_order_price?.message}
                             </Form.Control.Feedback>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Métodos de pagamento</Form.Label>
+                            {paymentMethods.map((method: Prisma.PaymentMethod) => (
+                                <Form.Check
+                                    key={method.id}
+                                    type="checkbox"
+                                    label={method.name}
+                                    defaultChecked={store.paymentMethods?.includes(method)}
+                                />
+                            ))}
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Métodos de entrega</Form.Label>
+                            {deliveryMethods.map((method: Prisma.DeliveryMethod) => (
+                                <Form.Check
+                                    key={method.id}
+                                    type="checkbox"
+                                    label={method.name}
+                                    defaultChecked={store.deliveryMethods?.includes(method)}
+                                />
+                            ))}
                         </Form.Group>
 
                         <Button type={"submit"} variant="success" size="sm">

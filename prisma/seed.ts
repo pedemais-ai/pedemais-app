@@ -318,7 +318,39 @@ async function tirrom() {
     await createSushi(user);
 }
 
+async function config() {
+
+    const paymentMethods = [
+        {name: 'PIX'},
+        {name: 'Dinheiro'},
+        {name: 'Cartão'},
+    ];
+
+    for (const method of paymentMethods) {
+        await prisma.paymentMethod.create({
+            data: {
+                name: method.name,
+            }
+        });
+    }
+
+    const deliveryMethods = [
+        {name: 'Delivery'},
+        {name: 'Retirada'},
+    ];
+
+    for (const method of deliveryMethods) {
+        await prisma.deliveryMethod.create({
+            data: {
+                name: method.name,
+            }
+        });
+    }
+}
+
 async function main() {
+
+    await config();
 
     await alf();
     await tirrom();

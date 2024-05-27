@@ -4,12 +4,16 @@ import {
     Category as PrismaCategory,
     Client as PrismaClient,
     Contact as PrismaContact,
+    DeliveryMethod as PrismaDeliveryMethod,
     Flow as PrismaFlow,
     Message as PrismaMessage,
+    PaymentMethod as PrismaPaymentMethod,
     Product as PrismaProduct,
     ProductImage as PrismaProductImage,
     ProductPrice as PrismaProductPrice,
     Store as PrismaStore,
+    StoreDeliveryMethod as PrismaStoreDeliveryMethod,
+    StorePaymentMethod as PrismaStorePaymentMethod,
     User as PrismaUser,
 } from ".prisma/client";
 
@@ -54,9 +58,18 @@ declare namespace Prisma {
 
     export type Store = PrismaStore & {
         categories?: Category[]
+        paymentMethods?: PaymentMethod[]
+        deliveryMethods?: PaymentMethod[]
     };
+
+    export type PaymentMethod = PrismaPaymentMethod & {};
+    export type StorePaymentMethod = PrismaStorePaymentMethod & {};
+
+    export type DeliveryMethod = PrismaDeliveryMethod & {};
+    export type StoreDeliveryMethod = PrismaStoreDeliveryMethod & {};
 
     export type User = PrismaUser & {
         stores?: Store[]
     };
+
 }
