@@ -8,10 +8,9 @@ export default function ConfigNavs() {
     const pathname = usePathname();
 
     const navItems = [
-        {href: "/admin/config/menu", text: "Cardápio Digital"},
-        {href: "/admin/config/orders", text: "Pedidos"},
-        {href: "/admin/config/bot", text: "Robô"},
-        {href: "/admin/config/payments", text: "Formas de Pagamento"},
+        {href: "/admin/config/menu", text: "Cardápio"},
+        {href: "/admin/config/order", text: "Pedidos"},
+        {href: "/admin/config/calendar", text: "Feriados"},
         {href: "/admin/config/printer", text: "Impressora"},
         {href: "/admin/config/store", text: "Estabelecimento"},
     ];
