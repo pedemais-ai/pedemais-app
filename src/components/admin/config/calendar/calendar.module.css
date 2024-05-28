@@ -1,21 +1,3 @@
-.frame {
-    width: 400px;
-    border: 1px solid lightgrey;
-    box-shadow: 2px 2px 2px #eee;
-}
-
-.header {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px 10px 5px 10px;
-    display: flex;
-    justify-content: space-between;
-    background-color: #f5f6fa;
-}
-
-.button {
-    cursor: pointer;
-}
 
 .body {
     width: 100%;
@@ -24,16 +6,24 @@
 }
 
 .day {
-    width: 14.2%;
-    height: 40px;
+    width: calc(100% / 7);
+    height: 5rem;
+    display: flex;
+    /*cursor: pointer;*/
+    border: 1px solid #eee;
+}
+
+.weekDay {
+    width: calc(100% / 7);
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    border: 1px solid #eee;
 }
 
 .isToday {
-    border: 1px solid #eee;
+    border: 1px solid #ccc;
 }
 
 .isSelected {
