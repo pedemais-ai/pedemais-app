@@ -6,6 +6,7 @@ import {faClipboardList, faCog, faUser, faUtensils} from "@fortawesome/free-soli
 import Link from "next/link";
 import Timer from "@/components/admin/header/Timer";
 import AppIcon from "@/components/app/AppIcon";
+import StoreStatusToggle from "@/components/admin/header/StoreStatusToggle";
 
 export default function Header() {
     const [expanded, setExpanded] = useState(false);
@@ -39,6 +40,7 @@ export default function Header() {
                         </Nav>
                         <div className="position-absolute end-0 text-white d-flex align-items-center me-2">
 
+                            <StoreStatusToggle/>
                             <Timer />
 
                             <div className="position-static me-2">

@@ -66,16 +66,13 @@ export async function PATCH(
     try {
         const storeId = Number(params.id);
 
-        const {name, minimum_order_price} = await request.json();
+        const json = await request.json();
 
         const updatedStore = await prisma.store.update({
             where: {
                 id: storeId,
             },
-            data: {
-                name: name,
-                minimum_order_price: minimum_order_price,
-            },
+            data: json,
             include: {
                 categories: {
                     include: {
