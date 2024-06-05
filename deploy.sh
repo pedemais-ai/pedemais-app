@@ -16,28 +16,8 @@ echo "Deploying from branch: $(git branch --show-current)"
 echo "Pulling the latest changes from Git..."
 git pull
 
-# Install Node.js dependencies
-echo "Installing Node.js dependencies..."
-npm install
-
-# Cleanup previous builds
-echo "Cleaning up previous builds..."
-rm -rf .next
-
-# Generate prisma client
-echo "Generating prisma client..."
-prisma migrate deploy
-
-# Run database migrations
-echo "Running database migrations..."
-prisma migrate deploy
-
-# Load environment variables
-echo "Loading environment variables..."
-npm run build
-
-# Restart the PM2 process
-echo "Restarting the PM2 process..."
-pm2 restart next-js
+# Re-build and start containers
+echo "Building containers"
+docker-compose -f docker-compose.prod.yml up -d --build
 
 echo "Deployment completed successfully."
