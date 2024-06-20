@@ -20,4 +20,6 @@ git pull
 echo "Building containers"
 docker-compose -f docker-compose.dev.yml up -d --build
 
+docker exec -it pedemais-app-dev prisma migrate dev
+
 echo "Deployment completed successfully."
