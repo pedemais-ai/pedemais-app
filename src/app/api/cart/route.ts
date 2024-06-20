@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
             cart = await createUserCart(user.id);
         }
 
-        const totalPrice = cart.items.reduce((sum: number, item) => {
+        const totalPrice = cart.items.reduce((sum: number, item: any) => {
             const productPrice = item.product?.prices[0];
 
             if (!productPrice) {
@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
         // Retrieve the updated cart
         cart = await getUserCart(Number(user?.id));
 
-        const totalPrice = cart!.items.reduce((sum: number, item) => {
+        const totalPrice = cart!.items.reduce((sum, item: any) => {
             const productPrice = item.product?.prices[0];
 
             if (!productPrice) {
