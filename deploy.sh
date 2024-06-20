@@ -18,6 +18,6 @@ git pull
 
 # Re-build and start containers
 echo "Building containers"
-docker-compose -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.dev.yml up -d --build
 
 echo "Deployment completed successfully."
