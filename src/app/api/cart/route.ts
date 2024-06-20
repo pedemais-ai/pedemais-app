@@ -184,7 +184,7 @@ export async function POST(request: NextRequest) {
             cart = await createUserCart(user.id);
         }
 
-        const existingCartItem = cart.items.find(item => item.product?.id === Number(productId));
+        const existingCartItem = cart.items.find((item: any) => item.product?.id === Number(productId));
 
         if (existingCartItem) {
             // If the previous product doesn't have a note, update the quantity
@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
         // Retrieve the updated cart
         cart = await getUserCart(Number(user?.id));
 
-        const totalPrice = cart!.items.reduce((sum, item: any) => {
+        const totalPrice = cart!.items.reduce((sum: number, item: any) => {
             const productPrice = item.product?.prices[0];
 
             if (!productPrice) {
@@ -334,7 +334,7 @@ export async function PATCH(request: NextRequest) {
         // Retrieve the updated cart
         const cart = await getUserCart(Number(user?.id));
 
-        const totalPrice = cart!.items.reduce((sum, item) => {
+        const totalPrice = cart!.items.reduce((sum: number, item: any) => {
             const productPrice = item.product?.prices[0];
 
             if (!productPrice) {
