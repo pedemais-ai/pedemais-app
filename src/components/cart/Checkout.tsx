@@ -9,15 +9,20 @@ import {useCart} from "@/core/hooks/useCart";
 import {formatCurrency} from "@/core/functions";
 import AppIcon from "@/components/app/AppIcon";
 import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
-import {useForm} from "react-hook-form";
-import {AddProductInputs, AddProductInputsSchema} from "@/core/types/zod";
+import {SubmitHandler, useForm} from "react-hook-form";
+import {AddProductInputs, CheckoutInputs, CheckoutInputsSchema} from "@/core/types/zod";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useMe} from "@/core/hooks/useMe";
+import AppButton from "@/components/app/AppButton";
 
 export default function Checkout() {
 
     const router = useRouter();
     const cartState = useCart();
+    const meState = useMe();
 
+    const [me, setMe] = useState<Prisma.User>();
+    const [store, setStore] = useState<Prisma.Store>();
     const [cart, setCart] = useState<Prisma.Cart | null>();
 
     const handleBackButtonClick = () => {
@@ -27,119 +32,127 @@ export default function Checkout() {
     const {
         register,
         handleSubmit,
-        watch,
         formState: {
             errors,
             isSubmitting
         },
         setError
     } = useForm<AddProductInputs>({
-        resolver: zodResolver(AddProductInputsSchema),
+        resolver: zodResolver(CheckoutInputsSchema),
     });
 
+    const onSubmit: SubmitHandler<CheckoutInputs> = async function (data) {
+        try {
+            if (!store) {
+                return;
+            }
+
+            const response = await fetch(`/api/checkout`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+
+                console.log(responseData);
+
+                router.push(`/order/${responseData.id}`);
+            }
+        } catch (error) {
+            console.error('Error on checkout:', error);
+        }
+    };
+
     useEffect(() => {
-        cartState.get().then((p: Prisma.Cart | null | undefined) => setCart(p))
+        cartState.get().then((p: Prisma.Cart | null) => setCart(p))
     }, [cartState]);
 
-    return (<>
-        <Container className="col-md-6">
-            <Navbar className="bg-body-tertiary" fixed={"top"}>
-                <Container>
-                    <Navbar.Brand>
-                        Finalizar pedido
-                    </Navbar.Brand>
-                    <Navbar.Collapse className="justify-content-end">
-                        <Button variant="outline-secondary" onClick={handleBackButtonClick}>
-                            <AppIcon icon={faChevronLeft} className={"me-2"}/>
-                            Voltar para o carrinho
-                        </Button>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
+    useEffect(() => {
+        meState.get().then((p: Prisma.User | null) => {
+            if (p) setMe(p);
+        });
+    }, [meState]);
 
-            <div style={{marginTop: '4rem'}}>
-                <table>
+    useEffect(() => {
+        if (!me?.stores?.length) {
+            return;
+        }
+
+        setStore(me.stores[0]);
+    }, [me]);
+
+    return (<>
+        <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <Container className="col-md-6">
+                <Navbar className="bg-body-tertiary" fixed={"top"}>
+                    <Container>
+                        <Navbar.Brand>
+                            Finalizar pedido
+                        </Navbar.Brand>
+                        <Navbar.Collapse className="justify-content-end">
+                            <Button variant="outline-secondary" onClick={handleBackButtonClick}>
+                                <AppIcon icon={faChevronLeft} className={"me-2"}/>
+                                Voltar para o carrinho
+                            </Button>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+
+                <div style={{marginTop: '4rem'}}>
                     <Suspense fallback={<Loading/>}>
 
                         {!cart?.items || cart?.items?.length === 0 ? (
                             <span>nada por aqui</span>
                         ) : (
-                            cart?.items.map((item: Prisma.CartItem) => (<>
-                                <tr key={item.id}>
-                                    <td>{item.quantity}x {item.product?.name}</td>
-                                    <td>{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</td>
-                                </tr>
-                            </>))
+                            <>
+                                <h2>Confirme seus itens</h2>
+                                <table>
+                                    <tbody>
+                                    {cart?.items.map((item: Prisma.CartItem) => (<>
+                                        <tr key={item.id}>
+                                            <td>{item.quantity}x {item.product?.name}</td>
+                                            <td>{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</td>
+                                        </tr>
+                                    </>))}
+                                    </tbody>
+                                </table>
+                            </>
                         )}
                     </Suspense>
-                </table>
-            </div>
+                </div>
 
-            <Row className="mt-5">
-                <Col md={5}>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Nome do produto</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Informe o nome"
-                            aria-label="Nome do produto"
-                            aria-describedby="name"
-                            aria-invalid={errors.name ? "true" : "false"}
-                            {...register("name", {required: true})}
-                            isInvalid={!!errors.name}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.name?.message}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Descrição do produto</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            rows={2}
-                            placeholder="Ex: Pão brioche com fatias crocantes de bacon e queijo mussarela"
-                            aria-label="Descrição do produto"
-                            aria-describedby="description"
-                            aria-invalid={errors.description ? "true" : "false"}
-                            {...register("description", {required: true})}
-                            isInvalid={!!errors.description}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.description?.message}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Preço do produto</Form.Label>
-                        <Form.Control
-                            type="number"
-                            placeholder="Informe preço"
-                            aria-label="Preço do produto"
-                            aria-describedby="price"
-                            aria-invalid={errors.price ? "true" : "false"}
-                            {...register("price", {required: true})}
-                            isInvalid={!!errors.price}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.price?.message}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Col>
-            </Row>
+                <Row className="mt-5">
+                    <Col md={5}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Método de pagamento</Form.Label>
+                            {store?.paymentMethods?.map((method: Prisma.PaymentMethod) => (
+                                <Form.Check
+                                    key={method.id}
+                                    type="checkbox"
+                                    label={method.name}
+                                />
+                            ))}
+                        </Form.Group>
+                    </Col>
+                </Row>
 
-
-            <Navbar className="bg-body-tertiary" fixed={"bottom"}>
-                <Container className="col-md-6">
-                    <Navbar.Collapse className="justify-content-end">
-                        <Button
-                            className="w-100 my-2 fs-5"
-                            variant="primary"
-                            disabled={cart?.items?.length === 0}
-                        >
-                            Concluir pedido ({formatCurrency(cart?.totalPrice || 0)})
-                        </Button>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-        </Container>
+                <Navbar className="bg-body-tertiary" fixed={"bottom"}>
+                    <Container className="col-md-6">
+                        <Navbar.Collapse className="justify-content-end">
+                            <AppButton
+                                type={"submit"}
+                                className="w-100 my-2 fs-5"
+                                variant="primary"
+                                disabled={cart?.items?.length === 0}
+                                isLoading={isSubmitting}
+                            >
+                                Concluir pedido ({formatCurrency(cart?.totalPrice || 0)})
+                            </AppButton>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+            </Container>
+        </Form>
     </>)
 };

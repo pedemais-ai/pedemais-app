@@ -21,10 +21,14 @@ export const UpdateStoreConfigInputsSchema = z.object({
     minimum_order_price: z.number().min(0.01),
 });
 
+export const CheckoutInputsSchema = z.object({});
+
 
 export type AddCategoryInputs = z.infer<typeof AddCategoryInputsSchema>;
 export type PatchCategoryInputs = z.infer<typeof PatchCategoryInputsSchema>;
 
 export type AddProductInputs = z.infer<typeof AddProductInputsSchema>;
+
+export type CheckoutInputs = z.infer<typeof CheckoutInputsSchema>;
 
 export type UpdateStoreConfigInputs = z.infer<typeof UpdateStoreConfigInputsSchema>;

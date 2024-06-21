@@ -7,6 +7,7 @@ import {
     DeliveryMethod as PrismaDeliveryMethod,
     Flow as PrismaFlow,
     Message as PrismaMessage,
+    Order as PrismaOrder,
     PaymentMethod as PrismaPaymentMethod,
     Product as PrismaProduct,
     ProductImage as PrismaProductImage,
@@ -43,6 +44,8 @@ declare namespace Prisma {
     export type Contact = PrismaContact & {
         messages?: Message[]
     };
+
+    export type Order = PrismaOrder & {};
 
     export type Product = PrismaProduct & {
         category?: Category,
