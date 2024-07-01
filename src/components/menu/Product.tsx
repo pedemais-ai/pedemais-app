@@ -60,7 +60,7 @@ export default function Product({ id }: { id: number }) {
 
     const showAddToCartModal = async () => {
         setIsAddingProduct(true);
-        setShowModal(true);
+        handleShowModal();
         setIsAddingProduct(false);
     };
 

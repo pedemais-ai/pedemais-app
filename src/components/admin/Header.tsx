@@ -7,6 +7,7 @@ import Link from "next/link";
 import Timer from "@/components/admin/header/Timer";
 import AppIcon from "@/components/app/AppIcon";
 import StoreStatusToggle from "@/components/admin/header/StoreStatusToggle";
+import SeeStore from "@/components/admin/header/SeeStore";
 
 export default function Header() {
     const [expanded, setExpanded] = useState(false);
@@ -41,6 +42,7 @@ export default function Header() {
                         <div className="position-absolute end-0 text-white d-flex align-items-center me-2">
 
                             <StoreStatusToggle/>
+                            <SeeStore/>
                             <Timer />
 
                             <div className="position-static me-2">
