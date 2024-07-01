@@ -1,5 +1,7 @@
 import {z} from "zod";
 
+// todo Split this into multiple files. Eg.: category.ts, order.ts, product.ts
+
 export const AddCategoryInputsSchema = z.object({
     name: z.string().min(3).max(32),
 });
@@ -7,6 +9,10 @@ export const AddCategoryInputsSchema = z.object({
 export const PatchCategoryInputsSchema = z.object({
     name: z.string().min(3).max(32).optional(),
     is_active: z.boolean().optional(),
+});
+
+export const PatchOrderInputsSchema = z.object({
+    status: z.string().optional(),
 });
 
 export const AddProductInputsSchema = z.object({

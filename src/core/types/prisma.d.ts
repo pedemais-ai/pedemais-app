@@ -23,34 +23,38 @@ declare namespace Prisma {
     export type Message = PrismaMessage & {};
 
     export type Category = PrismaCategory & {
-        store?: Store
-        products?: Product[]
+        store?: Store,
+        products?: Product[],
     };
 
     export type Cart = PrismaCart & {
-        items?: CartItem[]
+        items?: CartItem[],
         totalPrice?: number,
     };
 
     export type CartItem = PrismaCartItem & {
-        product?: Product
+        product?: Product,
     };
 
     export type Client = PrismaClient & {
-        flow?: Flow
-        user?: User
+        flow?: Flow,
+        user?: User,
     };
 
     export type Contact = PrismaContact & {
-        messages?: Message[]
+        messages?: Message[],
     };
 
-    export type Order = PrismaOrder & {};
+    export type Order = PrismaOrder & {
+        user?: User,
+        storePaymentMethod?: StorePaymentMethod,
+        storeDeliveryMethod?: StoreDeliveryMethod,
+    };
 
     export type Product = PrismaProduct & {
         category?: Category,
-        prices?: ProductPrice[]
-        images?: ProductImage[]
+        prices?: ProductPrice[],
+        images?: ProductImage[],
     };
 
     export type ProductPrice = PrismaProductPrice & {
@@ -60,23 +64,22 @@ declare namespace Prisma {
     export type ProductImage = PrismaProductImage & {};
 
     export type Store = PrismaStore & {
-        categories?: Category[]
-        paymentMethods?: StorePaymentMethod[]
-        deliveryMethods?: StoreDeliveryMethod[]
+        categories?: Category[],
+        paymentMethods?: StorePaymentMethod[],
+        deliveryMethods?: StoreDeliveryMethod[],
     };
 
     export type PaymentMethod = PrismaPaymentMethod & {};
     export type StorePaymentMethod = PrismaStorePaymentMethod & {
-        paymentMethod?: PaymentMethod
+        paymentMethod?: PaymentMethod,
     };
 
     export type DeliveryMethod = PrismaDeliveryMethod & {};
     export type StoreDeliveryMethod = PrismaStoreDeliveryMethod & {
-        deliveryMethod?: DeliveryMethod
+        deliveryMethod?: DeliveryMethod,
     };
 
     export type User = PrismaUser & {
-        stores?: Store[]
+        stores?: Store[],
     };
-
 }

@@ -4,7 +4,7 @@ import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/app/api/auth/[...nextauth]/authOptions";
 import {getUser, getUserCart} from "@/app/api/helpers";
 import {CheckoutInputsSchema} from "@/core/types/zod";
-
+import {OrderStatus} from ".prisma/client";
 
 export async function POST(
     request: NextRequest,
@@ -21,13 +21,13 @@ export async function POST(
 
         const data = CheckoutInputsSchema.parse(await request.json());
 
-
         const newOrder = await prisma.order.create({
             data: {
                 user_id: cart.user_id,
                 store_id: Number(data.storeId),
                 store_payment_method_id: Number(data.paymentMethod),
                 store_delivery_method_id: Number(data.deliveryMethod),
+                status: OrderStatus.WAITING
             },
         });
 

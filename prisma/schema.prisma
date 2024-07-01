@@ -21,6 +21,13 @@ enum DayOfWeek {
   SUNDAY
 }
 
+enum OrderStatus {
+  WAITING
+  PREPARING
+  READY
+  DONE
+}
+
 model User {
   id            Int       @id @default(autoincrement())
   name          String
@@ -224,13 +231,14 @@ model ProductImage {
 }
 
 model Order {
-  id                       Int      @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   user_id                  Int
   store_id                 Int
   store_delivery_method_id Int
   store_payment_method_id  Int
-  created_at               DateTime @default(now())
-  updated_at               DateTime @updatedAt
+  status     OrderStatus
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
 
   user                User                @relation(fields: [user_id], references: [id])
   storeDeliveryMethod StoreDeliveryMethod @relation(fields: [store_delivery_method_id], references: [id])
