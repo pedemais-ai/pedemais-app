@@ -3,6 +3,7 @@ import {prisma} from "@/prisma";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "@/app/api/auth/[...nextauth]/authOptions";
 import {getUser, getUserCart} from "@/app/api/helpers";
+import {CheckoutInputsSchema} from "@/core/types/zod";
 
 
 export async function POST(
@@ -18,14 +19,15 @@ export async function POST(
             throw new Error('Cart not found for user');
         }
 
-        const json = await request.json();
+        const data = CheckoutInputsSchema.parse(await request.json());
+
 
         const newOrder = await prisma.order.create({
             data: {
                 user_id: cart.user_id,
-                store_id: Number(json.store_id),
-                store_payment_method_id: Number(json.store_payment_method_id),
-                store_delivery_method_id: Number(json.store_delivery_method_id),
+                store_id: Number(data.storeId),
+                store_payment_method_id: Number(data.paymentMethod),
+                store_delivery_method_id: Number(data.deliveryMethod),
             },
         });
 

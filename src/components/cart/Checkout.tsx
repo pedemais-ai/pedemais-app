@@ -81,6 +81,13 @@ export default function Checkout() {
 
     return (<>
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
+
+            {store ? <Form.Control
+                type="hidden"
+                {...register("storeId")}
+                value={store.id}
+            /> : <></>}
+
             <Container className="col-md-6">
                 <Navbar className="bg-body-tertiary" fixed={"top"}>
                     <Container>
@@ -106,8 +113,8 @@ export default function Checkout() {
                                 <h2>Confirme seus itens</h2>
                                 <table>
                                     <tbody>
-                                    {cart?.items.map((item: Prisma.CartItem) => (<>
-                                        <tr key={item.id}>
+                                    {cart?.items.map((item: Prisma.CartItem, index: number) => (<>
+                                        <tr key={index}>
                                             <td>{item.quantity}x {item.product?.name}</td>
                                             <td>{formatCurrency(item.product?.prices?.[0].price! * item.quantity)}</td>
                                         </tr>
@@ -124,19 +131,20 @@ export default function Checkout() {
                         <Form.Group className="mb-3">
                             <Form.Label>Método de pagamento</Form.Label>
                             {store?.paymentMethods?.map((method: Prisma.StorePaymentMethod, index: number) => (
-                                <>
-                                    <Form.Check
-                                        key={index}
-                                        type="radio"
-                                        id={`paymentMethod${index}`}
-                                        label={method.paymentMethod?.name}
-                                        value={method.id}
-                                        {...register("paymentMethod", {
-                                            valueAsNumber: true
-                                        })}
-                                    />
-                                </>
+                                <Form.Check
+                                    key={index}
+                                    type="radio"
+                                    id={`paymentMethod${index}`}
+                                    label={method.paymentMethod?.name}
+                                    value={method.id}
+                                    {...register("paymentMethod", {
+                                        valueAsNumber: true
+                                    })}
+                                />
                             ))}
+                            <Form.Control.Feedback type="invalid">
+                                {errors.paymentMethod?.message}
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -146,19 +154,20 @@ export default function Checkout() {
                         <Form.Group className="mb-3">
                             <Form.Label>Opçoes de entrega</Form.Label>
                             {store?.deliveryMethods?.map((method: Prisma.StoreDeliveryMethod, index: number) => (
-                                <>
-                                    <Form.Check
-                                        key={index}
-                                        type="radio"
-                                        id={`deliveryMethod${index}`}
-                                        label={method.deliveryMethod?.name}
-                                        value={method.id}
-                                        {...register("deliveryMethod", {
-                                            valueAsNumber: true
-                                        })}
-                                    />
-                                </>
+                                <Form.Check
+                                    key={index}
+                                    type="radio"
+                                    id={`deliveryMethod${index}`}
+                                    label={method.deliveryMethod?.name}
+                                    value={method.id}
+                                    {...register("deliveryMethod", {
+                                        valueAsNumber: true
+                                    })}
+                                />
                             ))}
+                            <Form.Control.Feedback type="invalid">
+                                {errors.deliveryMethod?.message}
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                 </Row>

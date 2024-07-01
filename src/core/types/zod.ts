@@ -22,6 +22,7 @@ export const UpdateStoreConfigInputsSchema = z.object({
 });
 
 export const CheckoutInputsSchema = z.object({
+    storeId: z.string().min(1, "The store id is required"),
     paymentMethod: z.string().min(1, "Payment method is required"),
     deliveryMethod: z.string().min(1, "Delivery method is required"),
 });
