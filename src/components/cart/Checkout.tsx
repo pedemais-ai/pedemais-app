@@ -126,12 +126,16 @@ export default function Checkout() {
                     <Col md={5}>
                         <Form.Group className="mb-3">
                             <Form.Label>Método de pagamento</Form.Label>
-                            {store?.paymentMethods?.map((method: Prisma.PaymentMethod) => (
-                                <Form.Check
-                                    key={method.id}
-                                    type="checkbox"
-                                    label={method.name}
-                                />
+                            {store?.paymentMethods?.map((method: Prisma.StorePaymentMethod, index: number) => (
+                                <>
+                                    <Form.Check
+                                        id={`paymentMethod${index}`}
+                                        key={index}
+                                        type="radio"
+                                        label={method.paymentMethod?.name}
+                                        name={"paymentMethod"}
+                                    />
+                                </>
                             ))}
                         </Form.Group>
                     </Col>

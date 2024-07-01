@@ -61,15 +61,19 @@ declare namespace Prisma {
 
     export type Store = PrismaStore & {
         categories?: Category[]
-        paymentMethods?: PaymentMethod[]
-        deliveryMethods?: PaymentMethod[]
+        paymentMethods?: StorePaymentMethod[]
+        deliveryMethods?: StoreDeliveryMethod[]
     };
 
     export type PaymentMethod = PrismaPaymentMethod & {};
-    export type StorePaymentMethod = PrismaStorePaymentMethod & {};
+    export type StorePaymentMethod = PrismaStorePaymentMethod & {
+        paymentMethod?: PaymentMethod
+    };
 
     export type DeliveryMethod = PrismaDeliveryMethod & {};
-    export type StoreDeliveryMethod = PrismaStoreDeliveryMethod & {};
+    export type StoreDeliveryMethod = PrismaStoreDeliveryMethod & {
+        deliveryMethod?: DeliveryMethod
+    };
 
     export type User = PrismaUser & {
         stores?: Store[]

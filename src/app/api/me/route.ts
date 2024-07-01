@@ -19,7 +19,11 @@ export async function GET(request: NextRequest) {
                 clients: true,
                 stores: {
                     include: {
-                        paymentMethods: true,
+                        paymentMethods: {
+                            include: {
+                                paymentMethod: true
+                            }
+                        },
                         deliveryMethods: true
                     }
                 },
