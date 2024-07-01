@@ -39,6 +39,7 @@ model User {
   reviews   Review[]
   addresses UserAddress[]
   cart      Cart[]
+  orders Order[]
 }
 
 model Account {
@@ -94,7 +95,6 @@ model Client {
   user     User      @relation(fields: [user_id], references: [id])
   flow     Flow?     @relation(fields: [flow_id], references: [id])
   contacts Contact[]
-  order    Order[]
 }
 
 model Contact {
@@ -224,13 +224,18 @@ model ProductImage {
 }
 
 model Order {
-  id         Int      @id @default(autoincrement())
-  client_id  Int
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id                       Int      @id @default(autoincrement())
+  user_id                  Int
+  store_id                 Int
+  store_delivery_method_id Int
+  store_payment_method_id  Int
+  created_at               DateTime @default(now())
+  updated_at               DateTime @updatedAt
 
-  client Client      @relation(fields: [client_id], references: [id])
-  items  OrderItem[]
+  user                User                @relation(fields: [user_id], references: [id])
+  storeDeliveryMethod StoreDeliveryMethod @relation(fields: [store_delivery_method_id], references: [id])
+  storePaymentMethod  StorePaymentMethod  @relation(fields: [store_payment_method_id], references: [id])
+  items               OrderItem[]
 }
 
 model OrderItem {
@@ -346,39 +351,39 @@ model Lead {
 }
 
 model DeliveryMethod {
-  id   Int    @id @default(autoincrement())
-  name String
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  created_at          DateTime              @default(now())
-  updated_at          DateTime              @updatedAt
-  StoreDeliveryMethod StoreDeliveryMethod[]
+  storeDeloiveryMethods StoreDeliveryMethod[]
 }
 
 model PaymentMethod {
-  id   Int    @id @default(autoincrement())
-  name String
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  created_at         DateTime             @default(now())
-  updated_at         DateTime             @updatedAt
-  StorePaymentMethod StorePaymentMethod[]
+  storePaymentMethods StorePaymentMethod[]
 }
 
 model StoreDeliveryMethod {
+  id Int @id @default(autoincrement())
   store_id           Int
   delivery_method_id Int
 
   store          Store          @relation(fields: [store_id], references: [id])
   deliveryMethod DeliveryMethod @relation(fields: [delivery_method_id], references: [id])
-
-  @@id([store_id, delivery_method_id])
+  orders Order[]
 }
 
 model StorePaymentMethod {
+  id Int @id @default(autoincrement())
   store_id          Int
   payment_method_id Int
 
   store         Store         @relation(fields: [store_id], references: [id])
   paymentMethod PaymentMethod @relation(fields: [payment_method_id], references: [id])
-
-  @@id([store_id, payment_method_id])
+  orders Order[]
 }

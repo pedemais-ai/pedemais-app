@@ -17,8 +17,8 @@ export default function ConfigStoreForm() {
 
     const [me, setMe] = useState<Prisma.User>();
     const [store, setStore] = useState<Prisma.Store>();
-    const [paymentMethods, setPaymentMethods] = useState<Prisma.PaymentMethod[]>([]);
-    const [deliveryMethods, setDeliveryMethods] = useState<Prisma.DeliveryMethod[]>([]);
+    const [paymentMethods, setPaymentMethods] = useState<Prisma.StorePaymentMethod[]>([]);
+    const [deliveryMethods, setDeliveryMethods] = useState<Prisma.StoreDeliveryMethod[]>([]);
     const [showSuccessToast, setShowSuccessToast] = useState<boolean>(false);
 
     const meState = useMe();
@@ -162,11 +162,11 @@ export default function ConfigStoreForm() {
 
                             <Form.Group className="mb-3">
                                 <Form.Label>Métodos de pagamento</Form.Label>
-                                {paymentMethods.map((method: Prisma.PaymentMethod) => (
+                                {paymentMethods.map((method: Prisma.StorePaymentMethod, index: number) => (
                                     <Form.Check
-                                        key={method.id}
+                                        key={index}
                                         type="checkbox"
-                                        label={method.name}
+                                        label={method.paymentMethod?.name}
                                         defaultChecked={store.paymentMethods?.includes(method)}
                                     />
                                 ))}
@@ -174,11 +174,11 @@ export default function ConfigStoreForm() {
 
                             <Form.Group className="mb-3">
                                 <Form.Label>Métodos de entrega</Form.Label>
-                                {deliveryMethods.map((method: Prisma.DeliveryMethod) => (
+                                {deliveryMethods.map((method: Prisma.StoreDeliveryMethod, index: number) => (
                                     <Form.Check
-                                        key={method.id}
+                                        key={index}
                                         type="checkbox"
-                                        label={method.name}
+                                        label={method.deliveryMethod?.name}
                                         defaultChecked={store.deliveryMethods?.includes(method)}
                                     />
                                 ))}

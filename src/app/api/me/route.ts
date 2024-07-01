@@ -24,7 +24,11 @@ export async function GET(request: NextRequest) {
                                 paymentMethod: true
                             }
                         },
-                        deliveryMethods: true
+                        deliveryMethods: {
+                            include: {
+                                deliveryMethod: true
+                            }
+                        },
                     }
                 },
             }

@@ -10,7 +10,7 @@ import {formatCurrency} from "@/core/functions";
 import AppIcon from "@/components/app/AppIcon";
 import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {AddProductInputs, CheckoutInputs, CheckoutInputsSchema} from "@/core/types/zod";
+import {CheckoutInputs, CheckoutInputsSchema} from "@/core/types/zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import AppButton from "@/components/app/AppButton";
 import {useStore} from "@/core/hooks/useStore";
@@ -36,7 +36,7 @@ export default function Checkout() {
             isSubmitting
         },
         setError
-    } = useForm<AddProductInputs>({
+    } = useForm<CheckoutInputs>({
         resolver: zodResolver(CheckoutInputsSchema),
     });
 
@@ -126,11 +126,14 @@ export default function Checkout() {
                             {store?.paymentMethods?.map((method: Prisma.StorePaymentMethod, index: number) => (
                                 <>
                                     <Form.Check
-                                        id={`paymentMethod${index}`}
                                         key={index}
                                         type="radio"
+                                        id={`paymentMethod${index}`}
                                         label={method.paymentMethod?.name}
-                                        name={"paymentMethod"}
+                                        value={method.id}
+                                        {...register("paymentMethod", {
+                                            valueAsNumber: true
+                                        })}
                                     />
                                 </>
                             ))}
@@ -145,11 +148,14 @@ export default function Checkout() {
                             {store?.deliveryMethods?.map((method: Prisma.StoreDeliveryMethod, index: number) => (
                                 <>
                                     <Form.Check
-                                        id={`deliveryMethod${index}`}
                                         key={index}
                                         type="radio"
+                                        id={`deliveryMethod${index}`}
                                         label={method.deliveryMethod?.name}
-                                        name={"deliveryMethod"}
+                                        value={method.id}
+                                        {...register("deliveryMethod", {
+                                            valueAsNumber: true
+                                        })}
                                     />
                                 </>
                             ))}

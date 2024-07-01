@@ -22,7 +22,10 @@ export async function POST(
 
         const newOrder = await prisma.order.create({
             data: {
-                client_id: user.id,
+                user_id: cart.user_id,
+                store_id: Number(json.store_id),
+                store_payment_method_id: Number(json.store_payment_method_id),
+                store_delivery_method_id: Number(json.store_delivery_method_id),
             },
         });
 
@@ -37,7 +40,9 @@ export async function POST(
         });
 
         await prisma.cartItem.deleteMany({
-            where: {cart_id: cart.id},
+            where: {
+                cart_id: cart.id
+            },
         });
 
         return NextResponse.json(newOrder, {

@@ -11,6 +11,16 @@ export async function GET(
                 id: Number(params.id),
             },
             include: {
+                paymentMethods: {
+                    include: {
+                        paymentMethod: true
+                    }
+                },
+                deliveryMethods: {
+                    include: {
+                        deliveryMethod: true
+                    }
+                },
                 categories: {
                     include: {
                         products: {

@@ -1,19 +1,19 @@
-import React from "react";
-import Menu from "@/components/menu/Menu";
-import {fetchStore} from "@/core/hooks/useStore";
+"use client";
 
-export async function generateMetadata({params}: { params: { id: number } }) {
-    const store = await fetchStore(params.id);
+import React, {useEffect} from "react";
+import {useRouter} from "next/navigation";
+import Loading from "@/app/loading";
 
-    return {
-        title: `Cardápio ${store?.name}`,
-    }
-}
+export default function MenuPage({params}: { params: { id: number } }) {
 
-export default async function MenuPage({params}: { params: { id: number } }) {
-    return (
-        <>
-            <Menu id={params.id}/>
-        </>
-    )
+    const router = useRouter();
+
+    useEffect(() => {
+        localStorage.setItem("currentStore", String(params.id));
+
+        router.push(`/menu`);
+    }, [params.id, router]);
+
+
+    return <Loading/>
 }

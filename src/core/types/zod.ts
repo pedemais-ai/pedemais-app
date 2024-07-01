@@ -21,7 +21,10 @@ export const UpdateStoreConfigInputsSchema = z.object({
     minimum_order_price: z.number().min(0.01),
 });
 
-export const CheckoutInputsSchema = z.object({});
+export const CheckoutInputsSchema = z.object({
+    paymentMethod: z.string().min(1, "Payment method is required"),
+    deliveryMethod: z.string().min(1, "Delivery method is required"),
+});
 
 
 export type AddCategoryInputs = z.infer<typeof AddCategoryInputsSchema>;
