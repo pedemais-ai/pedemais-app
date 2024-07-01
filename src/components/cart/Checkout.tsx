@@ -12,16 +12,15 @@ import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {AddProductInputs, CheckoutInputs, CheckoutInputsSchema} from "@/core/types/zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useMe} from "@/core/hooks/useMe";
 import AppButton from "@/components/app/AppButton";
+import {useStore} from "@/core/hooks/useStore";
 
 export default function Checkout() {
 
     const router = useRouter();
     const cartState = useCart();
-    const meState = useMe();
+    const storeState = useStore();
 
-    const [me, setMe] = useState<Prisma.User>();
     const [store, setStore] = useState<Prisma.Store>();
     const [cart, setCart] = useState<Prisma.Cart | null>();
 
@@ -49,7 +48,10 @@ export default function Checkout() {
 
             const response = await fetch(`/api/checkout`, {
                 method: 'POST',
-                body: JSON.stringify(data),
+                body: JSON.stringify({
+                    store_id: store.id,
+                    ...data
+                }),
             });
 
             if (response.ok) {
@@ -69,18 +71,13 @@ export default function Checkout() {
     }, [cartState]);
 
     useEffect(() => {
-        meState.get().then((p: Prisma.User | null) => {
-            if (p) setMe(p);
-        });
-    }, [meState]);
+        const storeId = localStorage.getItem("currentStore");
 
-    useEffect(() => {
-        if (!me?.stores?.length) {
-            return;
-        }
+        storeState.find(Number(storeId)).then((s) => {
+            if (s) setStore(s);
+        })
 
-        setStore(me.stores[0]);
-    }, [me]);
+    }, [storeState]);
 
     return (<>
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -122,7 +119,7 @@ export default function Checkout() {
                     </Suspense>
                 </div>
 
-                <Row className="mt-5">
+                <Row className="mt-3">
                     <Col md={5}>
                         <Form.Group className="mb-3">
                             <Form.Label>Método de pagamento</Form.Label>
@@ -134,6 +131,25 @@ export default function Checkout() {
                                         type="radio"
                                         label={method.paymentMethod?.name}
                                         name={"paymentMethod"}
+                                    />
+                                </>
+                            ))}
+                        </Form.Group>
+                    </Col>
+                </Row>
+
+                <Row className="mt-3">
+                    <Col md={5}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Opçoes de entrega</Form.Label>
+                            {store?.deliveryMethods?.map((method: Prisma.StoreDeliveryMethod, index: number) => (
+                                <>
+                                    <Form.Check
+                                        id={`deliveryMethod${index}`}
+                                        key={index}
+                                        type="radio"
+                                        label={method.deliveryMethod?.name}
+                                        name={"deliveryMethod"}
                                     />
                                 </>
                             ))}
